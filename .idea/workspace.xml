@@ -1,30 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="615cb015-3e94-4a20-bae0-828cad1de2b0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AirUPM/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/Aeropuerto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/AirUPM.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/Avion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/Billete.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/Fecha.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/ListaAeropuertos.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/ListaAviones.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/ListaBilletes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/ListaPasajeros.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/ListaVuelos.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/Pasajero.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/Utilidades.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/Vuelo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AirUPM/package-info.java" afterDir="false" />
-    </list>
+    <list default="true" id="615cb015-3e94-4a20-bae0-828cad1de2b0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/AirUPM" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -39,7 +23,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/fedorkunin/Documents/Projects/Skeleton/AirUPM"
+    "last_opened_file_path": "/Users/fedorkunin/Documents/Projects/Skeleton/AirUPM/AirUPM"
   }
 }]]></component>
   <component name="RecentsManager">
