@@ -13,4 +13,3 @@
  * @author Cristian Ramirez Atencia
  * @version     1.0
  */
-package es.upm.tp.AirUPM;

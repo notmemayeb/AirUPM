@@ -1,5 +1,3 @@
-package es.upm.tp.AirUPM;
-
 /**
  * Description of the class
  *

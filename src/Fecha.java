@@ -1,5 +1,3 @@
-package es.upm.tp.AirUPM;
-
 /**
  * Fecha es una clase que encapsula las variables enteras
  * usadas para definir una fecha de un día concreto, así
