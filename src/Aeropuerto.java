@@ -7,7 +7,7 @@
  */
 public class Aeropuerto {
 
-    String nombre;
+
 
     /**
      * Constructor of the class
@@ -18,6 +18,10 @@ public class Aeropuerto {
      * @param longitud
      * @param terminales
      */
+
+    private String nombre;
+    private String codigo;
+
     public Aeropuerto(String nombre, String codigo, double latitud, double longitud, int terminales);
     public String getNombre();
     public String getCodigo();
