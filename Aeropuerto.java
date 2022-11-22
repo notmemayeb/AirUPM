@@ -9,6 +9,8 @@ package es.upm.tp.AirUPM;
  */
 public class Aeropuerto {
 
+    String nombre;
+
     /**
      * Constructor of the class
      *
