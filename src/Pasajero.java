@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Description of the class
  *
- * @author
+ * @author  Fedor Kunin
  * @author
  * @version     1.0
  */

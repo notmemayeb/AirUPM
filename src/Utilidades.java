@@ -4,7 +4,7 @@ import java.util.Scanner;
  * Description of the class
  *
  * @author  Isaac López
- * @author
+ * @author  Fedor Kunin
  * @version     1.0
  */
 public class Utilidades {
