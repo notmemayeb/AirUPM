@@ -12,7 +12,7 @@ public class Fecha {
     /**
      * Meses del año.
      */
-    enum Meses { ENERO, FEBRERO, MARZO, ABRIL, MAYO, JUNIO, JULIO, AGOSTO, SEPTIEMBRE, OCTUBRE, NOVIEMBRE, DICIEMBRE }
+     public enum Meses { ENERO, FEBRERO, MARZO, ABRIL, MAYO, JUNIO, JULIO, AGOSTO, SEPTIEMBRE, OCTUBRE, NOVIEMBRE, DICIEMBRE }
     /**
      * Primer año para fecha válida.
      */
