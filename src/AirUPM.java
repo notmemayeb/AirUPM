@@ -73,6 +73,8 @@ public class AirUPM {
     // Carga los datos de los ficheros CSV pasados por argumento (consola) en AirUPM, llama iterativamente al menú y realiza la
     //  opción especificada hasta que se indique la opción Salir, y finalmente guarda los datos de AirUPM en los mismos ficheros CSV
     public static void main(String[] args){
-
+        if (args.length != 10){
+            System.out.println("Número de argumentos incorrecto.");
+        }
     };
 }

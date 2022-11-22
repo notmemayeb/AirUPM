@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Billete {
     enum TIPO { TURISTA, PREFERENTE, PRIMERA }
 
+
     /**
      * Constructor of the class
      *
@@ -23,6 +24,7 @@ public class Billete {
      * @param precio
      */
 
+    private final char[] LETRA =  {'A', 'B', 'C', 'D', 'E', 'F'};
     private String localizador;
     private Vuelo vuelo;
     private Pasajero pasajero;
@@ -31,6 +33,7 @@ public class Billete {
     private double precio;
 
     public Billete(String localizador, Vuelo vuelo, Pasajero pasajero, TIPO tipo, int fila, int columna, double precio){
+
         this.localizador = localizador;
         this.vuelo = vuelo;
         this.pasajero = pasajero;
@@ -48,9 +51,15 @@ public class Billete {
     public int getColumna(){ return columma; };
     // Ejemplos: "1A" para el asiento con fila 1 y columna 1, "3D" para el asiento con fila 3 y columna 4
     public String getAsiento(){
-        return "";
+
+        return String.format("%d%c", fila, LETRA[columma-1]);
+
     };
-    public double getPrecio(){ return precio;};
+    public double getPrecio(){
+        if (tipo == TIPO.PRIMERA) return precio*1.5;;
+        if (tipo == TIPO.PREFERENTE) return precio*1.25;
+        return precio;
+    };
     // Texto que debe generar: Billete PM1111AAAA para Vuelo PM1111 de MAD T4 (24/12/2022 12:35:00) a BCN T1 (24/12/2022 14:05:30) en asiento 6C (TURISTA) por 100.00€
     public String toString(){
         return "";
