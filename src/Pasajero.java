@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Description of the class
  *
  * @author  Isaac Lopez
- * @author
+ * @author  Fedor Kunin
  * @version     1.0
  */
 public class Pasajero {
