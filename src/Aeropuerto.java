@@ -21,6 +21,7 @@ public class Aeropuerto {
 
     private String nombre;
     private String codigo;
+    double latitud, longitud;
 
     public Aeropuerto(String nombre, String codigo, double latitud, double longitud, int terminales);
     public String getNombre();
