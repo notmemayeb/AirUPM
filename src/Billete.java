@@ -5,7 +5,7 @@ import java.util.Scanner;
  * Description of the class
  *
  * @author  Fedor Kunin
- * @author
+ * @author  Isaac Lopez
  * @version     1.0
  */
 public class Billete {

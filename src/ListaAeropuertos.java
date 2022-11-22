@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * Description of the class
  *
- * @author
+ * @author  Isaac Lopez
  * @author
  * @version     1.0
  */
