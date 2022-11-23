@@ -75,8 +75,10 @@ public class ListaPasajeros {
         try{
             sc = new Scanner(new FileReader(fichero));
             for (int i = 0; i < capacidad; i++) {
-                String[] nextLine = sc.nextLine().split(";");
-                lista.listaPasajeros[i]= new Pasajero(nextLine[0], nextLine[1], Integer.parseInt(nextLine[2]), nextLine[3].charAt(0), nextLine[4], maxBilletesPasajero);
+                if (sc.hasNext()) {
+                    String[] nextLine = sc.nextLine().split(";");
+                    lista.listaPasajeros[i] = new Pasajero(nextLine[0], nextLine[1], Integer.parseInt(nextLine[2]), nextLine[3].charAt(0), nextLine[4], maxBilletesPasajero);
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

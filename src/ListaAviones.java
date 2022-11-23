@@ -67,16 +67,17 @@ public class ListaAviones {
         try {
             entry = new Scanner(new FileReader(fichero));
             for (int i = 0; i < capacidad; i++){
-                String[] nextLine = entry.nextLine().split(";");
-                lista.listaAviones[i] = new Avion(
-                        nextLine[0],
-                        nextLine[1],
-                        nextLine[2],
-                        Integer.parseInt(nextLine[3]),
-                        Integer.parseInt(nextLine[4]),
-                        Double.parseDouble(nextLine[5])
-                );
-
+                if (entry.hasNext()) {
+                    String[] nextLine = entry.nextLine().split(";");
+                    lista.listaAviones[i] = new Avion(
+                            nextLine[0],
+                            nextLine[1],
+                            nextLine[2],
+                            Integer.parseInt(nextLine[3]),
+                            Integer.parseInt(nextLine[4]),
+                            Double.parseDouble(nextLine[5])
+                    );
+                }
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
