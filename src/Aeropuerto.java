@@ -17,7 +17,7 @@ public class Aeropuerto {
      * @param terminales
      */
 
-    private static String nombre;
+    private String nombre;
     private String codigo;
     private double latitud, longitud;
     private int terminales;
@@ -45,11 +45,13 @@ public class Aeropuerto {
     // Crea un String con los datos de un aeropuerto con el siguiente formato:
     // Adolfo Suarez Madrid - Barajas(MAD), en (40.4927751 -3.5778), con 4 terminales
     public String toString(){
-        return "";
+        String terminalString = String.format("%d terminales", terminales);
+        if (terminales == 1) terminalString = String.format("%d terminal", terminales);
+        return String.format("%s(%s), en (%f %f), con", nombre, codigo, latitud, longitud) + terminalString;
     };
     // Crea un String con los datos de un aeropuerto con el siguiente formato:
     // Adolfo Suarez Madrid - Barajas(MAD)
     public String toStringSimple(){
-        return "";
+        return String.format("%s(%s)", nombre, codigo);
     };
 }
