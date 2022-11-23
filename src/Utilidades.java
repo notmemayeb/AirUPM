@@ -43,9 +43,7 @@ public class Utilidades {
     };
     // Solicita una fecha repetidamente hasta que se introduzca una correcta
     public static Fecha leerFecha(Scanner teclado, String mensaje){
-        int dia;
-        int mes;
-        int anio;
+        int dia,mes, anio;
         System.out.print(mensaje);
         do {
             do {
@@ -68,12 +66,7 @@ public class Utilidades {
     };
     // Solicita una fecha y hora repetidamente hasta que se introduzcan unas correctas
     public static Fecha leerFechaHora(Scanner teclado, String mensaje){
-        int dia;
-        int mes;
-        int anio;
-        int hora;
-        int minuto;
-        int segundo;
+        int dia,mes, anio, hora, minuto, segundo;
         System.out.print(mensaje);
         do {
             do {
