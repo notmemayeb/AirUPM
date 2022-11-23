@@ -91,15 +91,15 @@ public class Utilidades {
             do {
                 System.out.print("Ingrese año:");
                 hora = teclado.nextInt();
-            } while (hora > 23 || hora < 1);
+            } while (hora > 23 || hora < 0);
             do {
                 System.out.print("Ingrese año:");
                 minuto = teclado.nextInt();
-            } while (minuto > 59 || minuto < 1);
+            } while (minuto > 59 || minuto < 0);
             do {
                 System.out.print("Ingrese año:");
                 segundo = teclado.nextInt();
-            } while (segundo > 59 || segundo < 1);
+            } while (segundo > 59 || segundo < 0);
             if (!Fecha.comprobarFecha(dia, mes, anio) || !Fecha.comprobarHora(hora, minuto, segundo)) {
                 System.out.println("Fecha u hora introducida incorrecta.");
             }
