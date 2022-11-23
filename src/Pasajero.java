@@ -44,8 +44,7 @@ public class Pasajero {
     public String getEmail(){ return email; };
     // Texto que debe generar: Víctor Rodríguez Fernández, 00123456S, victor.rfernandez@upm.es
     public String toString(){
-        String aux;
-        return aux = nombre+", "+apellidos+", "+email;
+        return nombre+", "+apellidos+", "+email;
     };
     public int numBilletesComprado(){
         return 1;
