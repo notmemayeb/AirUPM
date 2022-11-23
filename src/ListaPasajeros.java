@@ -24,10 +24,10 @@ public class ListaPasajeros {
         this.capacidad = capacidad;
     };
     public int getOcupacion(){
-        return 0;
+        return listaPasajeros.length;
         };
     public boolean estaLlena(){
-        return false;
+        return this.getOcupacion() == capacidad;
         };
     public Pasajero getPasajero(int i){
         return listaPasajeros[i];

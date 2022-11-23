@@ -25,10 +25,10 @@ public class ListaAeropuertos {
         this.capacidad = capacidad;
     };
     public int getOcupacion(){
-        return 0;
+        return listaAeropuertos.length;
     };
     public boolean estaLlena(){
-        return false;
+        return this.getOcupacion() == capacidad;
     };
     public Aeropuerto getAeropuerto(int i){
         return listaAeropuertos[i];

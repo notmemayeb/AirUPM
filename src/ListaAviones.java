@@ -26,10 +26,10 @@ public class ListaAviones {
         this.capacidad = capacidad;
     };
     public int getOcupacion(){
-        return 0;
+        return listaAviones.length;
         };
     public boolean estaLlena(){
-        return false;
+        return this.getOcupacion() == capacidad;
         };
     public Avion getAvion(int posicion){
         return listaAviones[posicion];
