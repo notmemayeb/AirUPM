@@ -93,7 +93,7 @@ public class ListaVuelos {
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return false;
         } finally {
             if (pw != null) {
                 pw.close();
