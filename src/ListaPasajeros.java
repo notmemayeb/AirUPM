@@ -1,4 +1,5 @@
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -63,10 +64,38 @@ public class ListaPasajeros {
     // y siguiendo el orden y los textos mostrados en el enunciado
     // La función solicita repetidamente hasta que se introduzca un DNI correcto
     public Pasajero seleccionarPasajero(Scanner teclado, String mensaje){
+        String sDni;
+        char[] dni = new char[9];
+        long numdni;
+        do {
+            System.out.print(mensaje);
+            sDni = teclado.nextLine();
+            dni = sDni.toCharArray();
+            numdni = dni[0]+dni[1]+dni[2]+dni[3]+dni[4]+dni[5]+dni[6]+dni[7];
+        }while (!Pasajero.correctoDNI(numdni,dni[8]));
+        for (int i = 0; i < capacidad; i++) {
+            if (listaPasajeros[i].getDNI() == sDni) {
+                return listaPasajeros[i];
+            }
+        }
         return null;
     };
     // Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo
     public boolean escribirPasajerosCsv(String fichero){
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(fichero);
+            for (int i = 1;i<getOcupacion()-1;i++) {
+            pw.printf("%s;%s;%ld;%c;%s\n",listaPasajeros[i].getNombre(),listaPasajeros[i].getApellidos(),listaPasajeros[i].getNumeroDNI(),listaPasajeros[i].getLetraDNI(),listaPasajeros[i].getEmail());
+            }
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+            if (pw != null) {
+                pw.close();
+            }
+        }
         return true;
     };
 
