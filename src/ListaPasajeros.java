@@ -33,7 +33,11 @@ public class ListaPasajeros {
         return listaPasajeros[i];
     };
     public boolean insertarPasajero(Pasajero pasajero){
-        return true;
+        if (!this.estaLlena()){
+            this.listaPasajeros[listaPasajeros.length-1] = pasajero;
+            return true;
+        }
+        return false;
     };
     public Pasajero buscarPasajeroDNI(String dni){
         Pasajero pasajeroBusacado = null;
