@@ -35,7 +35,11 @@ public class ListaAviones {
         return listaAviones[posicion];
     };
     public boolean insertarAvion(Avion avion){
-        return true;
+        if (!this.estaLlena()){
+            this.listaAviones[this.listaAviones.length-1] = avion;
+            return true;
+        }
+        return false;
     };
     public Avion buscarAvion(String matricula){
         Avion avionBuscado = null;

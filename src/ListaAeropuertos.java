@@ -34,7 +34,11 @@ public class ListaAeropuertos {
         return listaAeropuertos[i];
     };
     public boolean insertarAeropuerto(Aeropuerto aeropuerto){
-        return true;
+        if (!this.estaLlena()){
+            this.listaAeropuertos[this.listaAeropuertos.length-1] = aeropuerto;
+            return true;
+        }
+        return false;
     };
     public Aeropuerto buscarAeropuerto(String codigo){
         Aeropuerto aeropuertoBuscado = null;
