@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Scanner;
 
 /**
@@ -13,9 +16,11 @@ public class ListaAviones {
      * Constructor of the class
      *
      * @param capacidad
+     * @param listaAviones
      */
 
     private int capacidad;
+    private Avion[] listaAviones = new Avion[capacidad];
 
     public ListaAviones(int capacidad){
         this.capacidad = capacidad;
@@ -50,6 +55,29 @@ public class ListaAviones {
     // Genera una lista de aviones a partir del fichero CSV, usando el argumento como   
     // capacidad máxima de la lista
     public static ListaAviones leerAvionesCsv(String fichero, int capacidad){
-        return null;
+        Scanner entry = null;
+        ListaAviones lista = new ListaAviones(capacidad);
+        try {
+            entry = new Scanner(new FileReader(fichero));
+            for (int i = 0; i < capacidad; i++){
+                String[] nextLine = entry.nextLine().split(";");
+                lista.listaAviones[i] = new Avion(
+                        nextLine[0],
+                        nextLine[1],
+                        nextLine[2],
+                        Integer.parseInt(nextLine[3]),
+                        Integer.parseInt(nextLine[4]),
+                        Double.parseDouble(nextLine[5])
+                );
+
+            }
+            return lista;
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            return null;
+        } finally {
+            if (entry != null) entry.close();
+        }
     };
 }
