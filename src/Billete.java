@@ -8,7 +8,10 @@ import java.util.Scanner;
  * @author  Isaac Lopez
  * @version     1.0
  */
-public class Billete {
+public class
+
+
+Billete {
     enum TIPO { TURISTA, PREFERENTE, PRIMERA }
 
 

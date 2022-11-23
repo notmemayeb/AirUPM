@@ -90,6 +90,21 @@ public class Pasajero {
     };
     // Correcto: cristian.ramirez@upm.es, incorrecto: cristian.ramirez@gmail.com, cristian-23@upm.es, cristian.@upm.es
     public static boolean correctoEmail(String email){
-        return true;
+        boolean correcto = false;
+        if (email.contains("@")){
+            String domen = email.split("@")[1];
+            String nombre = email.split("@")[0];
+            String[] nombreArr = nombre.split("");
+            if (domen == "upm.es" || domen == "alumnos.upm.es"){
+                if (nombreArr[0] != "." && nombreArr[nombre.length()-1] != "."){
+                    for (int i = 0; i < nombre.length()-1; i++){
+                        if (((nombreArr[i].charAt(0) >= 'A' && nombreArr[i].charAt(0) >= 'Z') || (nombreArr[i].charAt(0) <= 'a' && nombreArr[i].charAt(0) >= 'z')) || nombreArr[i].charAt(0) != '.'){
+                            correcto = true;
+                        }
+                    }
+                }
+            }
+        }
+        return correcto;
     };
 }
