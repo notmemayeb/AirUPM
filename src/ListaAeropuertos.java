@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Scanner;
 
 /**
@@ -17,6 +19,7 @@ public class ListaAeropuertos {
      */
 
     private int capacidad;
+    private Aeropuerto[] listaAeropuertos = new Aeropuerto[capacidad];
 
     public ListaAeropuertos(int capacidad){
         this.capacidad = capacidad;
@@ -51,6 +54,26 @@ public class ListaAeropuertos {
     //Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como   
     //capacidad máxima de la lista
     public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad){
-        return null;
+        Scanner entry = null;
+        ListaAeropuertos lista = new ListaAeropuertos(capacidad);
+        try {
+            entry = new Scanner(new FileReader(fichero));
+            for (int i = 0; i < capacidad; i++){
+                String[] nextLine = entry.nextLine().split(";");
+                lista.listaAeropuertos[i] = new Aeropuerto(
+                        nextLine[0],
+                        nextLine[1],
+                        Double.parseDouble(nextLine[2]),
+                        Double.parseDouble(nextLine[3]),
+                        Integer.parseInt(nextLine[4]));
+            }
+            return lista;
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            return null;
+        } finally {
+            if (entry != null) entry.close();
+        }
     };
 }
