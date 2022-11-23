@@ -31,6 +31,7 @@ public class Vuelo {
     private int terminalOrigen, terminalDestino;
     private Fecha salida, llegada;
     private double precio;
+    private Billete[] billetes = new Billete[avion.getColumnas()*avion.getFilas()];
 
     public Vuelo(String id, Avion avion, Aeropuerto origen, int terminalOrigen, Fecha salida, Aeropuerto destino, int terminalDestino, Fecha llegada, double precio){
         this.id = id;

@@ -27,6 +27,8 @@ public class Pasajero {
     private char letraDNI;
     private int maxBilletes;
 
+    private Billete[] billetes = new Billete[maxBilletes];
+
     public Pasajero(String nombre, String apellidos, long numeroDNI, char letraDNI, String email, int maxBilletes){
         this.nombre = nombre;
         this.apellidos = apellidos;

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -20,6 +21,13 @@ public class AirUPM {
      */
 
     private int maxAeropuertos, maxAviones, maxVuelos, maxPasajeros, maxBilletesPasajero;
+    private ListaAeropuertos listaAeropuertos;
+    private ListaAviones listaAviones;
+    private ListaPasajeros listaPasajeros;
+    private ListaVuelos listaVuelos;
+    private ListaBilletes listaBilletes;
+
+
 
     public AirUPM(int maxAeropuertos, int maxAviones, int maxVuelos, int maxPasajeros, int maxBilletesPasajero){
 
@@ -32,11 +40,28 @@ public class AirUPM {
     };
     // Lee los datos de los ficheros especificados y los agrega a AirUPM
     public void cargarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
+        // PREGUNTA PROFE!
+        this.listaAeropuertos = ListaAeropuertos.leerAeropuertosCsv(ficheroAeropuertos, maxAeropuertos);
+        this.listaAviones = ListaAviones.leerAvionesCsv(ficheroAviones, maxAviones);
+        this.listaVuelos = ListaVuelos.leerVuelosCsv(ficheroVuelos, maxVuelos, listaAeropuertos, listaAviones);
+        this.listaPasajeros = ListaPasajeros.leerPasajerosCsv(ficheroPasajeros, maxPasajeros, maxBilletesPasajero);
+        ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
 
     };
     // Almacena los datos de AirUPM en los ficheros CSV especificados
     public boolean guardarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
-        return true;
+
+        // FALTAN BILLETES!
+
+        boolean aero, avio, vue, pasa;
+
+        aero = this.listaAeropuertos.escribirAeropuertosCsv(ficheroAeropuertos);
+        avio = this.listaAviones.escribirAvionesCsv(ficheroAviones);
+        vue = this.listaVuelos.escribirVuelosCsv(ficheroVuelos);
+        pasa = this.listaPasajeros.escribirPasajerosCsv(ficheroPasajeros);
+
+        return aero && avio && vue && pasa;
+
     };
     public boolean maxVuelosAlcanzado(){
         return true;
@@ -54,7 +79,7 @@ public class AirUPM {
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
     // ejecución del enunciado
     public ListaVuelos buscarVuelo(Scanner teclado){
-       return new ListaVuelos(1);
+       return null;
     };
     // Funcionalidad comprarBillete especificada en el enunciado del proyecto, que compra un billete para un vuelo especificado,
     // pidiendo por teclado los datos necesarios al usuario en el orden y con los textos indicados en los ejemplos de ejecución del
@@ -73,7 +98,25 @@ public class AirUPM {
     // Carga los datos de los ficheros CSV pasados por argumento (consola) en AirUPM, llama iterativamente al menú y realiza la
     //  opción especificada hasta que se indique la opción Salir, y finalmente guarda los datos de AirUPM en los mismos ficheros CSV
     public static void main(String[] args){
-        if (args.length != 10){
+        if (args.length == 10){
+
+            AirUPM programa = new AirUPM(
+                    Integer.parseInt(args[0]),
+                    Integer.parseInt(args[1]),
+                    Integer.parseInt(args[2]),
+                    Integer.parseInt(args[3]),
+                    Integer.parseInt(args[4])
+            );
+
+            programa.cargarDatos(
+                    args[5],
+                    args[6],
+                    args[7],
+                    args[8],
+                    args[9]
+            );
+
+        } else {
             System.out.println("Número de argumentos incorrecto.");
         }
     };

@@ -71,9 +71,20 @@ public class ListaVuelos {
     //Muestra por pantalla los vuelos siguiendo el formato de los ejemplos del enunciado
     public void listarVuelos(){
         for (int i = 0; i < listaVuelos.length-1; i++) {
-            System.out.printf("Vuelo %S de %s(%s) T%d (%s) a %s(%s) T%d (%s) en %s %s(%s) por %f€\n",listaVuelos[i].getID(),listaVuelos[i].getOrigen().getNombre(),listaVuelos[i].getOrigen().getCodigo(),listaVuelos[i].getOrigen().getTerminales(),listaVuelos[i].getSalida().toString(),
-                    listaVuelos[i].getDestino().getNombre(),listaVuelos[i].getDestino().getCodigo(),listaVuelos[i].getDestino().getTerminales(),listaVuelos[i].getLlegada().toString(),listaVuelos[i].getAvion().getMarca(),listaVuelos[i].getAvion().getModelo(),
-                    listaVuelos[i].getAvion().getMatricula(),listaVuelos[i].getPrecio());
+            System.out.printf("Vuelo %S de %s(%s) T%d (%s) a %s(%s) T%d (%s) en %s %s(%s) por %f€\n",
+                    listaVuelos[i].getID(),
+                    listaVuelos[i].getOrigen().getNombre(),
+                    listaVuelos[i].getOrigen().getCodigo(),
+                    listaVuelos[i].getOrigen().getTerminales(),
+                    listaVuelos[i].getSalida().toString(),
+                    listaVuelos[i].getDestino().getNombre(),
+                    listaVuelos[i].getDestino().getCodigo(),
+                    listaVuelos[i].getDestino().getTerminales(),
+                    listaVuelos[i].getLlegada().toString(),
+                    listaVuelos[i].getAvion().getMarca(),
+                    listaVuelos[i].getAvion().getModelo(),
+                    listaVuelos[i].getAvion().getMatricula(),
+                    listaVuelos[i].getPrecio());
         }
     };
     //Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud
@@ -87,8 +98,16 @@ public class ListaVuelos {
         try {
             pw = new PrintWriter(fichero);
             for (int i = 0; i < getOcupacion()-1; i++) {
-                pw.printf("%s;%s;%s;%d;%s;%s;%d;%s;%f",listaVuelos[i].getID(),listaVuelos[i].getAvion().getMatricula(),listaVuelos[i].getOrigen().getCodigo(),listaVuelos[i].getOrigen().getTerminales(),listaVuelos[i].getSalida().toString(),
-                        listaVuelos[i].getDestino().getCodigo(),listaVuelos[i].getDestino().getTerminales(),listaVuelos[i].getLlegada().toString(),listaVuelos[i].getPrecio());
+                pw.printf("%s;%s;%s;%d;%s;%s;%d;%s;%f",
+                        listaVuelos[i].getID(),
+                        listaVuelos[i].getAvion().getMatricula(),
+                        listaVuelos[i].getOrigen().getCodigo(),
+                        listaVuelos[i].getOrigen().getTerminales(),
+                        listaVuelos[i].getSalida().toString(),
+                        listaVuelos[i].getDestino().getCodigo(),
+                        listaVuelos[i].getDestino().getTerminales(),
+                        listaVuelos[i].getLlegada().toString(),
+                        listaVuelos[i].getPrecio());
                 //PM1111;EC-LKF;MAD;4;24/12/2022 12:35:00;BCN;1;24/12/2022 14:05:30;100.0
             }
         }catch (Exception e) {
