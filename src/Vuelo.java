@@ -52,11 +52,9 @@ public class Vuelo {
     public int getTerminalDestino(){ return terminalDestino; };
     public Fecha getLlegada(){ return llegada; };
     public double getPrecio(){ return precio; };
-    public double getPrecioPreferente(){
-        return 1;
-    };
+    public double getPrecioPreferente(){return precio*1.25;};
     public double getPrecioPrimera(){
-         return 1;
+         return precio*1.5;
     };
     public int numAsientosLibres(){
         return 1;
