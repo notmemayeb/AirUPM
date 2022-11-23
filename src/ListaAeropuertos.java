@@ -25,19 +25,24 @@ public class ListaAeropuertos {
         this.capacidad = capacidad;
     };
     public int getOcupacion(){
-        return 0;
+        return listaAeropuertos.length;
     };
     public boolean estaLlena(){
-        return false;
+        return this.getOcupacion() == capacidad;
     };
     public Aeropuerto getAeropuerto(int i){
-        return null;
+        return listaAeropuertos[i];
     };
     public boolean insertarAeropuerto(Aeropuerto aeropuerto){
         return true;
     };
     public Aeropuerto buscarAeropuerto(String codigo){
-        return null;
+        Aeropuerto aeropuertoBuscado = null;
+        for (Aeropuerto aeropuerto: listaAeropuertos
+             ) {
+            if (aeropuerto.getCodigo() == codigo) aeropuertoBuscado = aeropuerto;
+        }
+        return aeropuertoBuscado;
     };
     // Permite seleccionar un aeropuerto existente a partir de su código, usando el mensaje pasado como argumento para la solicitud
     // y siguiendo el orden y los textos mostrados en el enunciado
@@ -59,13 +64,15 @@ public class ListaAeropuertos {
         try {
             entry = new Scanner(new FileReader(fichero));
             for (int i = 0; i < capacidad; i++){
-                String[] nextLine = entry.nextLine().split(";");
-                lista.listaAeropuertos[i] = new Aeropuerto(
-                        nextLine[0],
-                        nextLine[1],
-                        Double.parseDouble(nextLine[2]),
-                        Double.parseDouble(nextLine[3]),
-                        Integer.parseInt(nextLine[4]));
+                if (entry.hasNext()){
+                    String[] nextLine = entry.nextLine().split(";");
+                    lista.listaAeropuertos[i] = new Aeropuerto(
+                            nextLine[0],
+                            nextLine[1],
+                            Double.parseDouble(nextLine[2]),
+                            Double.parseDouble(nextLine[3]),
+                            Integer.parseInt(nextLine[4]));
+                }
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());

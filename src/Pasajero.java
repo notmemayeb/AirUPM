@@ -50,10 +50,6 @@ public class Pasajero {
         return 1;
     };
     public boolean maxBilletesAlcanzado(){
-        boolean aux;
-        if () {
-            aux = true;
-        }
         return false;
     };
     public Billete getBillete(int i){
@@ -88,7 +84,7 @@ public class Pasajero {
     public static boolean correctoDNI(long numero, char letra){
         char[] letraPosicion = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
         if ((letra >= 'A' && letra <= 'Z') || (letra >= 'a' && letra <= 'z')){
-            if (numero < 10000000 && letra == letraPosicion[(int) (numero%23)]) return true;
+            return numero < 10000000 && letra == letraPosicion[(int) (numero % 23)];
         }
         return false;
     };

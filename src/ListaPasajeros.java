@@ -24,22 +24,40 @@ public class ListaPasajeros {
         this.capacidad = capacidad;
     };
     public int getOcupacion(){
-        return 0;
+        return listaPasajeros.length;
         };
     public boolean estaLlena(){
-        return false;
+        return this.getOcupacion() == capacidad;
         };
     public Pasajero getPasajero(int i){
-        return null;
+        return listaPasajeros[i];
     };
     public boolean insertarPasajero(Pasajero pasajero){
-        return true;
+        if (!this.estaLlena()){
+            this.listaPasajeros[listaPasajeros.length-1] = pasajero;
+            return true;
+        }
+        return false;
     };
     public Pasajero buscarPasajeroDNI(String dni){
-        return null;
+        Pasajero pasajeroBusacado = null;
+        for (Pasajero pasajero: listaPasajeros
+        ) {
+            if (pasajero.getDNI() == dni){
+                pasajeroBusacado = pasajero;
+            }
+        }
+        return pasajeroBusacado;
     };
     public Pasajero buscarPasajeroEmail(String email){
-        return null;
+        Pasajero pasajeroBusacado = null;
+        for (Pasajero pasajero: listaPasajeros
+             ) {
+            if (pasajero.getEmail() == email){
+                pasajeroBusacado = pasajero;
+            }
+        }
+        return pasajeroBusacado;
     };
     // Permite seleccionar un pasajero existente a partir de su DNI, usando el mensaje pasado como argumento para la solicitud
     // y siguiendo el orden y los textos mostrados en el enunciado
@@ -61,8 +79,10 @@ public class ListaPasajeros {
         try{
             sc = new Scanner(new FileReader(fichero));
             for (int i = 0; i < capacidad; i++) {
-                String[] nextLine = sc.nextLine().split(";");
-                lista.listaPasajeros[i]= new Pasajero(nextLine[0], nextLine[1], Integer.parseInt(nextLine[2]), nextLine[3].charAt(0), nextLine[4], maxBilletesPasajero);
+                if (sc.hasNext()) {
+                    String[] nextLine = sc.nextLine().split(";");
+                    lista.listaPasajeros[i] = new Pasajero(nextLine[0], nextLine[1], Integer.parseInt(nextLine[2]), nextLine[3].charAt(0), nextLine[4], maxBilletesPasajero);
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

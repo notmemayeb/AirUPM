@@ -13,11 +13,10 @@ public class ListaVuelos {
      * Constructor of the class
      *
      * @param capacidad
-     * @param listaVuelos
+     *
      */
 
     private int capacidad;
-    private Vuelo[] listaVuelos = new Vuelo[capacidad];
 
     public ListaVuelos(int capacidad){
         this.capacidad = capacidad;

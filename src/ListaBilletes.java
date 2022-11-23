@@ -57,7 +57,7 @@ public class ListaBilletes {
 
     // Métodos estáticos
     
-    // Lee los billetes del fichero CSV y los añade a las lista de sus respectivos Vuelos y Pasajeros
+    // Lee los billetes del fichero CSV y los añade a las listas de sus respectivos Vuelos y Pasajeros
     public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros){
 
     };
