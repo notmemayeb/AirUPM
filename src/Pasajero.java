@@ -50,6 +50,10 @@ public class Pasajero {
         return 1;
     };
     public boolean maxBilletesAlcanzado(){
+        boolean aux;
+        if () {
+            aux = true;
+        }
         return false;
     };
     public Billete getBillete(int i){

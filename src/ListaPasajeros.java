@@ -1,3 +1,4 @@
+import java.io.FileReader;
 import java.util.Scanner;
 
 /**
@@ -13,9 +14,11 @@ public class ListaPasajeros {
      * Constructor of the class
      *
      * @param capacidad
+     * @param listaPasajeros
      */
 
     private int capacidad;
+    private Pasajero[] listaPasajeros = new Pasajero[capacidad];
 
     public ListaPasajeros(int capacidad){
         this.capacidad = capacidad;
@@ -53,6 +56,22 @@ public class ListaPasajeros {
     // Genera una lista de pasajeros a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
     // de la lista y el número de billetes máximo por pasajero
     public static ListaPasajeros leerPasajerosCsv(String fichero, int capacidad, int maxBilletesPasajero){
-        return null;
+        Scanner sc = null;
+        ListaPasajeros lista = new ListaPasajeros(capacidad);
+        try{
+            sc = new Scanner(new FileReader(fichero));
+            for (int i = 0; i < capacidad; i++) {
+                String[] nextLine = sc.nextLine().split(";");
+                lista.listaPasajeros[i]= new Pasajero(nextLine[0], nextLine[1], Integer.parseInt(nextLine[2]), nextLine[3].charAt(0), nextLine[4], maxBilletesPasajero);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        } finally {
+            if (sc != null) {
+                sc.close();
+            }
+        }
+        return lista;
     };
 }
