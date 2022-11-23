@@ -30,16 +30,30 @@ public class ListaPasajeros {
         return false;
         };
     public Pasajero getPasajero(int i){
-        return null;
+        return listaPasajeros[i];
     };
     public boolean insertarPasajero(Pasajero pasajero){
         return true;
     };
     public Pasajero buscarPasajeroDNI(String dni){
-        return null;
+        Pasajero pasajeroBusacado = null;
+        for (Pasajero pasajero: listaPasajeros
+        ) {
+            if (pasajero.getDNI() == dni){
+                pasajeroBusacado = pasajero;
+            }
+        }
+        return pasajeroBusacado;
     };
     public Pasajero buscarPasajeroEmail(String email){
-        return null;
+        Pasajero pasajeroBusacado = null;
+        for (Pasajero pasajero: listaPasajeros
+             ) {
+            if (pasajero.getEmail() == email){
+                pasajeroBusacado = pasajero;
+            }
+        }
+        return pasajeroBusacado;
     };
     // Permite seleccionar un pasajero existente a partir de su DNI, usando el mensaje pasado como argumento para la solicitud
     // y siguiendo el orden y los textos mostrados en el enunciado

@@ -32,13 +32,20 @@ public class ListaAviones {
         return false;
         };
     public Avion getAvion(int posicion){
-        return null;
+        return listaAviones[posicion];
     };
     public boolean insertarAvion(Avion avion){
         return true;
     };
     public Avion buscarAvion(String matricula){
-        return null;
+        Avion avionBuscado = null;
+        for (Avion avion: listaAviones
+        ) {
+            if (avion.getMatricula() == matricula){
+                avionBuscado = avion;
+            }
+        }
+        return avionBuscado;
     };
     // Permite seleccionar un avión existente a partir de su matrícula, y comprueba si dispone de un alcance mayor o igual que el pasado como argumento,
     // usando el mensaje pasado como argumento para la solicitud y siguiendo el orden y los textos mostrados en el enunciado
