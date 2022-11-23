@@ -13,11 +13,11 @@ public class ListaVuelos {
      * Constructor of the class
      *
      * @param capacidad
-     *
+     * @param listaVuelos
      */
 
     private int capacidad;
-
+    private Vuelo[] listaVuelos = new Vuelo[capacidad];
     public ListaVuelos(int capacidad){
         this.capacidad = capacidad;
     };
@@ -68,15 +68,17 @@ public class ListaVuelos {
             sc = new Scanner(new FileReader(fichero));
             String[] nextLine = sc.nextLine().split(";");
             for (int i = 0; i < capacidad; i++) {
-                lista.listaVuelos[i] = new Vuelo(nextLine[0],
-                        aviones.buscarAvion(nextLine[1]),
-                        aeropuertos.buscarAeropuerto(nextLine[2]),
-                        Integer.parseInt(nextLine[3]),
-                        Fecha.fromString(nextLine[4]),
-                        aeropuertos.buscarAeropuerto(nextLine[5]),
-                        Integer.parseInt(nextLine[6]),
-                        Fecha.fromString(nextLine[7]),
-                        Double.parseDouble(nextLine[8]));
+                if (sc.hasNext()) {
+                    lista.listaVuelos[i] = new Vuelo(nextLine[0],
+                            aviones.buscarAvion(nextLine[1]),
+                            aeropuertos.buscarAeropuerto(nextLine[2]),
+                            Integer.parseInt(nextLine[3]),
+                            Fecha.fromString(nextLine[4]),
+                            aeropuertos.buscarAeropuerto(nextLine[5]),
+                            Integer.parseInt(nextLine[6]),
+                            Fecha.fromString(nextLine[7]),
+                            Double.parseDouble(nextLine[8]));
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
