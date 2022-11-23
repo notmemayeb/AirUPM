@@ -67,13 +67,12 @@ public class ListaAeropuertos {
                         Double.parseDouble(nextLine[3]),
                         Integer.parseInt(nextLine[4]));
             }
-            return lista;
-
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             return null;
         } finally {
             if (entry != null) entry.close();
         }
+        return lista;
     };
 }
