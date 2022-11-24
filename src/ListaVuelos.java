@@ -1,6 +1,7 @@
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.Vector;
 
 /**
  * Description of the class
@@ -18,9 +19,13 @@ public class ListaVuelos {
      */
 
     private int capacidad;
-    private Vuelo[] listaVuelos = new Vuelo[capacidad];
+    private Vuelo[] listaVuelos;
     public ListaVuelos(int capacidad){
         this.capacidad = capacidad;
+        this.listaVuelos  = new Vuelo[capacidad];
+        for (int i = 0; i < capacidad; i++){
+            listaVuelos[i] = null;
+        }
     };
     public int getOcupacion(){
         return listaVuelos.length;
@@ -45,12 +50,15 @@ public class ListaVuelos {
     //Devuelve el objeto vuelo que tenga el identificador igual al parámetro id
     //Si no lo encuentra, devolverá null
     public Vuelo buscarVuelo (String id){
+        Vuelo vueloBuscado = null;
         for (int i = 0;i<=getOcupacion()-1;i++) {
-            if (listaVuelos[i].getID()==id) {
-                return listaVuelos[i];
+            if (listaVuelos[i] != null){
+                if (listaVuelos[i].getID().equals(id)) {
+                    vueloBuscado = listaVuelos[i];
+                }
             }
         }
-        return null;
+        return vueloBuscado;
     };
     //Devuelve un nuevo objeto ListaVuelos conteniendo los vuelos que vayan de un aeropuerto a otro en una determinada fecha
     public ListaVuelos buscarVuelos(String codigoOrigen, String codigoDestino, Fecha fecha){
@@ -58,8 +66,8 @@ public class ListaVuelos {
         int n = 0;
         for (int i = 0 ; i < listaVuelos.length; i++) {
             if (listaVuelos[i].getSalida() == fecha) {
-                if (listaVuelos[i].getOrigen().getCodigo() == codigoOrigen) {
-                    if (listaVuelos[i].getDestino().getCodigo() == codigoDestino) {
+                if (listaVuelos[i].getOrigen().getCodigo().equals(codigoOrigen)) {
+                    if (listaVuelos[i].getDestino().getCodigo().equals(codigoDestino)) {
                         lista.listaVuelos[n]= listaVuelos[i];
                         n++;
                     }
@@ -129,20 +137,20 @@ public class ListaVuelos {
         ListaVuelos lista = new ListaVuelos(capacidad);
         try {
             sc = new Scanner(new FileReader(fichero));
-            String[] nextLine = sc.nextLine().split(";");
-            for (int i = 0; i < capacidad; i++) {
-                if (sc.hasNext()) {
-                    lista.listaVuelos[i] = new Vuelo(nextLine[0],
-                            aviones.buscarAvion(nextLine[1]),
-                            aeropuertos.buscarAeropuerto(nextLine[2]),
-                            Integer.parseInt(nextLine[3]),
-                            Fecha.fromString(nextLine[4]),
-                            aeropuertos.buscarAeropuerto(nextLine[5]),
-                            Integer.parseInt(nextLine[6]),
-                            Fecha.fromString(nextLine[7]),
-                            Double.parseDouble(nextLine[8]));
-                }
-            }
+            int i = 0;
+            do {
+                String[] nextLine = sc.nextLine().split(";");
+                lista.listaVuelos[i] = new Vuelo(nextLine[0],
+                        aviones.buscarAvion(nextLine[1]),
+                        aeropuertos.buscarAeropuerto(nextLine[2]),
+                        Integer.parseInt(nextLine[3]),
+                        Fecha.fromString(nextLine[4]),
+                        aeropuertos.buscarAeropuerto(nextLine[5]),
+                        Integer.parseInt(nextLine[6]),
+                        Fecha.fromString(nextLine[7]),
+                        Double.parseDouble(nextLine[8]));
+                i++;
+            } while (sc.hasNextLine());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;

@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -20,10 +21,14 @@ public class ListaAviones {
      */
 
     private int capacidad;
-    private Avion[] listaAviones = new Avion[capacidad];
+    private Avion[] listaAviones;
 
     public ListaAviones(int capacidad){
         this.capacidad = capacidad;
+        this.listaAviones = new Avion[capacidad];
+        for (int i = 0; i < capacidad; i++){
+            listaAviones[i] = null;
+        }
     };
     public int getOcupacion(){
         return listaAviones.length;
@@ -45,8 +50,10 @@ public class ListaAviones {
         Avion avionBuscado = null;
         for (Avion avion: listaAviones
         ) {
-            if (avion.getMatricula() == matricula){
-                avionBuscado = avion;
+            if (avion != null){
+                if (avion.getMatricula().equals(matricula)){
+                    avionBuscado = avion;
+                }
             }
         }
         return avionBuscado;
@@ -70,9 +77,11 @@ public class ListaAviones {
         ListaAviones lista = new ListaAviones(capacidad);
         try {
             entry = new Scanner(new FileReader(fichero));
+            String line;
             for (int i = 0; i < capacidad; i++){
-                if (entry.hasNext()) {
-                    String[] nextLine = entry.nextLine().split(";");
+                line = entry.nextLine();
+                if (entry.hasNextLine()) {
+                    String[] nextLine = line.split(";");
                     lista.listaAviones[i] = new Avion(
                             nextLine[0],
                             nextLine[1],
@@ -81,8 +90,18 @@ public class ListaAviones {
                             Integer.parseInt(nextLine[4]),
                             Double.parseDouble(nextLine[5])
                     );
-                }
-            }
+                };
+
+            };
+            String[] nextLine = entry.nextLine().split(";");
+            lista.listaAviones[lista.getOcupacion()-1] = new Avion(
+                    nextLine[0],
+                    nextLine[1],
+                    nextLine[2],
+                    Integer.parseInt(nextLine[3]),
+                    Integer.parseInt(nextLine[4]),
+                    Double.parseDouble(nextLine[5])
+            );
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             return null;

@@ -64,7 +64,19 @@ Billete {
         return precio;
     };
     // Texto que debe generar: Billete PM1111AAAA para Vuelo PM1111 de MAD T4 (24/12/2022 12:35:00) a BCN T1 (24/12/2022 14:05:30) en asiento 6C (TURISTA) por 100.00€
-    public String toString(){return "";};
+    public String toString(){
+        return String.format("Billete %s para vuelo %s de %s (%s) a %s (%s) en asiento %s (%s) por %.2f",
+                localizador,
+                vuelo.getID(),
+                vuelo.getOrigen().getCodigo(),
+                vuelo.getSalida(),
+                vuelo.getDestino().getCodigo(),
+                vuelo.getLlegada(),
+                getAsiento(),
+                tipo,
+                precio
+        );
+    };
     // Cancela este billete, eliminandolo de la lista de billetes del vuelo y del pasajero correspondiente
     public boolean cancelar(){
         return true;

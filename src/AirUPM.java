@@ -1,3 +1,4 @@
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
@@ -47,20 +48,31 @@ public class AirUPM {
         this.listaPasajeros = ListaPasajeros.leerPasajerosCsv(ficheroPasajeros, maxPasajeros, maxBilletesPasajero);
         ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
 
+
+
+//        Pasajero pasajero;
+//        for (int i = 0; i < listaPasajeros.getOcupacion(); i++){
+//            pasajero = listaPasajeros.getPasajero(i);
+//            for (int j = 0; j < maxBilletesPasajero; j++){
+//                this.listaBilletes.insertarBillete(pasajero.getBillete(i));
+//            }
+//        }
+
     };
     // Almacena los datos de AirUPM en los ficheros CSV especificados
     public boolean guardarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
 
         // FALTAN BILLETES!
 
-        boolean aero, avio, vue, pasa;
+        boolean aero, avio, vue, pasa, bille;
 
         aero = this.listaAeropuertos.escribirAeropuertosCsv(ficheroAeropuertos);
         avio = this.listaAviones.escribirAvionesCsv(ficheroAviones);
         vue = this.listaVuelos.escribirVuelosCsv(ficheroVuelos);
         pasa = this.listaPasajeros.escribirPasajerosCsv(ficheroPasajeros);
+        bille = this.listaBilletes.aniadirBilletesCsv(ficheroBilletes);
 
-        return aero && avio && vue && pasa;
+        return aero && avio && vue && pasa && bille;
 
     };
     public boolean maxVuelosAlcanzado(){

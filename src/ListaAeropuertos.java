@@ -19,10 +19,14 @@ public class ListaAeropuertos {
      */
 
     private int capacidad;
-    private Aeropuerto[] listaAeropuertos = new Aeropuerto[capacidad];
+    private Aeropuerto[] listaAeropuertos;
 
     public ListaAeropuertos(int capacidad){
         this.capacidad = capacidad;
+        this.listaAeropuertos = new Aeropuerto[capacidad];
+        for (int i = 0; i < capacidad; i++){
+            listaAeropuertos[i] = null;
+        }
     };
     public int getOcupacion(){
         return listaAeropuertos.length;
@@ -44,7 +48,7 @@ public class ListaAeropuertos {
         Aeropuerto aeropuertoBuscado = null;
         for (Aeropuerto aeropuerto: listaAeropuertos
              ) {
-            if (aeropuerto.getCodigo() == codigo) aeropuertoBuscado = aeropuerto;
+            if (aeropuerto != null) if (aeropuerto.getCodigo().equals(codigo)) aeropuertoBuscado = aeropuerto;
         }
         return aeropuertoBuscado;
     };
@@ -67,17 +71,18 @@ public class ListaAeropuertos {
         ListaAeropuertos lista = new ListaAeropuertos(capacidad);
         try {
             entry = new Scanner(new FileReader(fichero));
-            for (int i = 0; i < capacidad; i++){
-                if (entry.hasNext()){
-                    String[] nextLine = entry.nextLine().split(";");
-                    lista.listaAeropuertos[i] = new Aeropuerto(
-                            nextLine[0],
-                            nextLine[1],
-                            Double.parseDouble(nextLine[2]),
-                            Double.parseDouble(nextLine[3]),
-                            Integer.parseInt(nextLine[4]));
-                }
-            }
+            int i = 0;
+            do {
+                String[] nextLine = entry.nextLine().split(";");
+                lista.listaAeropuertos[i] = new Aeropuerto(
+                        nextLine[0],
+                        nextLine[1],
+                        Double.parseDouble(nextLine[2]),
+                        Double.parseDouble(nextLine[3]),
+                        Integer.parseInt(nextLine[4]));
+                i++;
+
+            } while (entry.hasNextLine());
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             return null;

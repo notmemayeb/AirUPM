@@ -31,7 +31,7 @@ public class Vuelo {
     private int terminalOrigen, terminalDestino;
     private Fecha salida, llegada;
     private double precio;
-    private Billete[] billetes = new Billete[avion.getColumnas()*avion.getFilas()];
+    private ListaBilletes billetes;
 
     public Vuelo(String id, Avion avion, Aeropuerto origen, int terminalOrigen, Fecha salida, Aeropuerto destino, int terminalDestino, Fecha llegada, double precio){
         this.id = id;
@@ -43,6 +43,8 @@ public class Vuelo {
         this.terminalDestino = terminalDestino;
         this.llegada = llegada;
         this.precio = precio;
+        billetes = new ListaBilletes(avion.getColumnas()*avion.getFilas());
+
     };
     public String getID(){ return id; };
     public Avion getAvion(){ return avion; };
@@ -58,29 +60,29 @@ public class Vuelo {
          return precio*1.5;
     };
     public int numAsientosLibres(){
-        return 1;
+        return (avion.getFilas()*avion.getColumnas()) - billetes.getOcupacion();
     };
     public boolean vueloLleno(){
-        return false;
+        return numAsientosLibres() == 0;
     };
     public boolean asientoOcupado(int fila, int columna){
-        return false;
+        return this.buscarBillete(fila, columna) != null;
     };
     public Billete buscarBillete(String localizador){
-        return null;
+        return billetes.buscarBillete(localizador);
     };
     //Devuelve el obejeto billete que corresponde con una fila o columna,
     //Devolverá null si está libre o se excede en el límite de fila y columna
     public Billete buscarBillete(int fila, int columna){
-        return null;
+        return billetes.buscarBillete(id, fila, columna);
     };
     //Si está desocupado el asiento que indica el billete, lo pone ocupado y devuelve true, si no devuelve false
     public boolean ocuparAsiento(Billete billete){
-        return true;
+        return billetes.insertarBillete(billete);
     };
     //A traves del loalizador de billete, se desocupará el asiento
     public boolean desocuparAsiento(String localizador){
-        return true;
+        return  billetes.eliminarBillete(localizador);
     };
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero){

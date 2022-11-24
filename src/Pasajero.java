@@ -27,7 +27,7 @@ public class Pasajero {
     private char letraDNI;
     private int maxBilletes;
 
-    private Billete[] billetes = new Billete[maxBilletes];
+    private ListaBilletes billetes;
 
     public Pasajero(String nombre, String apellidos, long numeroDNI, char letraDNI, String email, int maxBilletes){
         this.nombre = nombre;
@@ -36,36 +36,37 @@ public class Pasajero {
         this.letraDNI = letraDNI;
         this.email = email;
         this.maxBilletes = maxBilletes;
+        billetes = new ListaBilletes(maxBilletes);
     };
     public String getNombre(){ return nombre; };
     public String getApellidos(){ return apellidos; };
     public long getNumeroDNI(){ return numeroDNI; };
     public char getLetraDNI(){ return letraDNI; };
     // Ejemplo: 00123456S
-    public String getDNI(){ return String.format("%d%c", numeroDNI, letraDNI);};
+    public String getDNI(){ return String.format("%08d%c", numeroDNI, letraDNI);};
     public String getEmail(){ return email; };
     // Texto que debe generar: Víctor Rodríguez Fernández, 00123456S, victor.rfernandez@upm.es
     public String toString(){
         return nombre+", "+apellidos+", "+email;
     };
     public int numBilletesComprado(){
-        return 1;
+        return billetes.getOcupacion();
     };
     public boolean maxBilletesAlcanzado(){
-        return false;
+        return this.numBilletesComprado() == maxBilletes;
     };
     public Billete getBillete(int i){
-        return null;
+        return billetes.getBillete(i);
     };
     public boolean aniadirBillete(Billete billete){
-        return true;
+        return billetes.insertarBillete(billete);
     };
     public Billete buscarBillete(String localizador){
-        return null;
+        return billetes.buscarBillete(localizador);
     };
     // Elimina el billete de la lista de billetes del pasajero
     public boolean cancelarBillete(String localizador){
-        return true;
+        return !billetes.eliminarBillete(localizador);
     };
     public void listarBilletes(){
 

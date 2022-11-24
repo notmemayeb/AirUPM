@@ -19,10 +19,14 @@ public class ListaPasajeros {
      */
 
     private int capacidad;
-    private Pasajero[] listaPasajeros = new Pasajero[capacidad];
+    private Pasajero[] listaPasajeros;
 
     public ListaPasajeros(int capacidad){
         this.capacidad = capacidad;
+        this.listaPasajeros = new Pasajero[capacidad];
+        for (int i = 0; i < capacidad; i++){
+            listaPasajeros[i] = null;
+        }
     };
     public int getOcupacion(){
         return listaPasajeros.length;
@@ -42,19 +46,24 @@ public class ListaPasajeros {
     };
     public Pasajero buscarPasajeroDNI(String dni){
         Pasajero pasajeroBusacado = null;
+
         for (Pasajero pasajero: listaPasajeros
         ) {
-            if (pasajero.getDNI() == dni){
-                pasajeroBusacado = pasajero;
+            if (pasajero != null){
+                if (pasajero.getDNI().equals(dni)){
+                    pasajeroBusacado = pasajero;
+
+                }
             }
         }
+
         return pasajeroBusacado;
     };
     public Pasajero buscarPasajeroEmail(String email){
         Pasajero pasajeroBusacado = null;
         for (Pasajero pasajero: listaPasajeros
              ) {
-            if (pasajero.getEmail() == email){
+            if (pasajero.getEmail().equals(email)){
                 pasajeroBusacado = pasajero;
             }
         }
@@ -86,7 +95,7 @@ public class ListaPasajeros {
         try {
             pw = new PrintWriter(fichero);
             for (int i = 1;i<getOcupacion()-1;i++) {
-            pw.printf("%s;%s;%ld;%c;%s\n",listaPasajeros[i].getNombre(),listaPasajeros[i].getApellidos(),listaPasajeros[i].getNumeroDNI(),listaPasajeros[i].getLetraDNI(),listaPasajeros[i].getEmail());
+            pw.printf("%s;%s;%d;%c;%s\n",listaPasajeros[i].getNombre(),listaPasajeros[i].getApellidos(),listaPasajeros[i].getNumeroDNI(),listaPasajeros[i].getLetraDNI(),listaPasajeros[i].getEmail());
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
@@ -108,9 +117,18 @@ public class ListaPasajeros {
         try{
             sc = new Scanner(new FileReader(fichero));
             for (int i = 0; i < capacidad; i++) {
+                String line = sc.nextLine();
                 if (sc.hasNext()) {
-                    String[] nextLine = sc.nextLine().split(";");
-                    lista.listaPasajeros[i] = new Pasajero(nextLine[0], nextLine[1], Integer.parseInt(nextLine[2]), nextLine[3].charAt(0), nextLine[4], maxBilletesPasajero);
+                    String[] nextLine = line.split(";");
+                    lista.listaPasajeros[i] = new Pasajero(
+                            nextLine[0],
+                            nextLine[1],
+                            Integer.parseInt(nextLine[2]),
+                            nextLine[3].charAt(0),
+                            nextLine[4],
+                            maxBilletesPasajero
+                    );
+                    System.out.println(lista.listaPasajeros[i]);
                 }
             }
         } catch (Exception e) {
