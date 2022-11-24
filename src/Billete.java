@@ -54,9 +54,7 @@ Billete {
     public int getColumna(){ return columma; };
     // Ejemplos: "1A" para el asiento con fila 1 y columna 1, "3D" para el asiento con fila 3 y columna 4
     public String getAsiento(){
-
         return String.format("%d%c", fila, LETRA[columma-1]);
-
     };
     public double getPrecio(){
         if (tipo == TIPO.PRIMERA) return precio*1.5;;
@@ -66,20 +64,20 @@ Billete {
     // Texto que debe generar: Billete PM1111AAAA para Vuelo PM1111 de MAD T4 (24/12/2022 12:35:00) a BCN T1 (24/12/2022 14:05:30) en asiento 6C (TURISTA) por 100.00€
     public String toString(){
         return String.format("Billete %s para vuelo %s de %s (%s) a %s (%s) en asiento %s (%s) por %.2f",
-                localizador,
+                this.localizador,
                 vuelo.getID(),
                 vuelo.getOrigen().getCodigo(),
                 vuelo.getSalida(),
                 vuelo.getDestino().getCodigo(),
                 vuelo.getLlegada(),
-                getAsiento(),
+                this.getAsiento(),
                 tipo,
-                precio
+                this.getPrecio()
         );
     };
     // Cancela este billete, eliminandolo de la lista de billetes del vuelo y del pasajero correspondiente
     public boolean cancelar(){
-        return true;
+        return this.getPasajero().cancelarBillete(localizador) && this.getVuelo().desocuparAsiento(localizador);
     };
     // Imprime la informacion de este billete en un fichero siguiendo el formato de los ejemplos de ejecución del enunciado
     public boolean generarFactura(String fichero){

@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -31,8 +32,13 @@ public class ListaAviones {
         }
     };
     public int getOcupacion(){
-        return listaAviones.length;
-        };
+        int ocupacion = 0;
+        for (Avion avion: listaAviones
+        ) {
+            if (avion != null) ocupacion++;
+        }
+        return ocupacion;
+    };
     public boolean estaLlena(){
         return this.getOcupacion() == capacidad;
         };
@@ -41,7 +47,7 @@ public class ListaAviones {
     };
     public boolean insertarAvion(Avion avion){
         if (!this.estaLlena()){
-            this.listaAviones[this.listaAviones.length-1] = avion;
+            this.listaAviones[this.getOcupacion()] = avion;
             return true;
         }
         return false;
@@ -73,40 +79,28 @@ public class ListaAviones {
     // Genera una lista de aviones a partir del fichero CSV, usando el argumento como   
     // capacidad máxima de la lista
     public static ListaAviones leerAvionesCsv(String fichero, int capacidad){
-        Scanner entry = null;
+        Scanner entrada = null;
         ListaAviones lista = new ListaAviones(capacidad);
+        int lineas = 0;
+        if (Utilidades.contarLineasFichero(fichero) != -1){
+            lineas = Utilidades.contarLineasFichero(fichero);
+        }
         try {
-            entry = new Scanner(new FileReader(fichero));
-            String line;
-            for (int i = 0; i < capacidad; i++){
-                line = entry.nextLine();
-                if (entry.hasNextLine()) {
-                    String[] nextLine = line.split(";");
-                    lista.listaAviones[i] = new Avion(
-                            nextLine[0],
-                            nextLine[1],
-                            nextLine[2],
-                            Integer.parseInt(nextLine[3]),
-                            Integer.parseInt(nextLine[4]),
-                            Double.parseDouble(nextLine[5])
-                    );
-                };
+            entrada = new Scanner(new FileReader(fichero));
+            for (int i = 0; i < Math.min(lineas, capacidad); i++){
+                String[] linea = entrada.nextLine().split(";");
+                String marca = linea[0];
+                String modelo = linea[1];
+                String matricula = linea[2];
+                int columnas = Integer.parseInt(linea[3]);
+                int filas = Integer.parseInt(linea[4]);
+                double alcance = Double.parseDouble(linea[5]);
 
-            };
-            String[] nextLine = entry.nextLine().split(";");
-            lista.listaAviones[lista.getOcupacion()-1] = new Avion(
-                    nextLine[0],
-                    nextLine[1],
-                    nextLine[2],
-                    Integer.parseInt(nextLine[3]),
-                    Integer.parseInt(nextLine[4]),
-                    Double.parseDouble(nextLine[5])
-            );
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-            return null;
-        } finally {
-            if (entry != null) entry.close();
+                lista.listaAviones[i] = new Avion(marca,modelo,matricula,columnas,filas,alcance);
+
+            }
+        } catch (IOException exc){
+            System.out.println(exc.getMessage());
         }
         return lista;
     };

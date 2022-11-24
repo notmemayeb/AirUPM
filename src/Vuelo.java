@@ -60,7 +60,7 @@ public class Vuelo {
          return precio*1.5;
     };
     public int numAsientosLibres(){
-        return (avion.getFilas()*avion.getColumnas()) - billetes.getOcupacion();
+        return (avion.getFilas()*avion.getColumnas() - billetes.getOcupacion());
     };
     public boolean vueloLleno(){
         return numAsientosLibres() == 0;
@@ -91,12 +91,37 @@ public class Vuelo {
     // Devuelve una cadena con información completa del vuelo
     //Ejemplo: Vuelo PM0066 de Josep Tarradellas Barcelona-El Prat(BCN) T2 (01/01/2023 08:15:00) a Gran Canaria(LPA) T1 (01/01/2023 11:00:05) en Boeing 747(EC-LKD) por 182,52€, asientos libres: 409
     public String toString(){
-        return "";
+        return String.format("Vuelo %s de %s(%s) T%d (%s) a %s(%s) T%d (%s) en %s %s(%s) por %.2f, asinetos libres: %d",
+                this.getID(),
+                this.getOrigen().getNombre(),
+                this.getOrigen().getCodigo(),
+                this.getTerminalOrigen(),
+                this.getSalida().toString(),
+                this.getDestino().getNombre(),
+                this.getDestino().getCodigo(),
+                this.getTerminalDestino(),
+                this.getLlegada().toString(),
+                this.getAvion().getMarca(),
+                this.getAvion().getModelo(),
+                this.getAvion().getMatricula(),
+                this.precio,
+                this.numAsientosLibres()
+                );
     };
     // Devuelve una cadena con información abreviada del vuelo
     //Ejemplo: Vuelo PM0066 de Josep Tarradellas Barcelona-El Prat(BCN) T2 (01/01/2023 08:15:00) a Gran Canaria(LPA) T1 (01/01/2023 11:00:05)
     public String toStringSimple(){
-        return "";
+        return String.format("Vuelo %s de %s(%s) T%d (%s) a %s(%s) T%d (%s)",
+                this.getID(),
+                this.getOrigen().getNombre(),
+                this.getOrigen().getCodigo(),
+                this.getTerminalOrigen(),
+                this.getSalida().toString(),
+                this.getDestino().getNombre(),
+                this.getDestino().getCodigo(),
+                this.getTerminalDestino(),
+                this.getLlegada().toString()
+        );
     };
     //Devuelve true si el código origen, destino y fecha son los mismos que el vuelo
     public boolean coincide(String codigoOrigen, String codigoDestino, Fecha fecha){

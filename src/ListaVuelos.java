@@ -1,4 +1,5 @@
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.Vector;
@@ -28,13 +29,15 @@ public class ListaVuelos {
         }
     };
     public int getOcupacion(){
-        return listaVuelos.length;
-        };
-    public boolean estaLlena(){
-        if (getOcupacion()>=capacidad) {
-            return true;
+        int ocupacion = 0;
+        for (Vuelo vuelo: listaVuelos
+        ) {
+            if (vuelo != null) ocupacion++;
         }
-        return false;
+        return ocupacion;
+    };
+    public boolean estaLlena(){
+        return this.getOcupacion() == capacidad;
         };
     //Devuelve el objeto vuelo que está en la posición i del array
     public Vuelo getVuelo(int i){
@@ -42,7 +45,7 @@ public class ListaVuelos {
     };
     //Devuelve true si puede insertar el vuelo
     public boolean insertarVuelo (Vuelo vuelo){
-        if (!estaLlena()) {
+        if (!this.estaLlena()) {
             listaVuelos[getOcupacion()-1] = vuelo;
         }
         return true;
@@ -79,20 +82,7 @@ public class ListaVuelos {
     //Muestra por pantalla los vuelos siguiendo el formato de los ejemplos del enunciado
     public void listarVuelos(){
         for (int i = 0; i < listaVuelos.length-1; i++) {
-            System.out.printf("Vuelo %S de %s(%s) T%d (%s) a %s(%s) T%d (%s) en %s %s(%s) por %f€\n",
-                    listaVuelos[i].getID(),
-                    listaVuelos[i].getOrigen().getNombre(),
-                    listaVuelos[i].getOrigen().getCodigo(),
-                    listaVuelos[i].getOrigen().getTerminales(),
-                    listaVuelos[i].getSalida().toString(),
-                    listaVuelos[i].getDestino().getNombre(),
-                    listaVuelos[i].getDestino().getCodigo(),
-                    listaVuelos[i].getDestino().getTerminales(),
-                    listaVuelos[i].getLlegada().toString(),
-                    listaVuelos[i].getAvion().getMarca(),
-                    listaVuelos[i].getAvion().getModelo(),
-                    listaVuelos[i].getAvion().getMatricula(),
-                    listaVuelos[i].getPrecio());
+            System.out.println(listaVuelos[i]);
         }
     };
     //Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud
@@ -102,11 +92,11 @@ public class ListaVuelos {
     //Ha de escribir la lista de vuelos en la ruta y nombre del fichero pasado como parámetro.
     //Si existe el fichero, se sobreescribe, si no existe se crea.
     public boolean escribirVuelosCsv(String fichero){
-        PrintWriter pw = null;
+        PrintWriter salida = null;
         try {
-            pw = new PrintWriter(fichero);
+            salida = new PrintWriter(fichero);
             for (int i = 0; i < getOcupacion()-1; i++) {
-                pw.printf("%s;%s;%s;%d;%s;%s;%d;%s;%f",
+                salida.printf("%s;%s;%s;%d;%s;%s;%d;%s;%f",
                         listaVuelos[i].getID(),
                         listaVuelos[i].getAvion().getMatricula(),
                         listaVuelos[i].getOrigen().getCodigo(),
@@ -116,14 +106,15 @@ public class ListaVuelos {
                         listaVuelos[i].getDestino().getTerminales(),
                         listaVuelos[i].getLlegada().toString(),
                         listaVuelos[i].getPrecio());
+                salida.println();
                 //PM1111;EC-LKF;MAD;4;24/12/2022 12:35:00;BCN;1;24/12/2022 14:05:30;100.0
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         } finally {
-            if (pw != null) {
-                pw.close();
+            if (salida != null) {
+                salida.close();
             }
         }
         return true;
@@ -133,31 +124,30 @@ public class ListaVuelos {
     //Genera una lista de vuelos a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
     //de la lista
     public static ListaVuelos leerVuelosCsv(String fichero, int capacidad, ListaAeropuertos aeropuertos, ListaAviones aviones){
-        Scanner sc = null;
+        Scanner entrada = null;
         ListaVuelos lista = new ListaVuelos(capacidad);
+        int lineas = 0;
+        if (Utilidades.contarLineasFichero(fichero) != -1){
+            lineas = Utilidades.contarLineasFichero(fichero);
+        }
         try {
-            sc = new Scanner(new FileReader(fichero));
-            int i = 0;
-            do {
-                String[] nextLine = sc.nextLine().split(";");
-                lista.listaVuelos[i] = new Vuelo(nextLine[0],
-                        aviones.buscarAvion(nextLine[1]),
-                        aeropuertos.buscarAeropuerto(nextLine[2]),
-                        Integer.parseInt(nextLine[3]),
-                        Fecha.fromString(nextLine[4]),
-                        aeropuertos.buscarAeropuerto(nextLine[5]),
-                        Integer.parseInt(nextLine[6]),
-                        Fecha.fromString(nextLine[7]),
-                        Double.parseDouble(nextLine[8]));
-                i++;
-            } while (sc.hasNextLine());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        } finally {
-            if (sc != null) {
-                sc.close();
+            entrada = new Scanner(new FileReader(fichero));
+            for (int i = 0; i < Math.min(lineas, capacidad); i++){
+                String[] linea = entrada.nextLine().split(";");
+                String id = linea[0];
+                Avion avion = aviones.buscarAvion(linea[1]);
+                Aeropuerto origen = aeropuertos.buscarAeropuerto(linea[2]);
+                int terminalOrigen = Integer.parseInt(linea[3]);
+                Fecha salida = Fecha.fromString(linea[4]);
+                Aeropuerto destino = aeropuertos.buscarAeropuerto(linea[5]);
+                int terminalDestino = Integer.parseInt(linea[6]);
+                Fecha llegada = Fecha.fromString(linea[7]);
+                double precio = Double.parseDouble(linea[8]);
+
+                lista.listaVuelos[i] = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
             }
+        } catch (IOException exc){
+            System.out.println(exc.getMessage());
         }
         return lista;
     };

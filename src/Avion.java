@@ -39,11 +39,22 @@ public class Avion {
     // Crea un String con los datos de un avión con el siguiente formato:
     // Boeing 737(EC-LKE): 180 asientos, hasta 5700.0 km
     public String toString(){
-        return marca+" "+modelo+"("+matricula+"): "+(filas*columnas)+" asientos, hasta "+alcance+" km";
+        return String.format("%s %s(%s): %d asientos, hasta %.1fKm",
+                this.marca,
+                this.modelo,
+                this.matricula,
+                this.getColumnas()*this.getFilas(),
+                this.alcance
+
+        );
     };
     // Crea un String con los datos de un avión con el siguiente formato:
     // Boeing 737(EC-LKE)
     public String toStringSimple(){
-        return marca+" "+modelo+"("+matricula+")";
+        return String.format("%s %s(%s)",
+                this.marca,
+                this.modelo,
+                this.matricula
+        );
     };
 }

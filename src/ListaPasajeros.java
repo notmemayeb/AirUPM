@@ -1,4 +1,5 @@
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -29,7 +30,12 @@ public class ListaPasajeros {
         }
     };
     public int getOcupacion(){
-        return listaPasajeros.length;
+        int ocupacion = 0;
+        for (Pasajero pasajero: listaPasajeros
+             ) {
+            if (pasajero != null) ocupacion++;
+        }
+        return ocupacion;
         };
     public boolean estaLlena(){
         return this.getOcupacion() == capacidad;
@@ -39,7 +45,7 @@ public class ListaPasajeros {
     };
     public boolean insertarPasajero(Pasajero pasajero){
         if (!this.estaLlena()){
-            this.listaPasajeros[listaPasajeros.length-1] = pasajero;
+            this.listaPasajeros[this.getOcupacion()] = pasajero;
             return true;
         }
         return false;
@@ -73,36 +79,40 @@ public class ListaPasajeros {
     // y siguiendo el orden y los textos mostrados en el enunciado
     // La función solicita repetidamente hasta que se introduzca un DNI correcto
     public Pasajero seleccionarPasajero(Scanner teclado, String mensaje){
-        String sDni;
-        char[] dni = new char[9];
-        long numdni;
+        String stringDNI;
+        long numDNI;
+        Pasajero pasajeroSeleccionar = null;
         do {
             System.out.print(mensaje);
-            sDni = teclado.nextLine();
-            dni = sDni.toCharArray();
-            numdni = dni[0]+dni[1]+dni[2]+dni[3]+dni[4]+dni[5]+dni[6]+dni[7];
-        }while (!Pasajero.correctoDNI(numdni,dni[8]));
+            stringDNI = teclado.nextLine();
+            numDNI = Long.parseLong(stringDNI.substring(0,7));
+        }while (!Pasajero.correctoDNI(numDNI,stringDNI.substring(8).charAt(0)));
         for (int i = 0; i < capacidad; i++) {
-            if (listaPasajeros[i].getDNI() == sDni) {
-                return listaPasajeros[i];
+            if (listaPasajeros[i].getDNI().equals(stringDNI)) {
+                pasajeroSeleccionar = listaPasajeros[i];
             }
         }
-        return null;
+        return pasajeroSeleccionar;
     };
     // Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo
     public boolean escribirPasajerosCsv(String fichero){
-        PrintWriter pw = null;
+        PrintWriter salida = null;
         try {
-            pw = new PrintWriter(fichero);
+            salida = new PrintWriter(fichero);
             for (int i = 1;i<getOcupacion()-1;i++) {
-            pw.printf("%s;%s;%d;%c;%s\n",listaPasajeros[i].getNombre(),listaPasajeros[i].getApellidos(),listaPasajeros[i].getNumeroDNI(),listaPasajeros[i].getLetraDNI(),listaPasajeros[i].getEmail());
+            salida.printf("%s;%s;%d;%c;%s\n",
+                    listaPasajeros[i].getNombre(),
+                    listaPasajeros[i].getApellidos(),
+                    listaPasajeros[i].getNumeroDNI(),
+                    listaPasajeros[i].getLetraDNI(),
+                    listaPasajeros[i].getEmail());
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         } finally {
-            if (pw != null) {
-                pw.close();
+            if (salida != null) {
+                salida.close();
             }
         }
         return true;
@@ -112,32 +122,26 @@ public class ListaPasajeros {
     // Genera una lista de pasajeros a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
     // de la lista y el número de billetes máximo por pasajero
     public static ListaPasajeros leerPasajerosCsv(String fichero, int capacidad, int maxBilletesPasajero){
-        Scanner sc = null;
+        Scanner entrada = null;
         ListaPasajeros lista = new ListaPasajeros(capacidad);
-        try{
-            sc = new Scanner(new FileReader(fichero));
-            for (int i = 0; i < capacidad; i++) {
-                String line = sc.nextLine();
-                if (sc.hasNext()) {
-                    String[] nextLine = line.split(";");
-                    lista.listaPasajeros[i] = new Pasajero(
-                            nextLine[0],
-                            nextLine[1],
-                            Integer.parseInt(nextLine[2]),
-                            nextLine[3].charAt(0),
-                            nextLine[4],
-                            maxBilletesPasajero
-                    );
-                    System.out.println(lista.listaPasajeros[i]);
-                }
+        int lineas = 0;
+        if (Utilidades.contarLineasFichero(fichero) != -1){
+            lineas = Utilidades.contarLineasFichero(fichero);
+        }
+        try {
+            entrada = new Scanner(new FileReader(fichero));
+            for (int i = 0; i < Math.min(lineas, capacidad); i++){
+                String[] linea = entrada.nextLine().split(";");
+                String nombre = linea[0];
+                String apellido = linea[1];
+                long numeroDNI = Long.parseLong(linea[2]);
+                char letraDNI = linea[3].charAt(0);
+                String email = linea[4];
+
+                lista.listaPasajeros[i] = new Pasajero(nombre,apellido,numeroDNI, letraDNI, email, maxBilletesPasajero);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        } finally {
-            if (sc != null) {
-                sc.close();
-            }
+        } catch (IOException exc){
+            System.out.println(exc.getMessage());
         }
         return lista;
     };

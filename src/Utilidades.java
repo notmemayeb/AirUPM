@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -99,4 +102,25 @@ public class Utilidades {
         } while (!Fecha.comprobarFecha(dia, mes, anio) || !Fecha.comprobarHora(hora, minuto, segundo));
         return new Fecha(dia, mes, anio, hora, minuto, segundo);
     };
+
+    public static int contarLineasFichero(String ruta){
+        BufferedReader entrada = null;
+        int lineas = 0;
+        try {
+            entrada = new BufferedReader(new FileReader(ruta));
+            while (entrada.readLine() != null) lineas++;
+        } catch (IOException exc){
+            System.out.println(exc.getMessage());
+            lineas = -1;
+        } finally {
+            try {
+                if (entrada !=null){
+                    entrada.close();
+                }
+            } catch (IOException exc) {
+                System.out.println(exc.getMessage());
+            }
+        }
+        return lineas;
+    }
 }

@@ -1,4 +1,5 @@
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -26,8 +27,13 @@ public class ListaBilletes {
         }
     };
     public int getOcupacion(){
-        return lista.length;
-        };
+        int ocupacion = 0;
+        for (Billete billete: lista
+        ) {
+            if (billete != null) ocupacion++;
+        }
+        return ocupacion;
+    };
     public boolean estaLlena(){
         return this.getOcupacion() == capacidad;
         };
@@ -35,33 +41,30 @@ public class ListaBilletes {
         return lista[i];
     };
     public boolean insertarBillete (Billete billete){
-        if (lista.length != capacidad){
-            if (!billete.getVuelo().vueloLleno() && !billete.getPasajero().maxBilletesAlcanzado()){
-                lista[lista.length-1] = billete;
-                return true;
-            }
+        if (!this.estaLlena()){
+            lista[this.getOcupacion()] = billete;
+            return true;
         }
         return false;
     };
     public Billete buscarBillete (String localizador){
         Billete billeteBuscado = null;
-        for (Billete billete: lista
-             ) {
-            if (billete.getLocalizador() == localizador) billeteBuscado = billete;
+        for (Billete billete: lista) {
+            if (billete.getLocalizador().equals(localizador)) billeteBuscado = billete;
         }
         return billeteBuscado;
     };
     public Billete buscarBillete (String idVuelo, int fila, int columna){
         Billete billeteBuscado = null;
         for (Billete billete: lista) {
-            if (billete.getVuelo().getID() == idVuelo && billete.getColumna() == columna && billete.getFila() == fila) billeteBuscado = billete;
+            if (billete.getVuelo().getID().equals(idVuelo)  && billete.getColumna() == columna && billete.getFila() == fila) billeteBuscado = billete;
         }
         return billeteBuscado;
     };
     public boolean eliminarBillete (String localizador){
         boolean resultado = false;
         for (int i = 0; i < capacidad; i++){
-            if (lista[i].getLocalizador() == localizador){
+            if (lista[i].getLocalizador().equals(localizador)){
                 lista[i] = null;
                 resultado = true;
             }
@@ -87,44 +90,32 @@ public class ListaBilletes {
     
     // Lee los billetes del fichero CSV y los añade a las listas de sus respectivos Vuelos y Pasajeros
     public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros){
-        Scanner sc = null;
-        try{
-            sc = new Scanner(new FileReader(ficheroBilletes));
-            while (sc.hasNextLine()) {
-                String nextLine = sc.nextLine();
-                String[] linea = nextLine.split(";");
-                String codigo = linea[1];
-                String dni = linea[2];
-                Billete.TIPO tipo = Billete.TIPO.TURISTA;
-                switch (linea[3]){
-                    case "PREFERENTE":
-                        tipo = Billete.TIPO.PREFERENTE;
-                        break;
-                    case "PRIMERA":
-                        tipo = Billete.TIPO.PRIMERA;
-                        break;
-                }
-                Billete billete = new Billete(
-                        linea[0],
-                        vuelos.buscarVuelo(codigo),
-                        pasajeros.buscarPasajeroDNI(dni),
-                        tipo,
-                        Integer.parseInt(linea[4]),
-                        Integer.parseInt(linea[5]),
-                        Double.parseDouble(linea[6])
-                );
+        Scanner entrada = null;
+        int lineas = 0;
+        if (Utilidades.contarLineasFichero(ficheroBilletes) != -1){
+            lineas = Utilidades.contarLineasFichero(ficheroBilletes);
+        }
+        try {
+            entrada = new Scanner(new FileReader(ficheroBilletes));
+            for (int i = 0; i < lineas; i++){
+                String[] linea = entrada.nextLine().split(";");
+                String localizador = linea[0];
+                Vuelo vuelo = vuelos.buscarVuelo(linea[1]);
+                Pasajero pasajero = pasajeros.buscarPasajeroDNI(linea[2]);
+                Billete.TIPO tipo = Billete.TIPO.valueOf(linea[3]);
+                int fila = Integer.parseInt(linea[4]);
+                int columna = Integer.parseInt(linea[5]);
+                double precio = Double.parseDouble(linea[6]);
 
+                Billete billete = new Billete(localizador, vuelo, pasajero, tipo, fila, columna, precio);
 
-//              billete.getVuelo().ocuparAsiento(billete);
-//                billete.getPasajero().aniadirBillete(billete);
+                pasajero.aniadirBillete(billete);
+                vuelo.ocuparAsiento(billete);
+
 
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (sc != null) {
-                sc.close();
-            }
+        } catch (IOException exc){
+            System.out.println(exc.getMessage());
         }
     };
 }

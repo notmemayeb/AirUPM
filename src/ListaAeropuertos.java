@@ -1,5 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -29,7 +31,12 @@ public class ListaAeropuertos {
         }
     };
     public int getOcupacion(){
-        return listaAeropuertos.length;
+        int ocupacion = 0;
+        for (Aeropuerto aeropuerto: listaAeropuertos
+        ) {
+            if (aeropuerto != null) ocupacion++;
+        }
+        return ocupacion;
     };
     public boolean estaLlena(){
         return this.getOcupacion() == capacidad;
@@ -39,7 +46,7 @@ public class ListaAeropuertos {
     };
     public boolean insertarAeropuerto(Aeropuerto aeropuerto){
         if (!this.estaLlena()){
-            this.listaAeropuertos[this.listaAeropuertos.length-1] = aeropuerto;
+            this.listaAeropuertos[this.getOcupacion()] = aeropuerto;
             return true;
         }
         return false;
@@ -67,27 +74,26 @@ public class ListaAeropuertos {
     //Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como   
     //capacidad máxima de la lista
     public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad){
-        Scanner entry = null;
+        Scanner entrada = null;
         ListaAeropuertos lista = new ListaAeropuertos(capacidad);
+        int lineas = 0;
+        if (Utilidades.contarLineasFichero(fichero) != -1){
+            lineas = Utilidades.contarLineasFichero(fichero);
+        }
         try {
-            entry = new Scanner(new FileReader(fichero));
-            int i = 0;
-            do {
-                String[] nextLine = entry.nextLine().split(";");
-                lista.listaAeropuertos[i] = new Aeropuerto(
-                        nextLine[0],
-                        nextLine[1],
-                        Double.parseDouble(nextLine[2]),
-                        Double.parseDouble(nextLine[3]),
-                        Integer.parseInt(nextLine[4]));
-                i++;
+            entrada = new Scanner(new FileReader(fichero));
+            for (int i = 0; i < Math.min(lineas, capacidad); i++){
+                String[] linea = entrada.nextLine().split(";");
+                String nombre = linea[0];
+                String codigo = linea[1];
+                double latitud = Double.parseDouble(linea[2]);
+                double longitud = Double.parseDouble(linea[3]);
+                int terminals = Integer.parseInt(linea[4]);
 
-            } while (entry.hasNextLine());
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-            return null;
-        } finally {
-            if (entry != null) entry.close();
+                lista.listaAeropuertos[i] = new Aeropuerto(nombre,codigo,latitud,longitud,terminals);
+            }
+        } catch (IOException exc){
+            System.out.println(exc.getMessage());
         }
         return lista;
     };

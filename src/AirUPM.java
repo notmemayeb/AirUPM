@@ -41,23 +41,21 @@ public class AirUPM {
     };
     // Lee los datos de los ficheros especificados y los agrega a AirUPM
     public void cargarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
-        // PREGUNTA PROFE!
+
         this.listaAeropuertos = ListaAeropuertos.leerAeropuertosCsv(ficheroAeropuertos, maxAeropuertos);
         this.listaAviones = ListaAviones.leerAvionesCsv(ficheroAviones, maxAviones);
         this.listaVuelos = ListaVuelos.leerVuelosCsv(ficheroVuelos, maxVuelos, listaAeropuertos, listaAviones);
         this.listaPasajeros = ListaPasajeros.leerPasajerosCsv(ficheroPasajeros, maxPasajeros, maxBilletesPasajero);
+        this.listaBilletes = new ListaBilletes(maxPasajeros*maxBilletesPasajero);
         ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
 
-
-
-//        Pasajero pasajero;
-//        for (int i = 0; i < listaPasajeros.getOcupacion(); i++){
-//            pasajero = listaPasajeros.getPasajero(i);
-//            for (int j = 0; j < maxBilletesPasajero; j++){
-//                this.listaBilletes.insertarBillete(pasajero.getBillete(i));
-//            }
-//        }
-
+        Pasajero pasajero;
+        for (int i = 0; i < listaPasajeros.getOcupacion(); i++){
+            pasajero = listaPasajeros.getPasajero(i);
+            for (int j = 0; j < maxBilletesPasajero; j++){
+                if (pasajero.getBillete(j) != null) this.listaBilletes.insertarBillete(pasajero.getBillete(j));
+            }
+        }
     };
     // Almacena los datos de AirUPM en los ficheros CSV especificados
     public boolean guardarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
