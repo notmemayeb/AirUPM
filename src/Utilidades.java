@@ -85,15 +85,15 @@ public class Utilidades {
                 anio = teclado.nextInt();
             } while (anio > 3000 || anio < 1900);
             do {
-                System.out.print("Ingrese año:");
+                System.out.print("Ingrese hora:");
                 hora = teclado.nextInt();
             } while (hora > 23 || hora < 0);
             do {
-                System.out.print("Ingrese año:");
+                System.out.print("Ingrese minuto:");
                 minuto = teclado.nextInt();
             } while (minuto > 59 || minuto < 0);
             do {
-                System.out.print("Ingrese año:");
+                System.out.print("Ingrese segundo:");
                 segundo = teclado.nextInt();
             } while (segundo > 59 || segundo < 0);
             if (!Fecha.comprobarFecha(dia, mes, anio) || !Fecha.comprobarHora(hora, minuto, segundo)) {

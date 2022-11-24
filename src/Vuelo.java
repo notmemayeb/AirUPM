@@ -153,7 +153,13 @@ public class Vuelo {
     //primeros serán PM y los 4 siguientes serán números aleatorios. Ejemplo: PM0123
     //NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.
     public static String generarID(Random rand){
-        return "";
+        String id = "PM";
+        int numero;
+        for (int i = 0; i < 4; i++){
+            numero = rand.nextInt(0,9);
+            id += String.valueOf(numero);
+        }
+        return id;
     };
     //Crea y devuelve un objeto Vuelo de los datos que selecciona el usuario de aeropuertos y aviones y la restricción de que
     //no puede estar repetido el identificador, siguiendo las indicaciones del enunciado

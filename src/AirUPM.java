@@ -22,11 +22,11 @@ public class AirUPM {
      */
 
     private int maxAeropuertos, maxAviones, maxVuelos, maxPasajeros, maxBilletesPasajero;
-    private ListaAeropuertos listaAeropuertos;
-    private ListaAviones listaAviones;
-    private ListaPasajeros listaPasajeros;
-    private ListaVuelos listaVuelos;
-    private ListaBilletes listaBilletes;
+    public ListaAeropuertos listaAeropuertos;
+    public ListaAviones listaAviones;
+    public ListaPasajeros listaPasajeros;
+    public ListaVuelos listaVuelos;
+    public ListaBilletes listaBilletes;
 
 
 
@@ -56,6 +56,7 @@ public class AirUPM {
                 if (pasajero.getBillete(j) != null) this.listaBilletes.insertarBillete(pasajero.getBillete(j));
             }
         }
+
     };
     // Almacena los datos de AirUPM en los ficheros CSV especificados
     public boolean guardarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
@@ -74,13 +75,13 @@ public class AirUPM {
 
     };
     public boolean maxVuelosAlcanzado(){
-        return true;
+        return listaVuelos.getOcupacion() == maxVuelos;
     };
     public boolean insertarVuelo (Vuelo vuelo){
-        return true;
+        return listaVuelos.insertarVuelo(vuelo);
     };
     public boolean maxPasajerosAlcanzado(){
-        return true;
+        return listaPasajeros.getOcupacion() == maxPasajeros;
     };
     public boolean insertarPasajero (Pasajero pasajero){
         return true;
@@ -103,7 +104,19 @@ public class AirUPM {
     
     // Muestra el menú y solicita una opción por teclado
     public static int menu(Scanner teclado){
-        return 1;
+        String mensaje = "Seleccione opción:";
+        int response;
+        System.out.println(
+                        "1. Alta Vuelo\n" +
+                        "2. Alta Pasajero\n" +
+                        "3. Buscar Vuelo\n" +
+                        "4. Mostrar billetes de Pasajero\n" +
+                        "5. Generar lista de Pasajeros\n" +
+                        "0. Salir"
+        );
+        response = Utilidades.leerNumero(teclado, mensaje, 0,5);
+
+        return response;
     };
     // Carga los datos de los ficheros CSV pasados por argumento (consola) en AirUPM, llama iterativamente al menú y realiza la
     //  opción especificada hasta que se indique la opción Salir, y finalmente guarda los datos de AirUPM en los mismos ficheros CSV
@@ -125,6 +138,107 @@ public class AirUPM {
                     args[8],
                     args[9]
             );
+
+            Scanner teclado = new Scanner(System.in);
+            Random rand = new Random();
+            int opcion;
+
+            do {
+                opcion = menu(teclado);
+                switch (opcion){
+                    case 1:
+                        if (!programa.maxVuelosAlcanzado()){
+                            Aeropuerto origen, destino;
+                            Avion avion;
+                            Fecha salida, llegada;
+                            String codigoOrigen, codigoDestino, mensaje, matricula, id;
+                            int terminalOrigen, terminalDestino;
+                            double distancia , precio;
+
+                            do {
+                                System.out.print("Ingrese código de Aeropuerto Origen:");
+                                codigoOrigen = teclado.next();
+                                if (programa.listaAeropuertos.buscarAeropuerto(codigoOrigen) == null) System.out.println("Código de aeropuerto no encontrado.");
+                            } while (programa.listaAeropuertos.buscarAeropuerto(codigoOrigen) == null);
+                            origen = programa.listaAeropuertos.buscarAeropuerto(codigoOrigen);
+
+                            mensaje = String.format(
+                                    "Ingrese Terminal Origen (%d - %d):",
+                                    1,
+                                    programa.listaAeropuertos.buscarAeropuerto(codigoOrigen).getTerminales()
+                            );
+
+                            terminalOrigen = Utilidades.leerNumero(
+                                    teclado,
+                                    mensaje,
+                                    1,
+                                    programa.listaAeropuertos.buscarAeropuerto(codigoOrigen).getTerminales()
+                            );
+
+                            do {
+                                System.out.print("Ingrese código de Aeropuerto Destino:");
+                                codigoDestino = teclado.next();
+                                if (programa.listaAeropuertos.buscarAeropuerto(codigoDestino) == null) System.out.println("Código de aeropuerto no encontrado.");
+                            } while (programa.listaAeropuertos.buscarAeropuerto(codigoDestino) == null);
+                            destino = programa.listaAeropuertos.buscarAeropuerto(codigoDestino);
+
+                            mensaje = String.format(
+                                    "Ingrese Terminal Destino (%d - %d):",
+                                    1,
+                                    programa.listaAeropuertos.buscarAeropuerto(codigoDestino).getTerminales()
+                            );
+
+                            terminalDestino = Utilidades.leerNumero(
+                                    teclado,
+                                    mensaje,
+                                    1,
+                                    programa.listaAeropuertos.buscarAeropuerto(codigoDestino).getTerminales()
+                            );
+
+                            distancia = origen.distancia(destino);
+
+                            do {
+                                System.out.print("Ingrese matrícula de Avión:");
+                                matricula = teclado.next();
+                                if (programa.listaAviones.buscarAvion(matricula) == null) System.out.println("Matrícula de avión no encontrada.");
+                                if ((programa.listaAviones.buscarAvion(matricula).getAlcance() < distancia)) System.out.printf(
+                                        "Avión seleccionado con alcance insuficiente (menor que %.3f km).%n\n",
+                                        distancia
+                                );
+                            } while (programa.listaAviones.buscarAvion(matricula) == null || (programa.listaAviones.buscarAvion(matricula).getAlcance() < distancia));
+
+                            avion = programa.listaAviones.buscarAvion(matricula);
+
+                            do {
+                                salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
+                                llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:\n");
+                                if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
+                            } while (!salida.anterior(llegada));
+
+                            do {
+                                System.out.print("Ingrese precio de pasaje:");
+                                precio = teclado.nextDouble();
+                            } while ((precio <= 0));
+
+                            do {
+                                id = Vuelo.generarID(rand);
+                            } while (programa.listaVuelos.buscarVuelo(id) != null);
+
+                            Vuelo vuelo = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
+
+                            if (programa.insertarVuelo(vuelo)) System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
+                        }
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                }
+            } while (opcion != 0);
 
         } else {
             System.out.println("Número de argumentos incorrecto.");
