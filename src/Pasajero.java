@@ -1,5 +1,6 @@
 import jdk.jshell.spi.SPIResolutionException;
 
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -92,7 +93,10 @@ public class Pasajero {
     public static boolean correctoDNI(long numero, char letra){
         char[] letraPosicion = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
         if ((letra >= 'A' && letra <= 'Z') || (letra >= 'a' && letra <= 'z')){
-            return numero < 10000000 && letra == letraPosicion[(int) (numero % 23)];
+            int count = 0;
+            for(; numero != 0; numero/=10, ++count);
+            if (count < 9) return letra == letraPosicion[(int) numero % 23];
+
         }
         return false;
     };
