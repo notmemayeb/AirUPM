@@ -45,6 +45,7 @@ public class Utilidades {
         return aux;
     };
     // Solicita una fecha repetidamente hasta que se introduzca una correcta
+    //Do while can be switched for leerNumero
     public static Fecha leerFecha(Scanner teclado, String mensaje){
         int dia,mes, anio;
         System.out.print(mensaje);
@@ -68,6 +69,7 @@ public class Utilidades {
         return new Fecha(dia, mes, anio);
     };
     // Solicita una fecha y hora repetidamente hasta que se introduzcan unas correctas
+    //Do while can be switched for leerNumero
     public static Fecha leerFechaHora(Scanner teclado, String mensaje){
         int dia,mes, anio, hora, minuto, segundo;
         System.out.print(mensaje);
