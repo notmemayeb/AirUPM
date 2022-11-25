@@ -46,7 +46,7 @@ public class ListaVuelos {
     //Devuelve true si puede insertar el vuelo
     public boolean insertarVuelo (Vuelo vuelo){
         if (!this.estaLlena()) {
-            listaVuelos[getOcupacion()-1] = vuelo;
+            listaVuelos[getOcupacion()] = vuelo;
         }
         return true;
     };
@@ -81,8 +81,9 @@ public class ListaVuelos {
     };
     //Muestra por pantalla los vuelos siguiendo el formato de los ejemplos del enunciado
     public void listarVuelos(){
-        for (int i = 0; i < listaVuelos.length-1; i++) {
-            System.out.println(listaVuelos[i]);
+        for (Vuelo vuelo: listaVuelos
+             ) {
+            System.out.println(vuelo);
         }
     };
     //Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud

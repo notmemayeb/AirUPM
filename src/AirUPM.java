@@ -1,5 +1,6 @@
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,9 +23,9 @@ public class AirUPM {
      */
 
     private int maxAeropuertos, maxAviones, maxVuelos, maxPasajeros, maxBilletesPasajero;
-    public ListaAeropuertos listaAeropuertos;
-    public ListaAviones listaAviones;
-    public ListaPasajeros listaPasajeros;
+    private ListaAeropuertos listaAeropuertos;
+    private ListaAviones listaAviones;
+    private ListaPasajeros listaPasajeros;
     public ListaVuelos listaVuelos;
     public ListaBilletes listaBilletes;
 
@@ -151,63 +152,41 @@ public class AirUPM {
                             Aeropuerto origen, destino;
                             Avion avion;
                             Fecha salida, llegada;
-                            String codigoOrigen, codigoDestino, mensaje, matricula, id;
+                            String mensaje, matricula, id;
                             int terminalOrigen, terminalDestino;
                             double distancia , precio;
 
-                            do {
-                                System.out.print("Ingrese código de Aeropuerto Origen:");
-                                codigoOrigen = teclado.next();
-                                if (programa.listaAeropuertos.buscarAeropuerto(codigoOrigen) == null) System.out.println("Código de aeropuerto no encontrado.");
-                            } while (programa.listaAeropuertos.buscarAeropuerto(codigoOrigen) == null);
-                            origen = programa.listaAeropuertos.buscarAeropuerto(codigoOrigen);
+                            origen = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
 
                             mensaje = String.format(
                                     "Ingrese Terminal Origen (%d - %d):",
                                     1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoOrigen).getTerminales()
+                                    origen.getTerminales()
                             );
-
                             terminalOrigen = Utilidades.leerNumero(
                                     teclado,
                                     mensaje,
                                     1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoOrigen).getTerminales()
+                                    origen.getTerminales()
                             );
 
-                            do {
-                                System.out.print("Ingrese código de Aeropuerto Destino:");
-                                codigoDestino = teclado.next();
-                                if (programa.listaAeropuertos.buscarAeropuerto(codigoDestino) == null) System.out.println("Código de aeropuerto no encontrado.");
-                            } while (programa.listaAeropuertos.buscarAeropuerto(codigoDestino) == null);
-                            destino = programa.listaAeropuertos.buscarAeropuerto(codigoDestino);
+                            destino = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
 
                             mensaje = String.format(
                                     "Ingrese Terminal Destino (%d - %d):",
                                     1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoDestino).getTerminales()
+                                    destino.getTerminales()
                             );
-
                             terminalDestino = Utilidades.leerNumero(
                                     teclado,
                                     mensaje,
                                     1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoDestino).getTerminales()
+                                    destino.getTerminales()
                             );
 
                             distancia = origen.distancia(destino);
 
-                            do {
-                                System.out.print("Ingrese matrícula de Avión:");
-                                matricula = teclado.next();
-                                if (programa.listaAviones.buscarAvion(matricula) == null) System.out.println("Matrícula de avión no encontrada.");
-                                if ((programa.listaAviones.buscarAvion(matricula).getAlcance() < distancia)) System.out.printf(
-                                        "Avión seleccionado con alcance insuficiente (menor que %.3f km).%n\n",
-                                        distancia
-                                );
-                            } while (programa.listaAviones.buscarAvion(matricula) == null || (programa.listaAviones.buscarAvion(matricula).getAlcance() < distancia));
-
-                            avion = programa.listaAviones.buscarAvion(matricula);
+                            avion = programa.listaAviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
 
                             do {
                                 salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
@@ -215,18 +194,24 @@ public class AirUPM {
                                 if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
                             } while (!salida.anterior(llegada));
 
-                            do {
-                                System.out.print("Ingrese precio de pasaje:");
-                                precio = teclado.nextDouble();
-                            } while ((precio <= 0));
+                            precio = 0;
+
+                            System.out.print("Ingrese precio de pasaje:");
+                            while(!teclado.hasNextDouble() || precio <= 0) {
+                                if (teclado.hasNextDouble()) System.out.print("Ingrese precio de pasaje:");
+                                teclado.nextLine();
+                            }
+                            precio = teclado.nextDouble();
+
 
                             do {
                                 id = Vuelo.generarID(rand);
                             } while (programa.listaVuelos.buscarVuelo(id) != null);
 
                             Vuelo vuelo = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
+                             boolean correcto = programa.insertarVuelo(vuelo);
 
-                            if (programa.insertarVuelo(vuelo)) System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
+                            if (correcto) System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
                         }
                         break;
                     case 2:

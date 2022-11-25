@@ -37,7 +37,6 @@ public class Aeropuerto {
     public double getLatitud(){ return latitud; };
     public double getLongitud(){ return longitud; };
     public int getTerminales(){ return terminales; };
-
     // Calcula la distancia entre el aeropuerto que recibe el mensaje y el aeropuerto "destino" siguiendo la fórmula del enunciado
     public double distancia(Aeropuerto destino){
         return 1;

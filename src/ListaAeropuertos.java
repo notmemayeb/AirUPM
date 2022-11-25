@@ -63,7 +63,13 @@ public class ListaAeropuertos {
     // y siguiendo el orden y los textos mostrados en el enunciado
     // La función solicita repetidamente el código hasta que se introduzca uno correcto
     public Aeropuerto seleccionarAeropuerto(Scanner teclado, String mensaje){
-        return null;
+        String codigoOrigen;
+        do {
+            System.out.print(mensaje);
+            codigoOrigen = teclado.next();
+            if (this.buscarAeropuerto(codigoOrigen) == null) System.out.println("Código de aeropuerto no encontrado.");
+        } while (this.buscarAeropuerto(codigoOrigen) == null);
+        return buscarAeropuerto(codigoOrigen);
     };
     // Genera un fichero CSV con la lista de aeropuertos, sobreescribiendolo
     public boolean escribirAeropuertosCsv(String nombre){
