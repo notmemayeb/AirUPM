@@ -230,6 +230,7 @@ public class AirUPM {
                         }
                         break;
                     case 2:
+                        System.out.println(programa.listaAeropuertos.buscarAeropuerto("MAD").distancia(programa.listaAeropuertos.buscarAeropuerto("BCN")));
                         break;
                     case 3:
                         break;
