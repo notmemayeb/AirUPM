@@ -129,8 +129,8 @@ public class ListaVuelos {
         Scanner entrada = null;
         ListaVuelos lista = new ListaVuelos(capacidad);
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(fichero) != -1){
-            lineas = Utilidades.contarLineasFichero(fichero);
+        if (Utilidades.contarLineasFichero(fichero, "Vuelos") != -1){
+            lineas = Utilidades.contarLineasFichero(fichero, "Vuelos");
         }
         try {
             entrada = new Scanner(new FileReader(fichero));

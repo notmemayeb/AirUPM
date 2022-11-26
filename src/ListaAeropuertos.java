@@ -83,8 +83,8 @@ public class ListaAeropuertos {
         Scanner entrada = null;
         ListaAeropuertos lista = new ListaAeropuertos(capacidad);
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(fichero) != -1){
-            lineas = Utilidades.contarLineasFichero(fichero);
+        if (Utilidades.contarLineasFichero(fichero, "Aeropuertos") != -1){
+            lineas = Utilidades.contarLineasFichero(fichero, "Aeropuertos");
         }
         try {
             entrada = new Scanner(new FileReader(fichero));

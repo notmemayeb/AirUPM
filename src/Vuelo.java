@@ -165,7 +165,6 @@ public class Vuelo {
     //no puede estar repetido el identificador, siguiendo las indicaciones del enunciado
     //La función solicita repetidamente los parametros hasta que sean correctos
     public static Vuelo altaVuelo(Scanner teclado, Random rand, ListaAeropuertos aeropuertos, ListaAviones aviones, ListaVuelos vuelos){
-        Vuelo vuelo = null;
 
         Aeropuerto origen, destino;
         Avion avion;
@@ -223,8 +222,7 @@ public class Vuelo {
         do {
             id = Vuelo.generarID(rand);
         } while (vuelos.buscarVuelo(id) != null);
-        vuelo = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
 
-        return vuelo;
+        return new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
     }
 }

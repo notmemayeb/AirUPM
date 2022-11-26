@@ -87,7 +87,52 @@ public class Pasajero {
     // y con los textos indicados en los ejemplos de ejecución del enunciado
     // La función solicita repetidamente los parametros hasta que sean correctos
     public static Pasajero altaPasajero(Scanner teclado, ListaPasajeros pasajeros, int maxBilletes){
-        return null;
+        Pasajero pasajero = null;
+        String nombre, apellidos, email, line, dni;
+        char  letraDNI;
+        long numeroDNI;
+
+        do {
+            System.out.print("Ingrese nombre:");
+            nombre = teclado.next();
+            teclado.nextLine();
+        } while (!Utilidades.isAlphaOChar(nombre, ' '));
+
+        do {
+            System.out.print("Ingrese apellidos:");
+            apellidos = teclado.next();
+            teclado.nextLine();
+        } while (!Utilidades.isAlphaOChar(apellidos, ' '));
+
+        do {
+            do {
+                System.out.print("Ingrese número de DNI:");
+                numeroDNI = teclado.nextLong();
+                teclado.nextLine();
+            } while (Long.toString(numeroDNI).length() > 8);
+
+            do {
+                System.out.print("Ingrese letra de DNI:");
+                line = teclado.next();
+                letraDNI = line.charAt(0);
+                teclado.nextLine();
+            } while (line.length() > 1 || !Character.isLetter(letraDNI));
+
+            dni = String.format("%08d%c", numeroDNI, letraDNI);
+            if (!Pasajero.correctoDNI(numeroDNI, letraDNI)) System.out.println("DNI incorrecto.");
+            if (pasajeros.buscarPasajeroDNI(dni) != null) System.out.println("DNI ya existe.");
+
+        } while (!Pasajero.correctoDNI(numeroDNI, letraDNI) || pasajeros.buscarPasajeroDNI(dni) != null);
+
+        do {
+            System.out.print("Ingrese email:");
+            email = teclado.next();
+            teclado.nextLine();
+            if (!Pasajero.correctoEmail(email)) System.out.println("Email incorrecto.");
+            if (pasajeros.buscarPasajeroEmail(email) != null) System.out.println("Email ya existe.");
+        } while (!Pasajero.correctoEmail(email) || pasajeros.buscarPasajeroEmail(email) != null);
+
+        return new Pasajero(nombre, apellidos, numeroDNI, letraDNI, email, maxBilletes);
     };
     // Correcto: 00123456 S, incorrectos: 123456789 A, 12345678 0, 12345678 A
     public static boolean correctoDNI(long numero, char letra){
@@ -107,7 +152,7 @@ public class Pasajero {
 
             if (!domen.equals("upm.es") && !domen.equals("alumnos.upm.es")) return false;
             if (nombre.charAt(0) != '.' && nombre.charAt(nombre.length()-1) != '.'){
-                return Utilidades.isAlphaPunto(nombre);
+                return Utilidades.isAlphaOChar(nombre, '.');
             }
         }
         return false;

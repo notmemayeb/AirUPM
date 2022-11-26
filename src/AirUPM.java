@@ -94,8 +94,7 @@ public class AirUPM {
     public boolean maxPasajerosAlcanzado(){
         return listaPasajeros.getOcupacion() == maxPasajeros;
     };
-    public boolean insertarPasajero (Pasajero pasajero){
-        return true;
+    public boolean insertarPasajero (Pasajero pasajero){ return listaPasajeros.insertarPasajero(pasajero);
     };
     // Funcionalidad buscarVuelo especificada en el enunciado del proyecto, que devuelve una lista de vuelos entre dos aeropuertos y
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
@@ -173,6 +172,16 @@ public class AirUPM {
                             }
                             break;
                         case 2:
+                            Pasajero pasajero = null;
+                            if (!programa.maxPasajerosAlcanzado()){
+                                pasajero = Pasajero.altaPasajero(teclado, programa.listaPasajeros, programa.maxBilletesPasajero);
+                            } else {
+                                System.out.println("No se pueden dar de alta más pasajeros");
+                            }
+                            if (pasajero != null){
+                                programa.insertarPasajero(pasajero);
+                                System.out.printf("Pasajero con DNI %s dado de alta con éxito.\n", pasajero.getDNI());
+                            }
                             break;
                         case 3:
                             break;

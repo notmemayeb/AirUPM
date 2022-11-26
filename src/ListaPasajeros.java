@@ -70,8 +70,10 @@ public class ListaPasajeros {
         Pasajero pasajeroBusacado = null;
         for (Pasajero pasajero: listaPasajeros
              ) {
-            if (pasajero.getEmail().equals(email)){
-                pasajeroBusacado = pasajero;
+            if (pasajero != null){
+                if (pasajero.getEmail().equals(email)){
+                    pasajeroBusacado = pasajero;
+                }
             }
         }
         return pasajeroBusacado;
@@ -126,8 +128,8 @@ public class ListaPasajeros {
         Scanner entrada = null;
         ListaPasajeros lista = new ListaPasajeros(capacidad);
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(fichero) != -1){
-            lineas = Utilidades.contarLineasFichero(fichero);
+        if (Utilidades.contarLineasFichero(fichero, "Pasajeros") != -1){
+            lineas = Utilidades.contarLineasFichero(fichero, "Pasajeros");
         }
         try {
             entrada = new Scanner(new FileReader(fichero));

@@ -93,8 +93,8 @@ public class ListaBilletes {
     public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros){
         Scanner entrada = null;
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(ficheroBilletes) != -1){
-            lineas = Utilidades.contarLineasFichero(ficheroBilletes);
+        if (Utilidades.contarLineasFichero(ficheroBilletes, "Billetes") != -1){
+            lineas = Utilidades.contarLineasFichero(ficheroBilletes, "Billetes");
         }
         try {
             entrada = new Scanner(new FileReader(ficheroBilletes));

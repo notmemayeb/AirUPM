@@ -94,8 +94,8 @@ public class ListaAviones {
         Scanner entrada = null;
         ListaAviones lista = new ListaAviones(capacidad);
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(fichero) != -1){
-            lineas = Utilidades.contarLineasFichero(fichero);
+        if (Utilidades.contarLineasFichero(fichero, "Aviones") != -1){
+            lineas = Utilidades.contarLineasFichero(fichero, "Aviones");
         }
         try {
             entrada = new Scanner(new FileReader(fichero));
