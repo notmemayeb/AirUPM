@@ -173,8 +173,6 @@ public class AirUPM {
                             }
                             break;
                         case 2:
-//                            System.out.println(Pasajero.correctoDNI(1234567, 'S'));
-//                            System.out.println(Pasajero.correctoEmail());
                             break;
                         case 3:
                             break;

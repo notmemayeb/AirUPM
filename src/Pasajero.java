@@ -98,21 +98,18 @@ public class Pasajero {
     };
     // Correcto: cristian.ramirez@upm.es, incorrecto: cristian.ramirez@gmail.com, cristian-23@upm.es, cristian.@upm.es
     public static boolean correctoEmail(String email){
-        boolean correcto = false;
+
+        // PREGUNTAR SI SE PUEDE USAR REGEX
+
         if (email.contains("@")){
             String domen = email.split("@")[1];
             String nombre = email.split("@")[0];
-            String[] nombreArr = nombre.split("");
-            if (domen == "upm.es" || domen == "alumnos.upm.es"){
-                if (nombreArr[0] != "." && nombreArr[nombre.length()-1] != "."){
-                    for (int i = 0; i < nombre.length()-1; i++){
-                        if (((nombreArr[i].charAt(0) >= 'A' && nombreArr[i].charAt(0) >= 'Z') || (nombreArr[i].charAt(0) <= 'a' && nombreArr[i].charAt(0) >= 'z')) || nombreArr[i].charAt(0) != '.'){
-                            correcto = true;
-                        }
-                    }
-                }
+
+            if (!domen.equals("upm.es") && !domen.equals("alumnos.upm.es")) return false;
+            if (nombre.charAt(0) != '.' && nombre.charAt(nombre.length()-1) != '.'){
+                return Utilidades.isAlphaPunto(nombre);
             }
         }
-        return correcto;
+        return false;
     };
 }

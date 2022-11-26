@@ -125,4 +125,21 @@ public class Utilidades {
         }
         return lineas;
     }
+
+    public static boolean isAlphaPunto(String name) {
+
+        boolean isAlpha = true;
+
+        char[] chars = name.toCharArray();
+
+        for (char c : chars) {
+            if (isAlpha){
+                if(!Character.isLetter(c) && c != '.') {
+                    isAlpha = false;
+                }
+            }
+        }
+        return isAlpha;
+    }
+
 }
