@@ -111,8 +111,22 @@ public class ListaAviones {
                 lista.listaAviones[i] = new Avion(marca,modelo,matricula,columnas,filas,alcance);
 
             }
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
+        } catch (FileNotFoundException _exc){
+
+            System.out.println("Fichero Aviones no encontrado.");
+
+        } catch (Exception _exc){
+
+            System.out.println("Error de lectura de fichero Aviones.");
+
+        } finally {
+            if (entrada != null){
+                try {
+                    entrada.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Aviones.");
+                }
+            }
         }
         return lista;
     };

@@ -98,8 +98,22 @@ public class ListaAeropuertos {
 
                 lista.listaAeropuertos[i] = new Aeropuerto(nombre,codigo,latitud,longitud,terminals);
             }
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
+        } catch (FileNotFoundException _exc){
+
+            System.out.println("Fichero Aeropuertos no encontrado.");
+
+        } catch (Exception _exc){
+
+            System.out.println("Error de lectura de fichero Aeropuertos.");
+
+        } finally {
+            if (entrada != null){
+                try {
+                    entrada.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Aeropuertos.");
+                }
+            }
         }
         return lista;
     };

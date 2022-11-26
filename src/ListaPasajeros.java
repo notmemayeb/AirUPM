@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -140,8 +141,22 @@ public class ListaPasajeros {
 
                 lista.listaPasajeros[i] = new Pasajero(nombre,apellido,numeroDNI, letraDNI, email, maxBilletesPasajero);
             }
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
+        } catch (FileNotFoundException _exc){
+
+            System.out.println("Fichero Pasajeros no encontrado.");
+
+        } catch (Exception _exc){
+
+            System.out.println("Error de lectura de fichero Pasajeros.");
+
+        } finally {
+            if (entrada != null){
+                try {
+                    entrada.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Pasajeros.");
+                }
+            }
         }
         return lista;
     };
