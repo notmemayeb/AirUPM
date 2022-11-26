@@ -26,8 +26,10 @@ public class AirUPM {
     private ListaAeropuertos listaAeropuertos;
     private ListaAviones listaAviones;
     private ListaPasajeros listaPasajeros;
-    public ListaVuelos listaVuelos;
-    public ListaBilletes listaBilletes;
+    private ListaVuelos listaVuelos;
+    private ListaBilletes listaBilletes;
+
+    private boolean lecturaCorrecta;
 
 
 
@@ -48,14 +50,25 @@ public class AirUPM {
         this.listaVuelos = ListaVuelos.leerVuelosCsv(ficheroVuelos, maxVuelos, listaAeropuertos, listaAviones);
         this.listaPasajeros = ListaPasajeros.leerPasajerosCsv(ficheroPasajeros, maxPasajeros, maxBilletesPasajero);
         this.listaBilletes = new ListaBilletes(maxPasajeros*maxBilletesPasajero);
-        ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
 
-        Pasajero pasajero;
-        for (int i = 0; i < listaPasajeros.getOcupacion(); i++){
-            pasajero = listaPasajeros.getPasajero(i);
-            for (int j = 0; j < maxBilletesPasajero; j++){
-                if (pasajero.getBillete(j) != null) this.listaBilletes.insertarBillete(pasajero.getBillete(j));
+        if (this.listaAeropuertos != null && this.listaAviones != null && this.listaVuelos != null && this.listaPasajeros != null){
+
+            ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
+
+            Pasajero pasajero;
+            for (int i = 0; i < listaPasajeros.getOcupacion(); i++){
+                pasajero = listaPasajeros.getPasajero(i);
+                for (int j = 0; j < maxBilletesPasajero; j++){
+                    if (pasajero.getBillete(j) != null) this.listaBilletes.insertarBillete(pasajero.getBillete(j));
+                }
             }
+
+            this.lecturaCorrecta = true;
+
+        } else {
+
+            this.lecturaCorrecta = false;
+
         }
 
     };
@@ -108,12 +121,13 @@ public class AirUPM {
         String mensaje = "Seleccione opción:";
         int response;
         System.out.println(
-                        "1. Alta Vuelo\n" +
-                        "2. Alta Pasajero\n" +
-                        "3. Buscar Vuelo\n" +
-                        "4. Mostrar billetes de Pasajero\n" +
-                        "5. Generar lista de Pasajeros\n" +
-                        "0. Salir"
+                """
+                        1. Alta Vuelo
+                        2. Alta Pasajero
+                        3. Buscar Vuelo
+                        4. Mostrar billetes de Pasajero
+                        5. Generar lista de Pasajeros
+                        0. Salir"""
         );
         response = Utilidades.leerNumero(teclado, mensaje, 0,5);
 
@@ -216,27 +230,29 @@ public class AirUPM {
                     args[9]
             );
 
-            Scanner teclado = new Scanner(System.in);
-            Random rand = new Random();
-            int opcion;
+            if (programa.lecturaCorrecta) {
 
-            do {
-                opcion = menu(teclado);
-                switch (opcion){
-                    case 1:
-                        programa.altaVuelo(teclado, rand);
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                }
-            } while (opcion != 0);
+                Scanner teclado = new Scanner(System.in);
+                Random rand = new Random();
+                int opcion;
 
+                do {
+                    opcion = menu(teclado);
+                    switch (opcion){
+                        case 1:
+                            programa.altaVuelo(teclado, rand);
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                    }
+                } while (opcion != 0);
+            }
         } else {
             System.out.println("Número de argumentos incorrecto.");
         }
