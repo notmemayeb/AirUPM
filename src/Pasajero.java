@@ -92,13 +92,9 @@ public class Pasajero {
     // Correcto: 00123456 S, incorrectos: 123456789 A, 12345678 0, 12345678 A
     public static boolean correctoDNI(long numero, char letra){
         char[] letraPosicion = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
-        if ((letra >= 'A' && letra <= 'Z') || (letra >= 'a' && letra <= 'z')){
-            int count = 0;
-            for(; numero != 0; numero/=10, ++count);
-            if (count < 9) return letra == letraPosicion[(int) numero % 23];
+        int length = String.valueOf(numero).length();
 
-        }
-        return false;
+        return letraPosicion[(int) numero % 23] == letra && length < 9;
     };
     // Correcto: cristian.ramirez@upm.es, incorrecto: cristian.ramirez@gmail.com, cristian-23@upm.es, cristian.@upm.es
     public static boolean correctoEmail(String email){

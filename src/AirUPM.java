@@ -64,11 +64,8 @@ public class AirUPM {
             }
 
             this.lecturaCorrecta = true;
-
         } else {
-
             this.lecturaCorrecta = false;
-
         }
 
     };
@@ -121,94 +118,18 @@ public class AirUPM {
         String mensaje = "Seleccione opción:";
         int response;
         System.out.println(
-                """
-                        1. Alta Vuelo
-                        2. Alta Pasajero
-                        3. Buscar Vuelo
-                        4. Mostrar billetes de Pasajero
-                        5. Generar lista de Pasajeros
-                        0. Salir"""
+                        "1. Alta Vuelo\n" +
+                        "2. Alta Pasajero\n" +
+                        "3. Buscar Vuelo\n" +
+                        "4. Mostrar billetes de Pasajero\n" +
+                        "5. Generar lista de Pasajeros\n" +
+                        "0. Salir"
         );
         response = Utilidades.leerNumero(teclado, mensaje, 0,5);
 
         return response;
     };
 
-    public void altaVuelo(Scanner teclado, Random rand) {
-
-        if (!this.maxVuelosAlcanzado()){
-
-            Aeropuerto origen, destino;
-            Avion avion;
-            Fecha salida, llegada;
-            String mensaje, matricula, id;
-            int terminalOrigen, terminalDestino;
-            double distancia , precio;
-
-            origen = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
-
-            mensaje = String.format(
-                    "Ingrese Terminal Origen (%d - %d):",
-                    1,
-                    origen.getTerminales()
-            );
-            terminalOrigen = Utilidades.leerNumero(
-                    teclado,
-                    mensaje,
-                    1,
-                    origen.getTerminales()
-            );
-
-            destino = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
-
-            mensaje = String.format(
-                    "Ingrese Terminal Destino (%d - %d):",
-                    1,
-                    destino.getTerminales()
-            );
-            terminalDestino = Utilidades.leerNumero(
-                    teclado,
-                    mensaje,
-                    1,
-                    destino.getTerminales()
-            );
-
-            distancia = origen.distancia(destino);
-
-            avion = this.listaAviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
-
-            do {
-                salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
-                llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:\n");
-                if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
-            } while (!salida.anterior(llegada));
-
-            precio = 0;
-            boolean isDouble = false;
-
-            while (precio <= 0 || !isDouble){
-                try{
-                    System.out.print("Ingrese precio de pasaje:");
-                    teclado.nextLine();
-                    precio = teclado.nextDouble();
-                    isDouble = true;
-                } catch (Exception exc){
-                    isDouble = false;
-                }
-            }
-
-            do {
-                id = Vuelo.generarID(rand);
-            } while (this.listaVuelos.buscarVuelo(id) != null);
-
-            Vuelo vuelo = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
-
-            if (this.insertarVuelo(vuelo)) System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
-
-        } else {
-            System.out.println("No se pueden dar de alta más vuelos.");
-        }
-    }
     // Carga los datos de los ficheros CSV pasados por argumento (consola) en AirUPM, llama iterativamente al menú y realiza la
     //  opción especificada hasta que se indique la opción Salir, y finalmente guarda los datos de AirUPM en los mismos ficheros CSV
     public static void main(String[] args){
@@ -240,9 +161,20 @@ public class AirUPM {
                     opcion = menu(teclado);
                     switch (opcion){
                         case 1:
-                            programa.altaVuelo(teclado, rand);
+                            Vuelo vuelo = null;
+                            if (!programa.maxVuelosAlcanzado()){
+                                vuelo = Vuelo.altaVuelo(teclado, rand, programa.listaAeropuertos, programa.listaAviones, programa.listaVuelos);
+                            } else {
+                                System.out.println("No se pueden dar de alta más vuelos.");
+                            }
+                            if (vuelo != null) {
+                                programa.insertarVuelo(vuelo);
+                                System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
+                            }
                             break;
                         case 2:
+//                            System.out.println(Pasajero.correctoDNI(1234567, 'S'));
+//                            System.out.println(Pasajero.correctoEmail());
                             break;
                         case 3:
                             break;
@@ -253,6 +185,7 @@ public class AirUPM {
                     }
                 } while (opcion != 0);
             }
+
         } else {
             System.out.println("Número de argumentos incorrecto.");
         }
