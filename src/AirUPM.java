@@ -119,6 +119,82 @@ public class AirUPM {
 
         return response;
     };
+
+    public void altaVuelo(Scanner teclado, Random rand) {
+
+        if (!this.maxVuelosAlcanzado()){
+
+            Aeropuerto origen, destino;
+            Avion avion;
+            Fecha salida, llegada;
+            String mensaje, matricula, id;
+            int terminalOrigen, terminalDestino;
+            double distancia , precio;
+
+            origen = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+
+            mensaje = String.format(
+                    "Ingrese Terminal Origen (%d - %d):",
+                    1,
+                    origen.getTerminales()
+            );
+            terminalOrigen = Utilidades.leerNumero(
+                    teclado,
+                    mensaje,
+                    1,
+                    origen.getTerminales()
+            );
+
+            destino = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+
+            mensaje = String.format(
+                    "Ingrese Terminal Destino (%d - %d):",
+                    1,
+                    destino.getTerminales()
+            );
+            terminalDestino = Utilidades.leerNumero(
+                    teclado,
+                    mensaje,
+                    1,
+                    destino.getTerminales()
+            );
+
+            distancia = origen.distancia(destino);
+
+            avion = this.listaAviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
+
+            do {
+                salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
+                llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:\n");
+                if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
+            } while (!salida.anterior(llegada));
+
+            precio = 0;
+            boolean isDouble = false;
+
+            while (precio <= 0 || !isDouble){
+                try{
+                    System.out.print("Ingrese precio de pasaje:");
+                    teclado.nextLine();
+                    precio = teclado.nextDouble();
+                    isDouble = true;
+                } catch (Exception exc){
+                    isDouble = false;
+                }
+            }
+
+            do {
+                id = Vuelo.generarID(rand);
+            } while (this.listaVuelos.buscarVuelo(id) != null);
+
+            Vuelo vuelo = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
+
+            if (this.insertarVuelo(vuelo)) System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
+
+        } else {
+            System.out.println("No se pueden dar de alta más vuelos.");
+        }
+    }
     // Carga los datos de los ficheros CSV pasados por argumento (consola) en AirUPM, llama iterativamente al menú y realiza la
     //  opción especificada hasta que se indique la opción Salir, y finalmente guarda los datos de AirUPM en los mismos ficheros CSV
     public static void main(String[] args){
@@ -148,74 +224,9 @@ public class AirUPM {
                 opcion = menu(teclado);
                 switch (opcion){
                     case 1:
-                        if (!programa.maxVuelosAlcanzado()){
-                            Aeropuerto origen, destino;
-                            Avion avion;
-                            Fecha salida, llegada;
-                            String mensaje, matricula, id;
-                            int terminalOrigen, terminalDestino;
-                            double distancia , precio;
-
-                            origen = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
-
-                            mensaje = String.format(
-                                    "Ingrese Terminal Origen (%d - %d):",
-                                    1,
-                                    origen.getTerminales()
-                            );
-                            terminalOrigen = Utilidades.leerNumero(
-                                    teclado,
-                                    mensaje,
-                                    1,
-                                    origen.getTerminales()
-                            );
-
-                            destino = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
-
-                            mensaje = String.format(
-                                    "Ingrese Terminal Destino (%d - %d):",
-                                    1,
-                                    destino.getTerminales()
-                            );
-                            terminalDestino = Utilidades.leerNumero(
-                                    teclado,
-                                    mensaje,
-                                    1,
-                                    destino.getTerminales()
-                            );
-
-                            distancia = origen.distancia(destino);
-
-                            avion = programa.listaAviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
-
-                            do {
-                                salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
-                                llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:\n");
-                                if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
-                            } while (!salida.anterior(llegada));
-
-                            precio = 0;
-
-                            System.out.print("Ingrese precio de pasaje:");
-                            while(!teclado.hasNextDouble() || precio <= 0) {
-                                if (teclado.hasNextDouble()) System.out.print("Ingrese precio de pasaje:");
-                                teclado.nextLine();
-                            }
-                            precio = teclado.nextDouble();
-
-
-                            do {
-                                id = Vuelo.generarID(rand);
-                            } while (programa.listaVuelos.buscarVuelo(id) != null);
-
-                            Vuelo vuelo = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
-                             boolean correcto = programa.insertarVuelo(vuelo);
-
-                            if (correcto) System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
-                        }
+                        programa.altaVuelo(teclado, rand);
                         break;
                     case 2:
-                        System.out.println(programa.listaAeropuertos.buscarAeropuerto("MAD").distancia(programa.listaAeropuertos.buscarAeropuerto("BCN")));
                         break;
                     case 3:
                         break;

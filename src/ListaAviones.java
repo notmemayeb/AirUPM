@@ -75,7 +75,7 @@ public class ListaAviones {
             if (this.buscarAvion(matricula) == null) {
                 System.out.println("Matrícula de avión no encontrada.");
             } else if ((this.buscarAvion(matricula).getAlcance() <alcance)) System.out.printf(
-                    "Avión seleccionado con alcance insuficiente (menor que %.3f km).%n\n",
+                    "Avión seleccionado con alcance insuficiente (menor que %.3f km).\n",
                     alcance
             );
         } while (this.buscarAvion(matricula) == null || (this.buscarAvion(matricula).getAlcance() < alcance));
