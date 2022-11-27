@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -69,8 +70,10 @@ public class ListaPasajeros {
         Pasajero pasajeroBusacado = null;
         for (Pasajero pasajero: listaPasajeros
              ) {
-            if (pasajero.getEmail().equals(email)){
-                pasajeroBusacado = pasajero;
+            if (pasajero != null){
+                if (pasajero.getEmail().equals(email)){
+                    pasajeroBusacado = pasajero;
+                }
             }
         }
         return pasajeroBusacado;
@@ -125,8 +128,8 @@ public class ListaPasajeros {
         Scanner entrada = null;
         ListaPasajeros lista = new ListaPasajeros(capacidad);
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(fichero) != -1){
-            lineas = Utilidades.contarLineasFichero(fichero);
+        if (Utilidades.contarLineasFichero(fichero, "Pasajeros") != -1){
+            lineas = Utilidades.contarLineasFichero(fichero, "Pasajeros");
         }
         try {
             entrada = new Scanner(new FileReader(fichero));
@@ -140,8 +143,22 @@ public class ListaPasajeros {
 
                 lista.listaPasajeros[i] = new Pasajero(nombre,apellido,numeroDNI, letraDNI, email, maxBilletesPasajero);
             }
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
+        } catch (FileNotFoundException _exc){
+
+            System.out.println("Fichero Pasajeros no encontrado.");
+
+        } catch (Exception _exc){
+
+            System.out.println("Error de lectura de fichero Pasajeros.");
+
+        } finally {
+            if (entrada != null){
+                try {
+                    entrada.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Pasajeros.");
+                }
+            }
         }
         return lista;
     };

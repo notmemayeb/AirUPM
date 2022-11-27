@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +47,7 @@ public class ListaVuelos {
     //Devuelve true si puede insertar el vuelo
     public boolean insertarVuelo (Vuelo vuelo){
         if (!this.estaLlena()) {
-            listaVuelos[getOcupacion()-1] = vuelo;
+            listaVuelos[getOcupacion()] = vuelo;
         }
         return true;
     };
@@ -81,8 +82,9 @@ public class ListaVuelos {
     };
     //Muestra por pantalla los vuelos siguiendo el formato de los ejemplos del enunciado
     public void listarVuelos(){
-        for (int i = 0; i < listaVuelos.length-1; i++) {
-            System.out.println(listaVuelos[i]);
+        for (Vuelo vuelo: listaVuelos
+             ) {
+            System.out.println(vuelo);
         }
     };
     //Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud
@@ -127,8 +129,8 @@ public class ListaVuelos {
         Scanner entrada = null;
         ListaVuelos lista = new ListaVuelos(capacidad);
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(fichero) != -1){
-            lineas = Utilidades.contarLineasFichero(fichero);
+        if (Utilidades.contarLineasFichero(fichero, "Vuelos") != -1){
+            lineas = Utilidades.contarLineasFichero(fichero, "Vuelos");
         }
         try {
             entrada = new Scanner(new FileReader(fichero));
@@ -146,8 +148,22 @@ public class ListaVuelos {
 
                 lista.listaVuelos[i] = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
             }
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
+        } catch (FileNotFoundException _exc){
+
+            System.out.println("Fichero Vuelos no encontrado.");
+
+        } catch (Exception _exc){
+
+            System.out.println("Error de lectura de fichero Vuelos.");
+
+        } finally {
+            if (entrada != null){
+                try {
+                    entrada.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Vuelos.");
+                }
+            }
         }
         return lista;
     };

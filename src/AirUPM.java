@@ -1,5 +1,6 @@
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,11 +23,13 @@ public class AirUPM {
      */
 
     private int maxAeropuertos, maxAviones, maxVuelos, maxPasajeros, maxBilletesPasajero;
-    public ListaAeropuertos listaAeropuertos;
-    public ListaAviones listaAviones;
-    public ListaPasajeros listaPasajeros;
-    public ListaVuelos listaVuelos;
-    public ListaBilletes listaBilletes;
+    private ListaAeropuertos listaAeropuertos;
+    private ListaAviones listaAviones;
+    private ListaPasajeros listaPasajeros;
+    private ListaVuelos listaVuelos;
+    private ListaBilletes listaBilletes;
+
+    private boolean lecturaCorrecta;
 
 
 
@@ -47,14 +50,22 @@ public class AirUPM {
         this.listaVuelos = ListaVuelos.leerVuelosCsv(ficheroVuelos, maxVuelos, listaAeropuertos, listaAviones);
         this.listaPasajeros = ListaPasajeros.leerPasajerosCsv(ficheroPasajeros, maxPasajeros, maxBilletesPasajero);
         this.listaBilletes = new ListaBilletes(maxPasajeros*maxBilletesPasajero);
-        ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
 
-        Pasajero pasajero;
-        for (int i = 0; i < listaPasajeros.getOcupacion(); i++){
-            pasajero = listaPasajeros.getPasajero(i);
-            for (int j = 0; j < maxBilletesPasajero; j++){
-                if (pasajero.getBillete(j) != null) this.listaBilletes.insertarBillete(pasajero.getBillete(j));
+        if (this.listaAeropuertos != null && this.listaAviones != null && this.listaVuelos != null && this.listaPasajeros != null){
+
+            ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
+
+            Pasajero pasajero;
+            for (int i = 0; i < listaPasajeros.getOcupacion(); i++){
+                pasajero = listaPasajeros.getPasajero(i);
+                for (int j = 0; j < maxBilletesPasajero; j++){
+                    if (pasajero.getBillete(j) != null) this.listaBilletes.insertarBillete(pasajero.getBillete(j));
+                }
             }
+
+            this.lecturaCorrecta = true;
+        } else {
+            this.lecturaCorrecta = false;
         }
 
     };
@@ -83,8 +94,7 @@ public class AirUPM {
     public boolean maxPasajerosAlcanzado(){
         return listaPasajeros.getOcupacion() == maxPasajeros;
     };
-    public boolean insertarPasajero (Pasajero pasajero){
-        return true;
+    public boolean insertarPasajero (Pasajero pasajero){ return listaPasajeros.insertarPasajero(pasajero);
     };
     // Funcionalidad buscarVuelo especificada en el enunciado del proyecto, que devuelve una lista de vuelos entre dos aeropuertos y
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
@@ -118,6 +128,7 @@ public class AirUPM {
 
         return response;
     };
+
     // Carga los datos de los ficheros CSV pasados por argumento (consola) en AirUPM, llama iterativamente al menú y realiza la
     //  opción especificada hasta que se indique la opción Salir, y finalmente guarda los datos de AirUPM en los mismos ficheros CSV
     public static void main(String[] args){
@@ -139,107 +150,48 @@ public class AirUPM {
                     args[9]
             );
 
-            Scanner teclado = new Scanner(System.in);
-            Random rand = new Random();
-            int opcion;
+            if (programa.lecturaCorrecta) {
 
-            do {
-                opcion = menu(teclado);
-                switch (opcion){
-                    case 1:
-                        if (!programa.maxVuelosAlcanzado()){
-                            Aeropuerto origen, destino;
-                            Avion avion;
-                            Fecha salida, llegada;
-                            String codigoOrigen, codigoDestino, mensaje, matricula, id;
-                            int terminalOrigen, terminalDestino;
-                            double distancia , precio;
+                Scanner teclado = new Scanner(System.in);
+                Random rand = new Random();
+                int opcion;
 
-                            do {
-                                System.out.print("Ingrese código de Aeropuerto Origen:");
-                                codigoOrigen = teclado.next();
-                                if (programa.listaAeropuertos.buscarAeropuerto(codigoOrigen) == null) System.out.println("Código de aeropuerto no encontrado.");
-                            } while (programa.listaAeropuertos.buscarAeropuerto(codigoOrigen) == null);
-                            origen = programa.listaAeropuertos.buscarAeropuerto(codigoOrigen);
-
-                            mensaje = String.format(
-                                    "Ingrese Terminal Origen (%d - %d):",
-                                    1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoOrigen).getTerminales()
-                            );
-
-                            terminalOrigen = Utilidades.leerNumero(
-                                    teclado,
-                                    mensaje,
-                                    1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoOrigen).getTerminales()
-                            );
-
-                            do {
-                                System.out.print("Ingrese código de Aeropuerto Destino:");
-                                codigoDestino = teclado.next();
-                                if (programa.listaAeropuertos.buscarAeropuerto(codigoDestino) == null) System.out.println("Código de aeropuerto no encontrado.");
-                            } while (programa.listaAeropuertos.buscarAeropuerto(codigoDestino) == null);
-                            destino = programa.listaAeropuertos.buscarAeropuerto(codigoDestino);
-
-                            mensaje = String.format(
-                                    "Ingrese Terminal Destino (%d - %d):",
-                                    1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoDestino).getTerminales()
-                            );
-
-                            terminalDestino = Utilidades.leerNumero(
-                                    teclado,
-                                    mensaje,
-                                    1,
-                                    programa.listaAeropuertos.buscarAeropuerto(codigoDestino).getTerminales()
-                            );
-
-                            distancia = origen.distancia(destino);
-
-                            do {
-                                System.out.print("Ingrese matrícula de Avión:");
-                                matricula = teclado.next();
-                                if (programa.listaAviones.buscarAvion(matricula) == null) System.out.println("Matrícula de avión no encontrada.");
-                                if ((programa.listaAviones.buscarAvion(matricula).getAlcance() < distancia)) System.out.printf(
-                                        "Avión seleccionado con alcance insuficiente (menor que %.3f km).%n\n",
-                                        distancia
-                                );
-                            } while (programa.listaAviones.buscarAvion(matricula) == null || (programa.listaAviones.buscarAvion(matricula).getAlcance() < distancia));
-
-                            avion = programa.listaAviones.buscarAvion(matricula);
-
-                            do {
-                                salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
-                                llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:\n");
-                                if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
-                            } while (!salida.anterior(llegada));
-
-                            do {
-                                System.out.print("Ingrese precio de pasaje:");
-                                precio = teclado.nextDouble();
-                            } while ((precio <= 0));
-
-                            do {
-                                id = Vuelo.generarID(rand);
-                            } while (programa.listaVuelos.buscarVuelo(id) != null);
-
-                            Vuelo vuelo = new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
-
-                            if (programa.insertarVuelo(vuelo)) System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
-                        }
-                        break;
-                    case 2:
-                        System.out.println(programa.listaAeropuertos.buscarAeropuerto("MAD").distancia(programa.listaAeropuertos.buscarAeropuerto("BCN")));
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                }
-            } while (opcion != 0);
+                do {
+                    opcion = menu(teclado);
+                    switch (opcion){
+                        case 1:
+                            Vuelo vuelo = null;
+                            if (!programa.maxVuelosAlcanzado()){
+                                vuelo = Vuelo.altaVuelo(teclado, rand, programa.listaAeropuertos, programa.listaAviones, programa.listaVuelos);
+                            } else {
+                                System.out.println("No se pueden dar de alta más vuelos.");
+                            }
+                            if (vuelo != null) {
+                                programa.insertarVuelo(vuelo);
+                                System.out.printf("Vuelo %s creado con éxito.\n", vuelo.getID());
+                            }
+                            break;
+                        case 2:
+                            Pasajero pasajero = null;
+                            if (!programa.maxPasajerosAlcanzado()){
+                                pasajero = Pasajero.altaPasajero(teclado, programa.listaPasajeros, programa.maxBilletesPasajero);
+                            } else {
+                                System.out.println("No se pueden dar de alta más pasajeros");
+                            }
+                            if (pasajero != null){
+                                programa.insertarPasajero(pasajero);
+                                System.out.printf("Pasajero con DNI %s dado de alta con éxito.\n", pasajero.getDNI());
+                            }
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                    }
+                } while (opcion != 0);
+            }
 
         } else {
             System.out.println("Número de argumentos incorrecto.");

@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -76,24 +77,46 @@ public class Utilidades {
         return new Fecha(dia, mes, anio, hora, minuto, segundo);
     };
 
-    public static int contarLineasFichero(String ruta){
+    public static int contarLineasFichero(String ruta, String nombre){
         BufferedReader entrada = null;
         int lineas = 0;
         try {
             entrada = new BufferedReader(new FileReader(ruta));
             while (entrada.readLine() != null) lineas++;
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
-            lineas = -1;
+        } catch (FileNotFoundException _exc){
+
+            System.out.printf("Fichero %s no encontrado.\n", nombre);
+
+        } catch (Exception _exc){
+
+            System.out.printf("Error de lectura de fichero %s.\n", nombre);
+
         } finally {
-            try {
-                if (entrada !=null){
+            if (entrada != null){
+                try {
                     entrada.close();
+                } catch (Exception _exc){
+                    System.out.printf("Error de cierre de fichero %s.\n", nombre);
                 }
-            } catch (IOException exc) {
-                System.out.println(exc.getMessage());
             }
         }
         return lineas;
     }
+
+    public static boolean isAlphaOChar(String name, char spec) {
+
+        boolean isAlpha = true;
+
+        char[] chars = name.toCharArray();
+
+        for (char c : chars) {
+            if (isAlpha){
+                if(!Character.isLetter(c) && c != spec) {
+                    isAlpha = false;
+                }
+            }
+        }
+        return isAlpha;
+    }
+
 }

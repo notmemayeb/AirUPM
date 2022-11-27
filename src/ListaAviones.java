@@ -68,7 +68,19 @@ public class ListaAviones {
     // usando el mensaje pasado como argumento para la solicitud y siguiendo el orden y los textos mostrados en el enunciado
     // La función solicita repetidamente la matrícula del avión hasta que se introduzca uno con alcance suficiente
     public Avion seleccionarAvion(Scanner teclado, String mensaje, double alcance){
-        return null;
+        String matricula;
+        do {
+            System.out.print(mensaje);
+            matricula = teclado.next();
+            if (this.buscarAvion(matricula) == null) {
+                System.out.println("Matrícula de avión no encontrada.");
+            } else if ((this.buscarAvion(matricula).getAlcance() <alcance)) System.out.printf(
+                    "Avión seleccionado con alcance insuficiente (menor que %.3f km).\n",
+                    alcance
+            );
+        } while (this.buscarAvion(matricula) == null || (this.buscarAvion(matricula).getAlcance() < alcance));
+
+        return this.buscarAvion(matricula);
     };
     // Genera un fichero CSV con la lista de aviones, sobreescribiendolo
     public boolean escribirAvionesCsv(String nombre){
@@ -82,8 +94,8 @@ public class ListaAviones {
         Scanner entrada = null;
         ListaAviones lista = new ListaAviones(capacidad);
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(fichero) != -1){
-            lineas = Utilidades.contarLineasFichero(fichero);
+        if (Utilidades.contarLineasFichero(fichero, "Aviones") != -1){
+            lineas = Utilidades.contarLineasFichero(fichero, "Aviones");
         }
         try {
             entrada = new Scanner(new FileReader(fichero));
@@ -99,8 +111,22 @@ public class ListaAviones {
                 lista.listaAviones[i] = new Avion(marca,modelo,matricula,columnas,filas,alcance);
 
             }
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
+        } catch (FileNotFoundException _exc){
+
+            System.out.println("Fichero Aviones no encontrado.");
+
+        } catch (Exception _exc){
+
+            System.out.println("Error de lectura de fichero Aviones.");
+
+        } finally {
+            if (entrada != null){
+                try {
+                    entrada.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Aviones.");
+                }
+            }
         }
         return lista;
     };

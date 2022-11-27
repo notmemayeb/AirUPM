@@ -165,6 +165,64 @@ public class Vuelo {
     //no puede estar repetido el identificador, siguiendo las indicaciones del enunciado
     //La función solicita repetidamente los parametros hasta que sean correctos
     public static Vuelo altaVuelo(Scanner teclado, Random rand, ListaAeropuertos aeropuertos, ListaAviones aviones, ListaVuelos vuelos){
-        return null;
-    };
+
+        Aeropuerto origen, destino;
+        Avion avion;
+        Fecha salida, llegada;
+        String mensaje, matricula, id;
+        int terminalOrigen, terminalDestino;
+        double distancia , precio;
+
+        origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+        mensaje = String.format(
+                "Ingrese Terminal Origen (%d - %d):",
+                1,
+                origen.getTerminales()
+        );
+        terminalOrigen = Utilidades.leerNumero(
+                teclado,
+                mensaje,
+                1,
+                origen.getTerminales()
+        );
+        destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+        mensaje = String.format(
+                "Ingrese Terminal Destino (%d - %d):",
+                1,
+                destino.getTerminales()
+        );
+        terminalDestino = Utilidades.leerNumero(
+                teclado,
+                mensaje,
+                1,
+                destino.getTerminales()
+        );
+        distancia = origen.distancia(destino);
+        avion = aviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
+        do {
+            salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
+            llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:\n");
+            if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
+        } while (!salida.anterior(llegada));
+
+        precio = 0;
+        boolean isDouble = false;
+
+        while (precio <= 0 || !isDouble){
+            try{
+                System.out.print("Ingrese precio de pasaje:");
+                teclado.nextLine();
+                precio = teclado.nextDouble();
+                isDouble = true;
+            } catch (Exception exc){
+                isDouble = false;
+            }
+        }
+
+        do {
+            id = Vuelo.generarID(rand);
+        } while (vuelos.buscarVuelo(id) != null);
+
+        return new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
+    }
 }

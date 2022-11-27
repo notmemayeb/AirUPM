@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -92,8 +93,8 @@ public class ListaBilletes {
     public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros){
         Scanner entrada = null;
         int lineas = 0;
-        if (Utilidades.contarLineasFichero(ficheroBilletes) != -1){
-            lineas = Utilidades.contarLineasFichero(ficheroBilletes);
+        if (Utilidades.contarLineasFichero(ficheroBilletes, "Billetes") != -1){
+            lineas = Utilidades.contarLineasFichero(ficheroBilletes, "Billetes");
         }
         try {
             entrada = new Scanner(new FileReader(ficheroBilletes));
@@ -114,8 +115,22 @@ public class ListaBilletes {
 
 
             }
-        } catch (IOException exc){
-            System.out.println(exc.getMessage());
+        } catch (FileNotFoundException _exc){
+
+            System.out.println("Fichero Billetes no encontrado.");
+
+        } catch (Exception _exc){
+
+            System.out.println("Error de lectura de fichero Billetes.");
+
+        } finally {
+            if (entrada != null){
+                try {
+                    entrada.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Billetes.");
+                }
+            }
         }
     };
 }
