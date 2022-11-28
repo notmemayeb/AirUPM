@@ -184,6 +184,8 @@ public class AirUPM {
                             }
                             break;
                         case 3:
+                            System.out.println(programa.listaVuelos.getOcupacion());
+                            System.out.println(programa.listaPasajeros.getOcupacion());
                             break;
                         case 4:
                             break;

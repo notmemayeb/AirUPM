@@ -67,6 +67,7 @@ public class ListaAeropuertos {
         do {
             System.out.print(mensaje);
             codigoOrigen = teclado.next();
+            teclado.nextLine();
             if (this.buscarAeropuerto(codigoOrigen) == null) System.out.println("Código de aeropuerto no encontrado.");
         } while (this.buscarAeropuerto(codigoOrigen) == null);
         return buscarAeropuerto(codigoOrigen);

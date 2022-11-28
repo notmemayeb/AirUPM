@@ -169,7 +169,7 @@ public class Vuelo {
         Aeropuerto origen, destino;
         Avion avion;
         Fecha salida, llegada;
-        String mensaje, matricula, id;
+        String mensaje, id;
         int terminalOrigen, terminalDestino;
         double distancia , precio;
 

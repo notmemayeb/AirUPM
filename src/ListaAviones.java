@@ -72,6 +72,7 @@ public class ListaAviones {
         do {
             System.out.print(mensaje);
             matricula = teclado.next();
+            teclado.nextLine();
             if (this.buscarAvion(matricula) == null) {
                 System.out.println("Matrícula de avión no encontrada.");
             } else if ((this.buscarAvion(matricula).getAlcance() <alcance)) System.out.printf(

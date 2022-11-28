@@ -78,26 +78,32 @@ public class Utilidades {
             do {
                 System.out.print("Ingrese día:");
                 dia = teclado.nextInt();
+                teclado.nextLine();
             } while (dia > 31 || dia < 1);
             do {
                 System.out.print("Ingrese mes:");
                 mes = teclado.nextInt();
+                teclado.nextLine();
             } while (mes > 12 || mes < 1);
             do {
                 System.out.print("Ingrese año:");
                 anio = teclado.nextInt();
+                teclado.nextLine();
             } while (anio > 3000 || anio < 1900);
             do {
                 System.out.print("Ingrese hora:");
                 hora = teclado.nextInt();
+                teclado.nextLine();
             } while (hora > 23 || hora < 0);
             do {
                 System.out.print("Ingrese minuto:");
                 minuto = teclado.nextInt();
+                teclado.nextLine();
             } while (minuto > 59 || minuto < 0);
             do {
                 System.out.print("Ingrese segundo:");
                 segundo = teclado.nextInt();
+                teclado.nextLine();
             } while (segundo > 59 || segundo < 0);
             if (!Fecha.comprobarFecha(dia, mes, anio) || !Fecha.comprobarHora(hora, minuto, segundo)) {
                 System.out.println("Fecha u hora introducida incorrecta.");
