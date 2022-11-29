@@ -94,7 +94,6 @@ public class ListaAviones {
                         listaAviones[i].getAlcance());
 
                 salida.println();
-                //Boeing;747;EC-LKD;41;10;13450.0
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
