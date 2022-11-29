@@ -18,6 +18,7 @@ public class Utilidades {
         do {
             System.out.print(mensaje);
             aux = teclado.nextInt();
+            teclado.nextLine();
         } while (aux> maximo || aux < minimo);
         return aux;
     };
@@ -26,6 +27,7 @@ public class Utilidades {
         do {
             System.out.print(mensaje);
             aux = teclado.nextLong();
+            teclado.nextLine();
         } while (aux > maximo || aux < minimo);
         return aux;
     };
@@ -34,6 +36,7 @@ public class Utilidades {
         do {
             System.out.print(mensaje);
             aux = teclado.nextDouble();
+            teclado.nextLine();
         } while (aux > maximo || aux < minimo);
         return aux;
     };
@@ -42,6 +45,7 @@ public class Utilidades {
         do {
             System.out.print(mensaje);
             aux = teclado.next().charAt(0);
+            teclado.nextLine();
         } while (aux > maximo || aux < minimo);
         return aux;
     };
@@ -64,36 +68,6 @@ public class Utilidades {
         int dia,mes, anio, hora, minuto, segundo;
         System.out.print(mensaje);
         do {
-            do {
-                System.out.print("Ingrese día:");
-                dia = teclado.nextInt();
-                teclado.nextLine();
-            } while (dia > 31 || dia < 1);
-            do {
-                System.out.print("Ingrese mes:");
-                mes = teclado.nextInt();
-                teclado.nextLine();
-            } while (mes > 12 || mes < 1);
-            do {
-                System.out.print("Ingrese año:");
-                anio = teclado.nextInt();
-                teclado.nextLine();
-            } while (anio > 3000 || anio < 1900);
-            do {
-                System.out.print("Ingrese hora:");
-                hora = teclado.nextInt();
-                teclado.nextLine();
-            } while (hora > 23 || hora < 0);
-            do {
-                System.out.print("Ingrese minuto:");
-                minuto = teclado.nextInt();
-                teclado.nextLine();
-            } while (minuto > 59 || minuto < 0);
-            do {
-                System.out.print("Ingrese segundo:");
-                segundo = teclado.nextInt();
-                teclado.nextLine();
-            } while (segundo > 59 || segundo < 0);
             dia = leerNumero(teclado, "Ingrese día:", 1, 31);
             mes = leerNumero(teclado, "Ingrese mes:", 1, 12);
             anio = leerNumero(teclado, "Ingrese año:", 1900, 3000);
@@ -138,7 +112,6 @@ public class Utilidades {
         boolean isAlpha = true;
 
         char[] chars = name.toCharArray();
-
         for (char c : chars) {
             if (isAlpha){
                 if(!Character.isLetter(c) && c != spec) {
