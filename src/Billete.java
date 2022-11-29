@@ -90,7 +90,16 @@ Billete {
     // primeros será el ID del vuelo asociado y los 4 siguientes serán letras mayúsculas aleatorias. Ejemplo: PM0123ABCD
     // NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.  
     public static String generarLocalizador(Random rand, String idVuelo){
-        return "";
+        String[] LETRAS = {
+                "A","B","C","D","E","F","G","H","I",
+                "J","K","J","M","N","O","P","Q","R",
+                "S","T","U","V","W","X","Y","Z"
+        };
+        String letrasAleatorias = "";
+        for (int i = 0; i < 5; i++){
+            letrasAleatorias += LETRAS[rand.nextInt(1,25)];
+        }
+        return idVuelo + letrasAleatorias;
     };
     // Crea un nuevo billete para un vuelo y pasajero específico, pidiendo por teclado los datos necesarios al usuario en el orden y 
     // con los textos indicados en los ejemplos de ejecución del enunciado
