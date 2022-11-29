@@ -184,8 +184,15 @@ public class AirUPM {
                             }
                             break;
                         case 3:
-                            System.out.println(programa.listaVuelos.getOcupacion());
-                            System.out.println(programa.listaPasajeros.getOcupacion());
+                            Aeropuerto origen = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+                            Aeropuerto destino = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+                            Fecha salida = Utilidades.leerFecha(teclado, "Fecha de Salida:");
+                            ListaVuelos lista = programa.listaVuelos.buscarVuelos(origen.getCodigo(),destino.getCodigo(), salida);
+                            if (lista.getOcupacion() != 0){
+                                lista.listarVuelos();
+                            } else {
+                                System.out.println("No se ha encontrado ningún vuelo.");
+                            }
                             break;
                         case 4:
                             break;

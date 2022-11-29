@@ -69,16 +69,18 @@ public class ListaVuelos {
         ListaVuelos lista = new ListaVuelos(listaVuelos.length);
         int n = 0;
         for (int i = 0 ; i < listaVuelos.length; i++) {
-            if (listaVuelos[i].getSalida() == fecha) {
-                if (listaVuelos[i].getOrigen().getCodigo().equals(codigoOrigen)) {
-                    if (listaVuelos[i].getDestino().getCodigo().equals(codigoDestino)) {
-                        lista.listaVuelos[n]= listaVuelos[i];
-                        n++;
-                    }
-                }
-            }
+           if (listaVuelos[i] != null){
+               if (listaVuelos[i].getSalida().coincide(fecha)) {
+                   if (listaVuelos[i].getOrigen().getCodigo().equals(codigoOrigen)) {
+                       if (listaVuelos[i].getDestino().getCodigo().equals(codigoDestino)) {
+                           lista.listaVuelos[n]= listaVuelos[i];
+                           n++;
+                       }
+                   }
+               }
+           }
         }
-        return null;
+        return lista;
     };
     //Muestra por pantalla los vuelos siguiendo el formato de los ejemplos del enunciado
     public void listarVuelos(){
