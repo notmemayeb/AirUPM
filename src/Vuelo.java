@@ -140,7 +140,43 @@ public class Vuelo {
     // 9[ ][X][ ][ ][ ][X]
     //10[ ][ ][ ][ ][ ][ ]
     public void imprimirMatrizAsientos(){
-
+        String spacer1, spacer2;
+        String isres = " ";
+        String[] LETRAS = {
+                "   A","  B","  C","  D","  E","  F","  G","  H","  I","  J","  K","  J","  M","  N","  Ñ","  O","  P","  Q","  R","  S","  T","  U","  V","  W","  X","  Y","  Z"
+        };
+        for (int i = 0; i < avion.getColumnas(); i++) {
+            System.out.print(LETRAS[i]);
+        }
+        System.out.println();
+        for (int i = 0; i < avion.getFilas(); i++) {
+            if (i<9) {
+                System.out.print(" ");
+            }
+            System.out.print(i+1);
+            switch (i) {
+                case 0:
+                    spacer1 = "(";
+                    spacer2 = ")";
+                    break;
+                case 1, 2, 3, 4:
+                    spacer1 = "{";
+                    spacer2 = "}";
+                    break;
+                default:
+                    spacer1 = "[";
+                    spacer2 = "]";
+                    break;
+            }
+            for (int r = 0; r < avion.getColumnas(); r++) {
+                isres = " ";
+                if (asientos[i][r]) {
+                    isres = "X";
+                }
+                System.out.printf("%s%s%s",spacer1,isres,spacer2);
+            }
+            System.out.println();
+        }
     };
     //Devuelve true si ha podido escribir en un fichero la lista de pasajeros del vuelo, siguiendo las indicaciones del enunciado
     public boolean generarListaPasajeros(String fichero){
