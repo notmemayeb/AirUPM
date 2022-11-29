@@ -185,10 +185,11 @@ public class Vuelo {
         try {
             salida = new PrintWriter(fichero);
             salida.printf(
-                    "--------------------------------------------------\n" +
-                    "------- Lista de pasajeros en vuelo PM1990 -------\n" +
-                    "--------------------------------------------------\n" +
-                    "Asiento  Tipo        Pasajero");
+                    """
+                            --------------------------------------------------
+                            ------- Lista de pasajeros en vuelo PM1990 -------
+                            --------------------------------------------------
+                            Asiento  Tipo        Pasajero""");
             for (int i = 0; i < (avion.getFilas()*avion.getColumnas()); i++) {
                 if (billetes.getBillete(i) != null) {
                     System.out.printf("%s\t%S\t%s, %s, %s",billetes.getBillete(i).getAsiento(),

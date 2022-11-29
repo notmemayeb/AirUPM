@@ -144,8 +144,6 @@ public class Pasajero {
     // Correcto: cristian.ramirez@upm.es, incorrecto: cristian.ramirez@gmail.com, cristian-23@upm.es, cristian.@upm.es
     public static boolean correctoEmail(String email){
 
-        // PREGUNTAR SI SE PUEDE USAR REGEX
-
         if (email.contains("@")){
             String domen = email.split("@")[1];
             String nombre = email.split("@")[0];
