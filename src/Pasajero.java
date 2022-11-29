@@ -74,8 +74,6 @@ public class Pasajero {
     public boolean cancelarBillete(String localizador){
         return !billetes.eliminarBillete(localizador);
     };
-    //Billete PM1990FGAR para Vuelo PM1990 de CDT T1 (01/11/2022 15:00:00) a MAD T2
-    //(01/11/2022 17:00:00) en asiento 3C (PREFERENTE) por 87,25€
     public void listarBilletes(){
         for (int i = 0; i < billetes.getOcupacion(); i++) {
             System.out.println(billetes.getBillete(i));
