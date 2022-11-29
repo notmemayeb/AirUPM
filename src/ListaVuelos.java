@@ -86,7 +86,9 @@ public class ListaVuelos {
     public void listarVuelos(){
         for (Vuelo vuelo: listaVuelos
              ) {
-            System.out.println(vuelo);
+            if (vuelo != null){
+                System.out.println(vuelo);
+            }
         }
     };
     //Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud
