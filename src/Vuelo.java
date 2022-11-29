@@ -1,7 +1,4 @@
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -203,9 +200,19 @@ public class Vuelo {
                     System.out.println();
                 }
             }
-        }catch (IOException _ex){
-            return false;
-        };
+        } catch (Exception _exc){
+
+            System.out.println("Error de escritura de fichero Vuelo.");
+
+        } finally {
+            if (salida != null){
+                try {
+                    salida.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Vuelo.");
+                }
+            }
+        }
         return true;
     };
 
