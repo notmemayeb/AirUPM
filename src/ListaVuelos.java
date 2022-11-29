@@ -109,7 +109,6 @@ public class ListaVuelos {
                         listaVuelos[i].getLlegada().toString(),
                         listaVuelos[i].getPrecio());
                 salida.println();
-                //PM1111;EC-LKF;MAD;4;24/12/2022 12:35:00;BCN;1;24/12/2022 14:05:30;100.0
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());

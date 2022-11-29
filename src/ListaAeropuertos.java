@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -74,6 +75,27 @@ public class ListaAeropuertos {
     };
     // Genera un fichero CSV con la lista de aeropuertos, sobreescribiendolo
     public boolean escribirAeropuertosCsv(String nombre){
+        PrintWriter salida = null;
+        try {
+            salida = new PrintWriter(nombre);
+            for (int i = 0; i < getOcupacion()-1; i++) {
+                salida.printf("%s;%s;%f;%f;%d",listaAeropuertos[i].getNombre(),
+                        listaAeropuertos[i].getCodigo(),
+                        listaAeropuertos[i].getLatitud(),
+                        listaAeropuertos[i].getLongitud(),
+                        listaAeropuertos[i].getTerminales());
+
+                salida.println();
+                //Boeing;747;EC-LKD;41;10;13450.0
+            }
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+            if (salida != null) {
+                salida.close();
+            }
+        }
         return true;
     };
 
