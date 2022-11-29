@@ -75,7 +75,9 @@ public class Pasajero {
         return !billetes.eliminarBillete(localizador);
     };
     public void listarBilletes(){
-
+        for (int i = 0; i < billetes.getOcupacion(); i++) {
+            System.out.println(billetes.getBillete(i));
+        }
     };
     // Encapsula la funcionalidad seleccionarBillete de ListaBilletes
     public Billete seleccionarBillete(Scanner teclado, String mensaje){

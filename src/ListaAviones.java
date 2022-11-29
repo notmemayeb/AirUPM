@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -85,6 +82,27 @@ public class ListaAviones {
     };
     // Genera un fichero CSV con la lista de aviones, sobreescribiendolo
     public boolean escribirAvionesCsv(String nombre){
+        PrintWriter salida = null;
+        try {
+            salida = new PrintWriter(nombre);
+            for (int i = 0; i < getOcupacion()-1; i++) {
+                salida.printf("%s;%s;%s;%d;%d;%f",listaAviones[i].getMarca(),
+                        listaAviones[i].getModelo(),
+                        listaAviones[i].getMatricula(),
+                        listaAviones[i].getColumnas(),
+                        listaAviones[i].getFilas(),
+                        listaAviones[i].getAlcance());
+
+                salida.println();
+            }
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+            if (salida != null) {
+                salida.close();
+            }
+        }
         return true;
     };
 
