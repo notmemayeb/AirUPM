@@ -193,7 +193,15 @@ public class Vuelo {
                     "--------------------------------------------------\n" +
                     "Asiento  Tipo        Pasajero");
             for (int i = 0; i < (avion.getFilas()*avion.getColumnas()); i++) {
-                System.out.printf("%s\t%S\t%s, %s, %s",billetes.getBillete(i).getAsiento(),billetes.getBillete(i).getTipo(),billetes.getBillete(i).getPasajero().getNombre());
+                if (billetes.getBillete(i) != null) {
+                    System.out.printf("%s\t%S\t%s, %s, %s",billetes.getBillete(i).getAsiento(),
+                            billetes.getBillete(i).getTipo(),
+                            billetes.getBillete(i).getPasajero().getNombre(),
+                            billetes.getBillete(i).getPasajero().getDNI(),
+                            billetes.getBillete(i).getPasajero().getEmail());
+                } else {
+                    System.out.println();
+                }
             }
         }catch (IOException _ex){
             return false;
