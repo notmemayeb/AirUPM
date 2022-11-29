@@ -1,3 +1,7 @@
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -180,6 +184,20 @@ public class Vuelo {
     };
     //Devuelve true si ha podido escribir en un fichero la lista de pasajeros del vuelo, siguiendo las indicaciones del enunciado
     public boolean generarListaPasajeros(String fichero){
+        PrintWriter salida = null;
+        try {
+            salida = new PrintWriter(fichero);
+            salida.printf(
+                    "--------------------------------------------------\n" +
+                    "------- Lista de pasajeros en vuelo PM1990 -------\n" +
+                    "--------------------------------------------------\n" +
+                    "Asiento  Tipo        Pasajero");
+            for (int i = 0; i < (avion.getFilas()*avion.getColumnas()); i++) {
+                System.out.printf("%s\t%S\t%s, %s, %s",billetes.getBillete(i).getAsiento(),billetes.getBillete(i).getTipo(),billetes.getBillete(i).getPasajero().getNombre());
+            }
+        }catch (IOException _ex){
+            return false;
+        };
         return true;
     };
 
