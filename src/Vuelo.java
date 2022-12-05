@@ -243,30 +243,33 @@ public class Vuelo {
         int terminalOrigen, terminalDestino;
         double distancia , precio;
 
-        origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
-        mensaje = String.format(
-                "Ingrese Terminal Origen (%d - %d):",
-                1,
-                origen.getTerminales()
-        );
-        terminalOrigen = Utilidades.leerNumero(
-                teclado,
-                mensaje,
-                1,
-                origen.getTerminales()
-        );
-        destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
-        mensaje = String.format(
-                "Ingrese Terminal Destino (%d - %d):",
-                1,
-                destino.getTerminales()
-        );
-        terminalDestino = Utilidades.leerNumero(
-                teclado,
-                mensaje,
-                1,
-                destino.getTerminales()
-        );
+        do {
+            origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+            mensaje = String.format(
+                    "Ingrese Terminal Origen (%d - %d):",
+                    1,
+                    origen.getTerminales()
+            );
+            terminalOrigen = Utilidades.leerNumero(
+                    teclado,
+                    mensaje,
+                    1,
+                    origen.getTerminales()
+            );
+            destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+            mensaje = String.format(
+                    "Ingrese Terminal Destino (%d - %d):",
+                    1,
+                    destino.getTerminales()
+            );
+            terminalDestino = Utilidades.leerNumero(
+                    teclado,
+                    mensaje,
+                    1,
+                    destino.getTerminales()
+            );
+            if (origen.getCodigo().equals(destino.getCodigo())) System.out.println("Aeroperto origen y Aeroperto destino deben ser distintos");
+        } while (origen.getCodigo().equals(destino.getCodigo()));
         distancia = origen.distancia(destino);
         avion = aviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
         do {
