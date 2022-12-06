@@ -80,7 +80,12 @@ public class ListaBilletes {
     // y siguiendo el orden y los textos mostrados en el enunciado
     // La función solicita repetidamente hasta que se introduzca un localizador correcto
     public Billete seleccionarBillete(Scanner teclado, String mensaje){
-        return null;
+        String localizador;
+        do {
+            System.out.println(mensaje);
+            localizador = teclado.next();
+        }while(buscarBillete(localizador) == null);
+        return buscarBillete(localizador);
     };
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero){

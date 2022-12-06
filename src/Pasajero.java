@@ -81,7 +81,7 @@ public class Pasajero {
     };
     // Encapsula la funcionalidad seleccionarBillete de ListaBilletes
     public Billete seleccionarBillete(Scanner teclado, String mensaje){
-        return null;
+        return billetes.seleccionarBillete(teclado, mensaje);
     };
     //Métodos estáticos
     // 
