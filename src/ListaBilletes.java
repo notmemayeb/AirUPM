@@ -74,7 +74,9 @@ public class ListaBilletes {
     };
     // Muestra por pantalla los billetes de la lista
     public void listarBilletes(){
-
+        for (int i = 0; i <= getOcupacion(); i++) {
+            System.out.println(getBillete(i));
+        }
     };
     // Permite seleccionar un billete existente a partir de su localizador, usando el mensaje pasado como argumento para la solicitud
     // y siguiendo el orden y los textos mostrados en el enunciado
