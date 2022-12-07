@@ -154,11 +154,11 @@ public class Vuelo {
         String[] LETRAS = {
                 "   A","  B","  C","  D","  E","  F","  G","  H","  I","  J","  K","  J","  M","  N","  Ñ","  O","  P","  Q","  R","  S","  T","  U","  V","  W","  X","  Y","  Z"
         };
-        for (int i = 0; i < avion.getColumnas(); i++) {
+        for (int i = 0; i < avion.getFilas(); i++) {
             System.out.print(LETRAS[i]);
         }
         System.out.println();
-        for (int i = 0; i < avion.getFilas(); i++) {
+        for (int i = 0; i < avion.getColumnas(); i++) {
             if (i<9) {
                 System.out.print(" ");
             }
@@ -177,9 +177,9 @@ public class Vuelo {
                     spacer2 = "]";
                     break;
             }
-            for (int r = 0; r < avion.getColumnas(); r++) {
+            for (int r = 0; r < avion.getFilas(); r++) {
                 isres = " ";
-                if (asientos[i][r]) {
+                if (asientos[r][i]) {
                     isres = "X";
                 }
                 System.out.printf("%s%s%s",spacer1,isres,spacer2);
