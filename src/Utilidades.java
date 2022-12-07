@@ -108,19 +108,6 @@ public class Utilidades {
     }
 
     public static boolean isAlphaOChar(String name, char spec) {
-
-//        boolean isAlpha = true;
-//
-//        char[] chars = name.toCharArray();
-//        for (char c : chars) {
-//            if (isAlpha){
-//                if(!Character.isLetter(c) && c != spec) {
-//                    isAlpha = false;
-//                }
-//            }
-//        }
-//        return isAlpha;
-
         String filtro = String.format("[a-zA-Z%c]+", spec);
         return name.matches(filtro);
     }

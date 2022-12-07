@@ -92,11 +92,12 @@ public class ListaBilletes {
     };
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero){
-        //Preguntar si se escriben todos los billetes conocidos ahunque se repitan
-        //aniadirBilletesCsv
-        /*PrintWriter salida = null;
+        PrintWriter salida = null;
+        Scanner sc = null;
         try {
             salida = new PrintWriter(fichero);
+            sc = new Scanner(new FileReader(fichero));
+            while (sc.hasNextLine()) {sc.nextLine();}
             for (int i = 0; i < getOcupacion()-1; i++) {
                 salida.printf("%s;%s;%s;%s;%d;%d;%f\n",
                         lista[i].getLocalizador(),
@@ -114,7 +115,7 @@ public class ListaBilletes {
             if (salida != null) {
                 salida.close();
             }
-        }*/return true;
+        }return true;
     };
 
     // Métodos estáticos

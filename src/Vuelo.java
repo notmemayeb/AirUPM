@@ -96,6 +96,7 @@ public class Vuelo {
     };
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero){
+        billetes.aniadirBilletesCsv(fichero);
         return true;
     };
     // Devuelve una cadena con información completa del vuelo
