@@ -107,7 +107,7 @@ public class AirUPM {
     // enunciado. Si la lista de pasajeros está vacía, creará un nuevo pasajero, si está llena seleccionará un pasajero, en cualquier
     // otro caso, deberá preguntar al usuario si crear o seleccionar
     public void comprarBillete(Scanner teclado, Random rand, Vuelo vuelo){
-
+        vuelo.imprimirMatrizAsientos();
     };
 
     //Métodos estáticos
@@ -191,11 +191,31 @@ public class AirUPM {
                             if (lista.getOcupacion() != 0){
                                 lista.listarVuelos();
                                 Vuelo vueloSelecionado = programa.listaVuelos.seleccionarVuelo(teclado, "Ingrese ID de vuelo para comprar billete o escriba CANCELAR: ", "CANCELAR");
+                                if (vueloSelecionado != null){
+                                    char respuesta;
+                                    do {
+                                        System.out.print("¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)?");
+                                        respuesta = teclado.next().charAt(0);
+                                        if (respuesta != 'n' && respuesta != 'e'){
+                                            System.out.println("El valor de entrada debe ser 'n' o 'e'");
+                                        }
+                                    } while (respuesta != 'n' && respuesta != 'e');
+                                    Pasajero pasajeroSeleccionado = null;
+                                    if (respuesta == 'e'){
+                                        pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
+                                    } else {
+                                        pasajeroSeleccionado = Pasajero.altaPasajero(teclado, programa.listaPasajeros, programa.maxBilletesPasajero);
+                                    }
+                                    if (pasajeroSeleccionado != null){
+                                        programa.comprarBillete(teclado, rand, vueloSelecionado);
+                                    }
+                                }
                             } else {
                                 System.out.println("No se ha encontrado ningún vuelo.");
                             }
                             break;
                         case 4:
+                            System.out.println(programa.listaVuelos.getOcupacion());
                             break;
                         case 5:
                             break;

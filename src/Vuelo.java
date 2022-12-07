@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class Vuelo {
     private boolean[][] asientos;
 
+
     /**
      * Constructor of the class
      *
@@ -44,7 +45,14 @@ public class Vuelo {
         this.terminalDestino = terminalDestino;
         this.llegada = llegada;
         this.precio = precio;
+        this.asientos = new boolean[avion.getFilas()][avion.getColumnas()];
         billetes = new ListaBilletes(avion.getColumnas()*avion.getFilas());
+        for (boolean[] fila : asientos) {
+            for (boolean asiento : fila) {
+                asiento = false;
+            }
+        }
+
 
     };
     public String getID(){ return id; };
