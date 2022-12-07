@@ -47,12 +47,13 @@ public class Vuelo {
         this.precio = precio;
         this.asientos = new boolean[avion.getFilas()][avion.getColumnas()];
         billetes = new ListaBilletes(avion.getColumnas()*avion.getFilas());
-        for (boolean[] fila : asientos) {
-            for (boolean asiento : fila) {
-                asiento = false;
+
+        for (int i = 0; i < avion.getFilas(); i++){
+            for (int j = 0; j < avion.getColumnas(); j++){
+//                asientos[i][j] = billetes.buscarBillete(id, i, j) != null;
+                asientos[i][j] = false;
             }
         }
-
 
     };
     public String getID(){ return id; };
