@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -91,7 +92,28 @@ public class ListaBilletes {
     };
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero){
-        return true;
+        //Preguntar si se escriben todos los billetes conocidos ahunque se repitan
+        PrintWriter salida = null;
+        try {
+            salida = new PrintWriter(fichero);
+            for (int i = 0; i < getOcupacion()-1; i++) {
+                salida.printf("%s;%s;%s;%s;%d;%d;%f\n",
+                        lista[i].getLocalizador(),
+                        lista[i].getVuelo(),
+                        lista[i].getPasajero().toString(),
+                        lista[i].getTipo().toString(),
+                        lista[i].getFila(),
+                        lista[i].getColumna(),
+                        lista[i].getPrecio());
+            }
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+            if (salida != null) {
+                salida.close();
+            }
+        }return true;
     };
 
     // Métodos estáticos

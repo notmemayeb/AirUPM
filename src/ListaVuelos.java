@@ -94,7 +94,14 @@ public class ListaVuelos {
     //Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud
     //y siguiendo el orden y los textos mostrados en el enunciado, y usando la cadena cancelar para salir devolviendo null
     //La función solicita repetidamente hasta que se introduzca un ID correcto
-    public Vuelo seleccionarVuelo(Scanner teclado, String mensaje, String cancelar){return null;};
+    public Vuelo seleccionarVuelo(Scanner teclado, String mensaje, String cancelar){
+        String vueloID;
+        do{
+            System.out.println(mensaje);
+            vueloID = teclado.next();
+        }while(!vueloID.equals(cancelar) || buscarVuelo(vueloID) == null);
+        return buscarVuelo(vueloID);
+    };
     //Ha de escribir la lista de vuelos en la ruta y nombre del fichero pasado como parámetro.
     //Si existe el fichero, se sobreescribe, si no existe se crea.
     public boolean escribirVuelosCsv(String fichero){
@@ -102,7 +109,7 @@ public class ListaVuelos {
         try {
             salida = new PrintWriter(fichero);
             for (int i = 0; i < getOcupacion()-1; i++) {
-                salida.printf("%s;%s;%s;%d;%s;%s;%d;%s;%f",
+                salida.printf("%s;%s;%s;%d;%s;%s;%d;%s;%f\n",
                         listaVuelos[i].getID(),
                         listaVuelos[i].getAvion().getMatricula(),
                         listaVuelos[i].getOrigen().getCodigo(),
@@ -112,7 +119,6 @@ public class ListaVuelos {
                         listaVuelos[i].getDestino().getTerminales(),
                         listaVuelos[i].getLlegada().toString(),
                         listaVuelos[i].getPrecio());
-                salida.println();
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
