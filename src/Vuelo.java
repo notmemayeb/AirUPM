@@ -134,7 +134,7 @@ public class Vuelo {
     };
     //Devuelve true si el código origen, destino y fecha son los mismos que el vuelo
     public boolean coincide(String codigoOrigen, String codigoDestino, Fecha fecha){
-        return false;
+        return (this.origen.getCodigo().equals(codigoOrigen) && this.destino.getCodigo().equals(codigoDestino) && this.salida.coincide(fecha));
     };
     // Muestra la matriz  de asientos del vuelo, ejemplo:
     //   A  B  C  D  E  F
