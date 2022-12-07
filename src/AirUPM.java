@@ -190,6 +190,7 @@ public class AirUPM {
                             ListaVuelos lista = programa.listaVuelos.buscarVuelos(origen.getCodigo(),destino.getCodigo(), salida);
                             if (lista.getOcupacion() != 0){
                                 lista.listarVuelos();
+                                Vuelo vueloSelecionado = programa.listaVuelos.seleccionarVuelo(teclado, "Ingrese ID de vuelo para comprar billete o escriba CANCELAR: ", "CANCELAR");
                             } else {
                                 System.out.println("No se ha encontrado ningún vuelo.");
                             }

@@ -95,12 +95,18 @@ public class ListaVuelos {
     //y siguiendo el orden y los textos mostrados en el enunciado, y usando la cadena cancelar para salir devolviendo null
     //La función solicita repetidamente hasta que se introduzca un ID correcto
     public Vuelo seleccionarVuelo(Scanner teclado, String mensaje, String cancelar){
-        String vueloID;
-        do{
-            System.out.println(mensaje);
-            vueloID = teclado.next();
-        }while(!vueloID.equals(cancelar) || buscarVuelo(vueloID) == null);
-        return buscarVuelo(vueloID);
+        Vuelo vueloSeleccionado = null;
+        String respuesta;
+        do {
+            System.out.print(mensaje);
+            respuesta = teclado.nextLine();
+            vueloSeleccionado = buscarVuelo(respuesta);
+            if (vueloSeleccionado == null) {
+                System.out.println("ID de vuelo no encontrado.");
+            }
+        } while (vueloSeleccionado == null && !respuesta.equals(cancelar));
+        if (respuesta.equals(cancelar)) vueloSeleccionado = null;
+        return vueloSeleccionado;
     };
     //Ha de escribir la lista de vuelos en la ruta y nombre del fichero pasado como parámetro.
     //Si existe el fichero, se sobreescribe, si no existe se crea.
