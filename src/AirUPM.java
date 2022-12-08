@@ -1,6 +1,3 @@
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -30,8 +27,6 @@ public class AirUPM {
     private ListaBilletes listaBilletes;
 
     private boolean lecturaCorrecta;
-
-
 
     public AirUPM(int maxAeropuertos, int maxAviones, int maxVuelos, int maxPasajeros, int maxBilletesPasajero){
 
@@ -72,7 +67,6 @@ public class AirUPM {
     // Almacena los datos de AirUPM en los ficheros CSV especificados
     public boolean guardarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
 
-
         boolean aero, avio, vue, pasa, bille;
 
         aero = this.listaAeropuertos.escribirAeropuertosCsv(ficheroAeropuertos);
@@ -99,7 +93,12 @@ public class AirUPM {
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
     // ejecución del enunciado
     public ListaVuelos buscarVuelo(Scanner teclado){
-       return null;
+        Aeropuerto origen = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+        Aeropuerto destino = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+        Fecha salida = Utilidades.leerFecha(teclado, "Fecha de Salida:");
+        ListaVuelos lista = this.listaVuelos.buscarVuelos(origen.getCodigo(),destino.getCodigo(), salida);
+
+        return lista;
     };
     // Funcionalidad comprarBillete especificada en el enunciado del proyecto, que compra un billete para un vuelo especificado,
     // pidiendo por teclado los datos necesarios al usuario en el orden y con los textos indicados en los ejemplos de ejecución del
@@ -230,10 +229,7 @@ public class AirUPM {
                             }
                             break;
                         case 3:
-                            Aeropuerto origen = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
-                            Aeropuerto destino = programa.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
-                            Fecha salida = Utilidades.leerFecha(teclado, "Fecha de Salida:");
-                            ListaVuelos lista = programa.listaVuelos.buscarVuelos(origen.getCodigo(),destino.getCodigo(), salida);
+                            ListaVuelos lista = programa.buscarVuelo(teclado);
                             if (lista.getOcupacion() != 0){
                                 lista.listarVuelos();
                                 Vuelo vueloSelecionado = programa.listaVuelos.seleccionarVuelo(teclado, "Ingrese ID de vuelo para comprar billete o escriba CANCELAR: ", "CANCELAR");
