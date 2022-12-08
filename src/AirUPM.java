@@ -93,6 +93,7 @@ public class AirUPM {
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
     // ejecución del enunciado
     public ListaVuelos buscarVuelo(Scanner teclado){
+
         Aeropuerto origen = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
         Aeropuerto destino = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
         Fecha salida = Utilidades.leerFecha(teclado, "Fecha de Salida:");
@@ -115,37 +116,16 @@ public class AirUPM {
             }
         } while (respuesta != 'n' && respuesta != 'e');
         Pasajero pasajeroSeleccionado = null;
-        if (respuesta == 'e'){
+        if ((respuesta == 'e' && this.listaPasajeros.getOcupacion() != 0) || this.listaPasajeros.estaLlena()){
             pasajeroSeleccionado = this.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
         } else {
             pasajeroSeleccionado = Pasajero.altaPasajero(teclado, this.listaPasajeros, this.maxBilletesPasajero);
             this.insertarPasajero(pasajeroSeleccionado);
         }
         if (pasajeroSeleccionado != null){
-            int fila, columna;
-            int filasMax = vuelo.getAvion().getFilas();
-            int columnasMax = vuelo.getAvion().getColumnas();
-            do {
-                vuelo.imprimirMatrizAsientos();
-                fila = Utilidades.leerNumero(teclado, String.format("Ingrese fila del asiento (%d-%d):", 1, filasMax), 1, filasMax);
-                columna = Utilidades.leerNumero(teclado, String.format("Ingrese columna del asiento (%d-%d):", 1, columnasMax), 1, columnasMax);
-                if (vuelo.asientoOcupado(fila, columna)) System.out.println("El asiento está ocupado, por favor, seleccione otro");
-            } while (vuelo.asientoOcupado(fila, columna));
 
-            String localizador = Billete.generarLocalizador(rand, vuelo.getID());
-            Billete.TIPO tipo = Billete.TIPO.TURISTA;
-            double precio = vuelo.getPrecio();
-
-            if (fila == 1){
-                tipo = Billete.TIPO.PRIMERA;
-                precio = vuelo.getPrecioPrimera();
-            }
-            else if (fila <= 4){
-                tipo = Billete.TIPO.PREFERENTE;
-                precio = vuelo.getPrecioPreferente();
-            }
-
-            Billete billete = new Billete(localizador, vuelo, pasajeroSeleccionado, tipo ,fila, columna, precio);
+            Billete billete = Billete.altaBillete(teclado, rand, vuelo, pasajeroSeleccionado);
+            String localizador = billete.getLocalizador();
 
             pasajeroSeleccionado.aniadirBillete(billete);
             vuelo.ocuparAsiento(billete);
@@ -162,12 +142,13 @@ public class AirUPM {
         String mensaje = "Seleccione opción:";
         int response;
         System.out.println(
-                        "1. Alta Vuelo\n" +
-                        "2. Alta Pasajero\n" +
-                        "3. Buscar Vuelo\n" +
-                        "4. Mostrar billetes de Pasajero\n" +
-                        "5. Generar lista de Pasajeros\n" +
-                        "0. Salir"
+                """
+                        1. Alta Vuelo
+                        2. Alta Pasajero
+                        3. Buscar Vuelo
+                        4. Mostrar billetes de Pasajero
+                        5. Generar lista de Pasajeros
+                        0. Salir"""
         );
         response = Utilidades.leerNumero(teclado, mensaje, 0,5);
 

@@ -105,6 +105,32 @@ Billete {
     // con los textos indicados en los ejemplos de ejecución del enunciado
     // La función solicita repetidamente los parametros hasta que sean correctos
     public static Billete altaBillete(Scanner teclado, Random rand, Vuelo vuelo, Pasajero pasajero){
-        return null;
+        Billete billete;
+        int fila, columna;
+        int filasMax = vuelo.getAvion().getFilas();
+        int columnasMax = vuelo.getAvion().getColumnas();
+        do {
+            vuelo.imprimirMatrizAsientos();
+            fila = Utilidades.leerNumero(teclado, String.format("Ingrese fila del asiento (%d-%d):", 1, filasMax), 1, filasMax);
+            columna = Utilidades.leerNumero(teclado, String.format("Ingrese columna del asiento (%d-%d):", 1, columnasMax), 1, columnasMax);
+            if (vuelo.asientoOcupado(fila, columna)) System.out.println("El asiento está ocupado, por favor, seleccione otro");
+        } while (vuelo.asientoOcupado(fila, columna));
+
+        String localizador = Billete.generarLocalizador(rand, vuelo.getID());
+        Billete.TIPO tipo = Billete.TIPO.TURISTA;
+        double precio = vuelo.getPrecio();
+
+        if (fila == 1){
+            tipo = Billete.TIPO.PRIMERA;
+            precio = vuelo.getPrecioPrimera();
+        }
+        else if (fila <= 4){
+            tipo = Billete.TIPO.PREFERENTE;
+            precio = vuelo.getPrecioPreferente();
+        }
+
+        billete = new Billete(localizador, vuelo, pasajero, tipo ,fila, columna, precio);
+
+        return billete;
     };
 }
