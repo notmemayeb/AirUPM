@@ -192,22 +192,26 @@ public class AirUPM {
                                 lista.listarVuelos();
                                 Vuelo vueloSelecionado = programa.listaVuelos.seleccionarVuelo(teclado, "Ingrese ID de vuelo para comprar billete o escriba CANCELAR: ", "CANCELAR");
                                 if (vueloSelecionado != null){
-                                    char respuesta;
-                                    do {
-                                        System.out.print("¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)?");
-                                        respuesta = teclado.next().charAt(0);
-                                        if (respuesta != 'n' && respuesta != 'e'){
-                                            System.out.println("El valor de entrada debe ser 'n' o 'e'");
+                                    if (vueloSelecionado.numAsientosLibres() > 0){
+                                        char respuesta;
+                                        do {
+                                            System.out.print("¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)?");
+                                            respuesta = teclado.next().charAt(0);
+                                            if (respuesta != 'n' && respuesta != 'e'){
+                                                System.out.println("El valor de entrada debe ser 'n' o 'e'");
+                                            }
+                                        } while (respuesta != 'n' && respuesta != 'e');
+                                        Pasajero pasajeroSeleccionado = null;
+                                        if (respuesta == 'e'){
+                                            pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
+                                        } else {
+                                            pasajeroSeleccionado = Pasajero.altaPasajero(teclado, programa.listaPasajeros, programa.maxBilletesPasajero);
                                         }
-                                    } while (respuesta != 'n' && respuesta != 'e');
-                                    Pasajero pasajeroSeleccionado = null;
-                                    if (respuesta == 'e'){
-                                        pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
+                                        if (pasajeroSeleccionado != null){
+                                            programa.comprarBillete(teclado, rand, vueloSelecionado);
+                                        }
                                     } else {
-                                        pasajeroSeleccionado = Pasajero.altaPasajero(teclado, programa.listaPasajeros, programa.maxBilletesPasajero);
-                                    }
-                                    if (pasajeroSeleccionado != null){
-                                        programa.comprarBillete(teclado, rand, vueloSelecionado);
+                                        System.out.println("No quedan asientos libres en el vuelo seleccionado.");
                                     }
                                 }
                             } else {
@@ -215,7 +219,6 @@ public class AirUPM {
                             }
                             break;
                         case 4:
-                            System.out.println(programa.listaVuelos.getOcupacion());
                             break;
                         case 5:
                             break;

@@ -123,8 +123,8 @@ public class ListaAviones {
                 String marca = linea[0];
                 String modelo = linea[1];
                 String matricula = linea[2];
-                int columnas = Integer.parseInt(linea[3]);
-                int filas = Integer.parseInt(linea[4]);
+                int filas = Integer.parseInt(linea[3]);
+                int columnas = Integer.parseInt(linea[4]);
                 double alcance = Double.parseDouble(linea[5]);
 
                 lista.listaAviones[i] = new Avion(marca,modelo,matricula,columnas,filas,alcance);

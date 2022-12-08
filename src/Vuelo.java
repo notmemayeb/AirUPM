@@ -46,14 +46,12 @@ public class Vuelo {
         this.llegada = llegada;
         this.precio = precio;
         this.asientos = new boolean[avion.getFilas()][avion.getColumnas()];
-        billetes = new ListaBilletes(avion.getColumnas()*avion.getFilas());
-
         for (int i = 0; i < avion.getFilas(); i++){
             for (int j = 0; j < avion.getColumnas(); j++){
-//                asientos[i][j] = billetes.buscarBillete(id, i, j) != null;
                 asientos[i][j] = false;
             }
         }
+        billetes = new ListaBilletes(avion.getColumnas()*avion.getFilas());
 
     };
     public String getID(){ return id; };
@@ -88,7 +86,8 @@ public class Vuelo {
     };
     //Si está desocupado el asiento que indica el billete, lo pone ocupado y devuelve true, si no devuelve false
     public boolean ocuparAsiento(Billete billete){
-        return billetes.insertarBillete(billete);
+        this.asientos[billete.getFila()-1][billete.getColumna()-1] = true;
+        return this.billetes.insertarBillete(billete);
     };
     //A traves del loalizador de billete, se desocupará el asiento
     public boolean desocuparAsiento(String localizador){
@@ -156,38 +155,39 @@ public class Vuelo {
         String[] LETRAS = {
                 "   A","  B","  C","  D","  E","  F","  G","  H","  I","  J","  K","  J","  M","  N","  Ñ","  O","  P","  Q","  R","  S","  T","  U","  V","  W","  X","  Y","  Z"
         };
-        for (int i = 0; i < avion.getFilas(); i++) {
+        for (int i = 0; i < avion.getColumnas(); i++) {
             System.out.print(LETRAS[i]);
         }
         System.out.println();
-        for (int i = 0; i < avion.getColumnas(); i++) {
+        for (int i = 0; i < avion.getFilas(); i++) {
             if (i<9) {
                 System.out.print(" ");
             }
             System.out.print(i+1);
             switch (i) {
-                case 0:
+                case 0 -> {
                     spacer1 = "(";
                     spacer2 = ")";
-                    break;
-                case 1, 2, 3, 4:
+                }
+                case 1, 2, 3, 4 -> {
                     spacer1 = "{";
                     spacer2 = "}";
-                    break;
-                default:
+                }
+                default -> {
                     spacer1 = "[";
                     spacer2 = "]";
-                    break;
+                }
             }
-            for (int r = 0; r < avion.getFilas(); r++) {
+            for (int r = 0; r < avion.getColumnas(); r++) {
                 isres = " ";
-                if (asientos[r][i]) {
+                if (asientos[i][r]) {
                     isres = "X";
                 }
                 System.out.printf("%s%s%s",spacer1,isres,spacer2);
             }
             System.out.println();
         }
+        System.out.println("Tipo de asiento: '[ ]' = TURISTA, '{ }' = PREFERENTE, '( )' = PRIMERA");
     };
     //Devuelve true si ha podido escribir en un fichero la lista de pasajeros del vuelo, siguiendo las indicaciones del enunciado
     public boolean generarListaPasajeros(String fichero){
