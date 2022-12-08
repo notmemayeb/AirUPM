@@ -56,10 +56,12 @@ public class ListaBilletes {
         }
         return billeteBuscado;
     };
-    public Billete buscarBillete (String idVuelo, int fila, int columna){
+    public Billete buscarBillete(String idVuelo, int fila, int columna){
         Billete billeteBuscado = null;
         for (Billete billete: lista) {
-            if (billete.getVuelo().getID().equals(idVuelo)  && billete.getColumna() == columna && billete.getFila() == fila) billeteBuscado = billete;
+            if (billete != null){
+                if (billete.getVuelo().getID().equals(idVuelo)  && billete.getColumna() == columna && billete.getFila() == fila) billeteBuscado = billete;
+            }
         }
         return billeteBuscado;
     };
