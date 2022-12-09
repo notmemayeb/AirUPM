@@ -87,14 +87,11 @@ public class ListaPasajeros {
         Pasajero pasajeroSeleccionar = null;
         do {
             System.out.print(mensaje);
+            teclado.nextLine();
             stringDNI = teclado.nextLine();
-            numDNI = Long.parseLong(stringDNI.substring(0,7));
-        }while (!Pasajero.correctoDNI(numDNI,stringDNI.substring(8).charAt(0)));
-        for (int i = 0; i < capacidad; i++) {
-            if (listaPasajeros[i].getDNI().equals(stringDNI)) {
-                pasajeroSeleccionar = listaPasajeros[i];
-            }
-        }
+            numDNI = Long.parseLong(stringDNI.replaceAll("[^0-9]", ""));
+        }while (!Pasajero.correctoDNI(numDNI,stringDNI.charAt(stringDNI.length()-1)));
+        pasajeroSeleccionar = this.buscarPasajeroDNI(String.format("%08d%c",numDNI,stringDNI.charAt(stringDNI.length()-1)));
         return pasajeroSeleccionar;
     };
     // Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo

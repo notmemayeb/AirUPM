@@ -226,7 +226,7 @@ public class AirUPM {
                             }
                             break;
                         case 4:
-                            System.out.println(programa.listaPasajeros.getOcupacion());
+                            Pasajero pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
                             break;
                         case 5:
                             break;

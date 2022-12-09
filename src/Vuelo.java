@@ -283,8 +283,8 @@ public class Vuelo {
         distancia = origen.distancia(destino);
         avion = aviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
         do {
-            salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:\n");
-            llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:\n");
+            salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:");
+            llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:");
             if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
         } while (!salida.anterior(llegada));
 
