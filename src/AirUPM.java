@@ -117,7 +117,10 @@ public class AirUPM {
         } while (respuesta != 'n' && respuesta != 'e');
         Pasajero pasajeroSeleccionado = null;
         if ((respuesta == 'e' && this.listaPasajeros.getOcupacion() != 0) || this.listaPasajeros.estaLlena()){
-            pasajeroSeleccionado = this.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
+            do {
+                pasajeroSeleccionado = this.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
+                if (pasajeroSeleccionado.maxBilletesAlcanzado()) System.out.println("El Pasajero seleccionado no puede adquirir más billetes.");
+            } while (pasajeroSeleccionado.maxBilletesAlcanzado());
         } else {
             pasajeroSeleccionado = Pasajero.altaPasajero(teclado, this.listaPasajeros, this.maxBilletesPasajero);
             this.insertarPasajero(pasajeroSeleccionado);
@@ -226,7 +229,7 @@ public class AirUPM {
                             }
                             break;
                         case 4:
-                            Pasajero pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
+
                             break;
                         case 5:
                             break;

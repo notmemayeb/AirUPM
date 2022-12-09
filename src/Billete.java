@@ -109,10 +109,11 @@ Billete {
         int fila, columna;
         int filasMax = vuelo.getAvion().getFilas();
         int columnasMax = vuelo.getAvion().getColumnas();
+        String ALPHA = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
         do {
             vuelo.imprimirMatrizAsientos();
             fila = Utilidades.leerNumero(teclado, String.format("Ingrese fila del asiento (%d-%d):", 1, filasMax), 1, filasMax);
-            columna = Utilidades.leerNumero(teclado, String.format("Ingrese columna del asiento (%d-%d):", 1, columnasMax), 1, columnasMax);
+            columna = ALPHA.indexOf(Utilidades.leerLetra(teclado, String.format("Ingrese columna del asiento (%c-%c):", 'A', ALPHA.charAt(columnasMax-1)), 'A', ALPHA.charAt(columnasMax+-1))+1);
             if (vuelo.asientoOcupado(fila, columna)) System.out.println("El asiento está ocupado, por favor, seleccione otro");
         } while (vuelo.asientoOcupado(fila, columna));
 
