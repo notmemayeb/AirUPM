@@ -108,7 +108,7 @@ public class Utilidades {
     }
 
     public static boolean isAlphaOChar(String name, char spec) {
-        String filtro = String.format("[a-zA-Z%c]+", spec);
+        String filtro = String.format("[ÁáÉéÚúÓóÍía-zA-Z%c]+", spec);
         return name.matches(filtro);
     }
 

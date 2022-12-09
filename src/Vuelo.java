@@ -154,7 +154,9 @@ public class Vuelo {
         String isres = " ";
         String ALPHA = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
         for (int i = 0; i < avion.getColumnas(); i++) {
-            System.out.print(ALPHA.charAt(i));
+            if (i == 0) System.out.printf("   %c", ALPHA.charAt(i));
+            if (i > 0) System.out.printf("  %c", ALPHA.charAt(i));
+
         }
         System.out.println();
         for (int i = 0; i < avion.getFilas(); i++) {
