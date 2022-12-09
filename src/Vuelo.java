@@ -152,11 +152,9 @@ public class Vuelo {
     public void imprimirMatrizAsientos(){
         String spacer1, spacer2;
         String isres = " ";
-        String[] LETRAS = {
-                "   A","  B","  C","  D","  E","  F","  G","  H","  I","  J","  K","  J","  M","  N","  Ñ","  O","  P","  Q","  R","  S","  T","  U","  V","  W","  X","  Y","  Z"
-        };
+        String ALPHA = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
         for (int i = 0; i < avion.getColumnas(); i++) {
-            System.out.print(LETRAS[i]);
+            System.out.print(ALPHA.charAt(i));
         }
         System.out.println();
         for (int i = 0; i < avion.getFilas(); i++) {
