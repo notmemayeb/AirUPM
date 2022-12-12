@@ -221,7 +221,7 @@ public class AirUPM {
                                     if (vueloSelecionado.numAsientosLibres() > 0){
                                         programa.comprarBillete(teclado, rand, vueloSelecionado);
                                     } else {
-                                        System.out.println("No quedan asientos libres en el vuelo seleccionado.");
+                                        System.out.printf("El vuelo %s está lleno, no se pueden comprar más billetes\n", vueloSelecionado.getID());
                                     }
                                 }
                             } else {
@@ -229,7 +229,16 @@ public class AirUPM {
                             }
                             break;
                         case 4:
-
+                            if (programa.listaPasajeros.getOcupacion() != 0){
+                                Pasajero pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
+                                if (pasajeroSeleccionado.numBilletesComprado() > 0){
+                                    pasajeroSeleccionado.listarBilletes();
+                                    Billete billeteSeleccionado = pasajeroSeleccionado.seleccionarBillete(teclado, "Ingrese localizador del billete:");
+                                    System.out.println("¿Generar factura del billete (f), cancelarlo (c) o volver al menú (m)?");
+                                } else {
+                                    System.out.println("El pasajero seleccionado no ha adquirido ningún billete");
+                                }
+                            }
                             break;
                         case 5:
                             break;

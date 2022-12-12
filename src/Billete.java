@@ -65,12 +65,14 @@ Billete {
     };
     // Texto que debe generar: Billete PM1111AAAA para Vuelo PM1111 de MAD T4 (24/12/2022 12:35:00) a BCN T1 (24/12/2022 14:05:30) en asiento 6C (TURISTA) por 100.00€
     public String toString(){
-        return String.format("Billete %s para vuelo %s de %s (%s) a %s (%s) en asiento %s (%s) por %.2f",
+        return String.format("Billete %s para Vuelo %s de %s T%d (%s) a %s T%d (%s) en asiento %s (%s) por %.2f€",
                 this.localizador,
                 vuelo.getID(),
                 vuelo.getOrigen().getCodigo(),
+                vuelo.getTerminalOrigen(),
                 vuelo.getSalida(),
                 vuelo.getDestino().getCodigo(),
+                vuelo.getTerminalDestino(),
                 vuelo.getLlegada(),
                 this.getAsiento(),
                 tipo,

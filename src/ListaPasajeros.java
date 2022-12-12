@@ -87,7 +87,6 @@ public class ListaPasajeros {
         Pasajero pasajeroSeleccionar = null;
         do {
             System.out.print(mensaje);
-            teclado.nextLine();
             stringDNI = teclado.nextLine();
             numDNI = Long.parseLong(stringDNI.replaceAll("[^0-9]", ""));
         }while (!Pasajero.correctoDNI(numDNI,stringDNI.charAt(stringDNI.length()-1)));

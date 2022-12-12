@@ -52,7 +52,9 @@ public class ListaBilletes {
     public Billete buscarBillete (String localizador){
         Billete billeteBuscado = null;
         for (Billete billete: lista) {
-            if (billete.getLocalizador().equals(localizador)) billeteBuscado = billete;
+            if (billete != null){
+                if (billete.getLocalizador().equals(localizador)) billeteBuscado = billete;
+            }
         }
         return billeteBuscado;
     };
@@ -78,7 +80,7 @@ public class ListaBilletes {
     // Muestra por pantalla los billetes de la lista
     public void listarBilletes(){
         for (int i = 0; i <= getOcupacion(); i++) {
-            System.out.println(getBillete(i));
+            if (lista[i] != null) System.out.println(lista[i].toString());
         }
     };
     // Permite seleccionar un billete existente a partir de su localizador, usando el mensaje pasado como argumento para la solicitud
@@ -87,8 +89,9 @@ public class ListaBilletes {
     public Billete seleccionarBillete(Scanner teclado, String mensaje){
         String localizador;
         do {
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             localizador = teclado.next();
+            if (buscarBillete(localizador) == null) System.out.println("Localizador no encontrado.");
         }while(buscarBillete(localizador) == null);
         return buscarBillete(localizador);
     };
