@@ -70,10 +70,13 @@ public class ListaBilletes {
     public boolean eliminarBillete (String localizador){
         boolean resultado = false;
         for (int i = 0; i < capacidad; i++){
-            if (lista[i].getLocalizador().equals(localizador)){
-                lista[i] = null;
-                resultado = true;
+            if (lista[i] != null){
+                if (lista[i].getLocalizador().equals(localizador)){
+                    lista[i] = null;
+                    resultado = true;
+                }
             }
+
         }
         return resultado;
     };

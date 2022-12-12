@@ -229,18 +229,47 @@ public class AirUPM {
                             }
                             break;
                         case 4:
+                            // Pregunatar sobre .csv
                             if (programa.listaPasajeros.getOcupacion() != 0){
                                 Pasajero pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
                                 if (pasajeroSeleccionado.numBilletesComprado() > 0){
                                     pasajeroSeleccionado.listarBilletes();
                                     Billete billeteSeleccionado = pasajeroSeleccionado.seleccionarBillete(teclado, "Ingrese localizador del billete:");
-                                    System.out.println("¿Generar factura del billete (f), cancelarlo (c) o volver al menú (m)?");
+                                    char respuesta;
+                                    do {
+                                        System.out.print("¿Generar factura del billete (f), cancelarlo (c) o volver al menú (m)?");
+                                        respuesta = teclado.next().charAt(0);
+                                        if (respuesta != 'f' && respuesta != 'c' && respuesta != 'm'){
+                                            System.out.println("El valor de entrada debe ser 'f', 'c' o 'm'");
+                                        }
+                                    } while (respuesta != 'f' && respuesta != 'c' && respuesta != 'm');
+                                    if (respuesta == 'f'){
+                                        System.out.print("Introduzca la ruta donde generar la factura:");
+                                        teclado.nextLine();
+                                        String ruta = teclado.nextLine();
+                                        billeteSeleccionado.generarFactura(ruta);
+                                        System.out.println("Facturada de Billete PM1111IDIM generada en " + ruta);
+                                    } else if (respuesta == 'c'){
+                                        pasajeroSeleccionado.cancelarBillete(billeteSeleccionado.getLocalizador());
+                                        billeteSeleccionado.getVuelo().desocuparAsiento(billeteSeleccionado.getLocalizador());
+                                        programa.listaBilletes.eliminarBillete(billeteSeleccionado.getLocalizador());
+                                        System.out.printf("Billete %s cancelado.\n", billeteSeleccionado.getLocalizador());
+                                    }
                                 } else {
                                     System.out.println("El pasajero seleccionado no ha adquirido ningún billete");
                                 }
                             }
                             break;
                         case 5:
+                            String id;
+                            do {
+                                System.out.print("Ingrese ID del vuelo:");
+                                id = teclado.nextLine();
+                            } while (programa.listaVuelos.buscarVuelo(id) == null);
+                            System.out.print("Introduzca la ruta donde generar la lista de pasajeros:");
+                            String ruta = teclado.nextLine();
+                            programa.listaVuelos.buscarVuelo(id).generarListaPasajeros(ruta);
+                            System.out.printf("Lista de pasajeros del vuelo %s generada en %s\n", id, ruta);
                             break;
                     }
                 } while (opcion != 0);

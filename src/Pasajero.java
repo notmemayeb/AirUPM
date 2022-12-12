@@ -72,7 +72,7 @@ public class Pasajero {
     };
     // Elimina el billete de la lista de billetes del pasajero
     public boolean cancelarBillete(String localizador){
-        return !billetes.eliminarBillete(localizador);
+        return billetes.eliminarBillete(localizador);
     };
     public void listarBilletes(){
         billetes.listarBilletes();

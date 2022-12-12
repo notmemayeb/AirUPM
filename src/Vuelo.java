@@ -199,22 +199,22 @@ public class Vuelo {
                             --------------------------------------------------
                             ------- Lista de pasajeros en vuelo PM1990 -------
                             --------------------------------------------------
-                            Asiento  Tipo        Pasajero""");
+                            Asiento  Tipo        Pasajero
+                            """);
             for (int i = 0; i < (avion.getFilas()*avion.getColumnas()); i++) {
                 if (billetes.getBillete(i) != null) {
-                    System.out.printf("%s\t%S\t%s, %s, %s",billetes.getBillete(i).getAsiento(),
+                    salida.printf("%s       %s     %s, %s, %s\n",billetes.getBillete(i).getAsiento(),
                             billetes.getBillete(i).getTipo(),
                             billetes.getBillete(i).getPasajero().getNombre(),
                             billetes.getBillete(i).getPasajero().getDNI(),
                             billetes.getBillete(i).getPasajero().getEmail());
                 } else {
-                    System.out.println();
+                    salida.println();
                 }
             }
         } catch (Exception _exc){
-
             System.out.println("Error de escritura de fichero Vuelo.");
-
+            return false;
         } finally {
             if (salida != null){
                 try {

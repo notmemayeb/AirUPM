@@ -89,18 +89,19 @@ Billete {
         try {
             salida = new PrintWriter(fichero);
             salida.printf(
-                            "--------------------------------------------------\n" +
-                            "--------- Factura del billete %s ---------\n" +
-                            "--------------------------------------------------\n" +
-                            "Vuelo: %s\n" +
-                            "Origen: %s (%s) T%d\n" +
-                            "Destino: %s (%s) T%d\n" +
-                            "Salida: %s\n" +
-                            "Llegada: %s\n" +
-                            "Pasajero: %s %s, %s, %s\n" +
-                            "Tipo de billete: %s\n" +
-                            "Asiento: %s\n" +
-                            "Precio: %f€",
+                    """
+                            --------------------------------------------------
+                            --------- Factura del billete %s ---------
+                            --------------------------------------------------
+                            Vuelo: %s
+                            Origen: %s (%s) T%d
+                            Destino: %s (%s) T%d
+                            Salida: %s
+                            Llegada: %s
+                            Pasajero: %s %s, %s, %s
+                            Tipo de billete: %s
+                            Asiento: %s
+                            Precio: %f€""",
                     vuelo.getID(),
                     vuelo.getOrigen().getCodigo(),
                     vuelo.getOrigen().getNombre(),
