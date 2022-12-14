@@ -203,7 +203,7 @@ public class Vuelo {
                             """);
             for (int i = 0; i < (avion.getFilas()*avion.getColumnas()); i++) {
                 if (billetes.getBillete(i) != null) {
-                    salida.printf("%s       %s     %s, %s, %s\n",billetes.getBillete(i).getAsiento(),
+                    salida.printf("%-9s-12%s%s, %s, %s\r\n",billetes.getBillete(i).getAsiento(),
                             billetes.getBillete(i).getTipo(),
                             billetes.getBillete(i).getPasajero().getNombre(),
                             billetes.getBillete(i).getPasajero().getDNI(),
