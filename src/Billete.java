@@ -101,7 +101,7 @@ Billete {
                             Pasajero: %s %s, %s, %s
                             Tipo de billete: %s
                             Asiento: %s
-                            Precio: %f€""",
+                            Precio: %.2f€""",
                     vuelo.getID(),
                     vuelo.getOrigen().getCodigo(),
                     vuelo.getOrigen().getNombre(),

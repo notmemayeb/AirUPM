@@ -118,6 +118,7 @@ public class AirUPM {
         Pasajero pasajeroSeleccionado = null;
         if ((respuesta == 'e' && this.listaPasajeros.getOcupacion() != 0) || this.listaPasajeros.estaLlena()){
             do {
+                teclado.nextLine();
                 pasajeroSeleccionado = this.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
                 if (pasajeroSeleccionado.maxBilletesAlcanzado()) System.out.println("El Pasajero seleccionado no puede adquirir más billetes.");
             } while (pasajeroSeleccionado.maxBilletesAlcanzado());

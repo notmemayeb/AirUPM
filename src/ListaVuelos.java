@@ -70,13 +70,9 @@ public class ListaVuelos {
         int n = 0;
         for (int i = 0 ; i < listaVuelos.length; i++) {
            if (listaVuelos[i] != null){
-               if (listaVuelos[i].getSalida().coincide(fecha)) {
-                   if (listaVuelos[i].getOrigen().getCodigo().equals(codigoOrigen)) {
-                       if (listaVuelos[i].getDestino().getCodigo().equals(codigoDestino)) {
-                           lista.listaVuelos[n]= listaVuelos[i];
-                           n++;
-                       }
-                   }
+               if (this.listaVuelos[i].coincide(codigoOrigen, codigoDestino, fecha)) {
+                   lista.listaVuelos[n] = listaVuelos[i];
+                   n++;
                }
            }
         }
