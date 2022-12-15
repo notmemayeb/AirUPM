@@ -55,9 +55,7 @@ Billete {
     public int getFila(){ return fila; };
     public int getColumna(){ return columma; };
     // Ejemplos: "1A" para el asiento con fila 1 y columna 1, "3D" para el asiento con fila 3 y columna 4
-    public String getAsiento(){
-        return String.format("%d%c", fila, LETRA[columma-1]);
-    };
+    public String getAsiento(){ return String.format("%d%c", fila, LETRA[columma-1]);};
     public double getPrecio(){
         if (tipo == TIPO.PRIMERA) return precio*1.5;;
         if (tipo == TIPO.PREFERENTE) return precio*1.25;
@@ -140,14 +138,9 @@ Billete {
     // primeros será el ID del vuelo asociado y los 4 siguientes serán letras mayúsculas aleatorias. Ejemplo: PM0123ABCD
     // NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.  
     public static String generarLocalizador(Random rand, String idVuelo){
-        String[] LETRAS = {
-                "A","B","C","D","E","F","G","H","I",
-                "J","K","J","M","N","O","P","Q","R",
-                "S","T","U","V","W","X","Y","Z"
-        };
         String letrasAleatorias = "";
-        for (int i = 0; i < 5; i++){
-            letrasAleatorias += LETRAS[rand.nextInt(1,25)];
+        for (int i = 0; i < 4; i++){
+            letrasAleatorias += Utilidades.ALPHA.charAt(rand.nextInt(1,25));
         }
         return idVuelo + letrasAleatorias;
     };
@@ -159,15 +152,16 @@ Billete {
         int fila, columna;
         int filasMax = vuelo.getAvion().getFilas();
         int columnasMax = vuelo.getAvion().getColumnas();
-        String ALPHA = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
         do {
             vuelo.imprimirMatrizAsientos();
             fila = Utilidades.leerNumero(teclado, String.format("Ingrese fila del asiento (%d-%d):", 1, filasMax), 1, filasMax);
-            columna = ALPHA.indexOf(Utilidades.leerLetra(teclado, String.format("Ingrese columna del asiento (%c-%c):", 'A', ALPHA.charAt(columnasMax-1)), 'A', ALPHA.charAt(columnasMax+-1))+1);
+            columna = Utilidades.ALPHA.indexOf(Utilidades.leerLetra(teclado, String.format("Ingrese columna del asiento (%c-%c):", 'A', Utilidades.ALPHA.charAt(columnasMax-1)), 'A', Utilidades.ALPHA.charAt(columnasMax+-1))+1);
             if (vuelo.asientoOcupado(fila, columna)) System.out.println("El asiento está ocupado, por favor, seleccione otro");
         } while (vuelo.asientoOcupado(fila, columna));
-
-        String localizador = Billete.generarLocalizador(rand, vuelo.getID());
+        String localizadorNuevo;
+        do {
+            localizadorNuevo = Billete.generarLocalizador(rand, vuelo.getID());
+        } while (vuelo.buscarBillete(localizadorNuevo) != null);
         Billete.TIPO tipo = Billete.TIPO.TURISTA;
         double precio = vuelo.getPrecio();
 
@@ -175,12 +169,12 @@ Billete {
             tipo = Billete.TIPO.PRIMERA;
             precio = vuelo.getPrecioPrimera();
         }
-        else if (fila <= 4){
+        else if (fila <= 5){
             tipo = Billete.TIPO.PREFERENTE;
             precio = vuelo.getPrecioPreferente();
         }
 
-        billete = new Billete(localizador, vuelo, pasajero, tipo ,fila, columna, precio);
+        billete = new Billete(localizadorNuevo, vuelo, pasajero, tipo ,fila, columna, precio);
 
         return billete;
     };

@@ -269,8 +269,7 @@ public class AirUPM {
                             } while (programa.listaVuelos.buscarVuelo(id) == null);
                             System.out.print("Introduzca la ruta donde generar la lista de pasajeros:");
                             String ruta = teclado.nextLine();
-                            programa.listaVuelos.buscarVuelo(id).generarListaPasajeros(ruta);
-                            System.out.printf("Lista de pasajeros del vuelo %s generada en %s\n", id, ruta);
+                            if (programa.listaVuelos.buscarVuelo(id).generarListaPasajeros(ruta))System.out.printf("Lista de pasajeros del vuelo %s generada en %s\n", id, ruta);
                             break;
                     }
                 } while (opcion != 0);

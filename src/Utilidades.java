@@ -12,6 +12,8 @@ import java.util.Scanner;
  * @version     1.0
  */
 public class Utilidades {
+
+    public static String ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // Solicita un número repetidamente hasta que se introduzca uno correcto (dentro de los límites)
     public static int leerNumero(Scanner teclado, String mensaje, int minimo, int maximo){
         int aux;

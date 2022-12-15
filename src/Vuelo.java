@@ -152,10 +152,9 @@ public class Vuelo {
     public void imprimirMatrizAsientos(){
         String spacer1, spacer2;
         String isres = " ";
-        String ALPHA = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
         for (int i = 0; i < avion.getColumnas(); i++) {
-            if (i == 0) System.out.printf("   %c", ALPHA.charAt(i));
-            if (i > 0) System.out.printf("  %c", ALPHA.charAt(i));
+            if (i == 0) System.out.printf("   %c", Utilidades.ALPHA.charAt(i));
+            if (i > 0) System.out.printf("  %c", Utilidades.ALPHA.charAt(i));
 
         }
         System.out.println();
@@ -201,19 +200,33 @@ public class Vuelo {
                             --------------------------------------------------
                             Asiento  Tipo        Pasajero
                             """);
-            for (int i = 0; i < (avion.getFilas()*avion.getColumnas()); i++) {
-                if (billetes.getBillete(i) != null) {
-                    salida.printf("%-9s-12%s%s, %s, %s\r\n",billetes.getBillete(i).getAsiento(),
-                            billetes.getBillete(i).getTipo(),
-                            billetes.getBillete(i).getPasajero().getNombre(),
-                            billetes.getBillete(i).getPasajero().getDNI(),
-                            billetes.getBillete(i).getPasajero().getEmail());
-                } else {
-                    salida.println();
+
+            char columna = 'A';
+            int fila = 1;
+
+            for (int i = 0; i < avion.getFilas(); i++) {
+                for (int r = 0; r < avion.getColumnas(); r++) {
+                    if (columna == Utilidades.ALPHA.charAt(avion.getColumnas())) {
+                        columna = 'A';
+                        fila++;
+                    }
+                    salida.printf("%d%-8c",fila, columna);
+                    columna = (char) (columna + 1);
+                    if (buscarBillete(i+1, r+1) != null){
+                        salida.printf("%-12s%s, %s, %s\r\n",
+                                buscarBillete(i+1, r+1).getTipo(),
+                                buscarBillete(i+1, r+1).getPasajero().getNombre(),
+                                buscarBillete(i+1, r+1).getPasajero().getDNI(),
+                                buscarBillete(i+1, r+1).getPasajero().getEmail());
+                    } else {
+                        salida.println("");
+                    }
+
                 }
             }
         } catch (Exception _exc){
-            System.out.println("Error de escritura de fichero Vuelo.");
+            System.out.printf("Error de escritura de fichero %s.\n", fichero);
+            System.out.println(_exc.getMessage());
             return false;
         } finally {
             if (salida != null){

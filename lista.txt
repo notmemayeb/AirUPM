@@ -1,0 +1,22 @@
+--------------------------------------------------
+------- Lista de pasajeros en vuelo PM1990 -------
+--------------------------------------------------
+Asiento  Tipo        Pasajero
+1A       PRIMERA     Cristian, 51231621H, cristian.ramirez@upm.es
+1B       PRIMERA     Cristian, 51231621H, cristian.ramirez@upm.es
+1C       PRIMERA     Cristian, 51231621H, cristian.ramirez@upm.es
+2A       
+2B       PREFERENTE  Víctor, 00123456S, victor.rfernandez@upm.es
+2C       PREFERENTE  Víctor, 00123456S, victor.rfernandez@upm.es
+3A       PREFERENTE  Pedro, 09235258E, pedro.serna@alumnos.upm.es
+3B       PREFERENTE  Víctor, 00123456S, victor.rfernandez@upm.es
+3C       
+4A       PREFERENTE  Juan Pablo, 25058498K, juan.martin.robles@alumnos.upm.es
+4B       PREFERENTE  Juan Pablo, 25058498K, juan.martin.robles@alumnos.upm.es
+4C       PREFERENTE  Juan Pablo, 25058498K, juan.martin.robles@alumnos.upm.es
+5A       PREFERENTE  Pedro, 09235258E, pedro.serna@alumnos.upm.es
+5B       PREFERENTE  Ramón, 34526179M, ramon.perez@alumnos.upm.es
+5C       PREFERENTE  Ramón, 34526179M, ramon.perez@alumnos.upm.es
+6A       TURISTA     Pedro, 09235258E, pedro.serna@alumnos.upm.es
+6B       
+6C       TURISTA     Ramón, 34526179M, ramon.perez@alumnos.upm.es
