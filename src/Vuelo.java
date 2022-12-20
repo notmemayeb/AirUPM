@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -257,68 +258,64 @@ public class Vuelo {
     //Crea y devuelve un objeto Vuelo de los datos que selecciona el usuario de aeropuertos y aviones y la restricción de que
     //no puede estar repetido el identificador, siguiendo las indicaciones del enunciado
     //La función solicita repetidamente los parametros hasta que sean correctos
-    public static Vuelo altaVuelo(Scanner teclado, Random rand, ListaAeropuertos aeropuertos, ListaAviones aviones, ListaVuelos vuelos){
+    public static Vuelo altaVuelo(Scanner teclado, Random rand, ListaAeropuertos aeropuertos, ListaAviones aviones, ListaVuelos vuelos) {
 
         Aeropuerto origen, destino;
         Avion avion;
         Fecha salida, llegada;
         String mensaje, id;
         int terminalOrigen, terminalDestino;
-        double distancia , precio;
+        double distancia, precio;
 
-        do {
-            origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
-            mensaje = String.format(
-                    "Ingrese Terminal Origen (%d - %d):",
-                    1,
-                    origen.getTerminales()
-            );
-            terminalOrigen = Utilidades.leerNumero(
-                    teclado,
-                    mensaje,
-                    1,
-                    origen.getTerminales()
-            );
-            destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
-            mensaje = String.format(
-                    "Ingrese Terminal Destino (%d - %d):",
-                    1,
-                    destino.getTerminales()
-            );
-            terminalDestino = Utilidades.leerNumero(
-                    teclado,
-                    mensaje,
-                    1,
-                    destino.getTerminales()
-            );
-            if (origen.getCodigo().equals(destino.getCodigo())) System.out.println("Aeroperto origen y Aeroperto destino deben ser distintos");
-        } while (origen.getCodigo().equals(destino.getCodigo()));
-        distancia = origen.distancia(destino);
-        avion = aviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
-        do {
-            salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:");
-            llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:");
-            if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
-        } while (!salida.anterior(llegada));
-
-        precio = 0;
-        boolean isDouble = false;
-
-        while (precio <= 0 || !isDouble){
-            try{
+        try {
+            do {
+                origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+                mensaje = String.format(
+                        "Ingrese Terminal Origen (%d - %d):",
+                        1,
+                        origen.getTerminales()
+                );
+                terminalOrigen = Utilidades.leerNumero(
+                        teclado,
+                        mensaje,
+                        1,
+                        origen.getTerminales()
+                );
+                destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+                mensaje = String.format(
+                        "Ingrese Terminal Destino (%d - %d):",
+                        1,
+                        destino.getTerminales()
+                );
+                terminalDestino = Utilidades.leerNumero(
+                        teclado,
+                        mensaje,
+                        1,
+                        destino.getTerminales()
+                );
+                if (origen.getCodigo().equals(destino.getCodigo()))
+                    System.out.println("Aeroperto origen y Aeroperto destino deben ser distintos");
+            } while (origen.getCodigo().equals(destino.getCodigo()));
+            distancia = origen.distancia(destino);
+            avion = aviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
+            do {
+                salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:");
+                llegada = Utilidades.leerFechaHora(teclado, "Fecha de Legada:");
+                if (!salida.anterior(llegada)) System.out.println("Llegada debe ser posterior a salida.");
+            } while (!salida.anterior(llegada));
+            precio = 0;
+            while (precio <= 0) {
                 System.out.print("Ingrese precio de pasaje:");
-                teclado.nextLine();
                 precio = teclado.nextDouble();
-                isDouble = true;
-            } catch (Exception exc){
-                isDouble = false;
             }
+            do {
+                id = Vuelo.generarID(rand);
+            } while (vuelos.buscarVuelo(id) != null);
+            return new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
+        } catch (InputMismatchException _exc){
+            teclado.nextLine();
+            System.out.println("Formato de entrada incorrecto.");
+            return null;
         }
-
-        do {
-            id = Vuelo.generarID(rand);
-        } while (vuelos.buscarVuelo(id) != null);
-
-        return new Vuelo(id, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
-    }
+    };
 }

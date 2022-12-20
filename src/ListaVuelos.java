@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -93,16 +94,22 @@ public class ListaVuelos {
     public Vuelo seleccionarVuelo(Scanner teclado, String mensaje, String cancelar){
         Vuelo vueloSeleccionado = null;
         String respuesta;
-        do {
-            System.out.print(mensaje);
-            respuesta = teclado.nextLine();
-            vueloSeleccionado = buscarVuelo(respuesta);
-            if (vueloSeleccionado == null) {
-                System.out.println("ID de vuelo no encontrado.");
-            }
-        } while (vueloSeleccionado == null && !respuesta.equals(cancelar));
-        if (respuesta.equals(cancelar)) vueloSeleccionado = null;
-        return vueloSeleccionado;
+        try {
+            do {
+                System.out.print(mensaje);
+                respuesta = teclado.nextLine();
+                vueloSeleccionado = buscarVuelo(respuesta);
+                if (vueloSeleccionado == null) {
+                    System.out.println("ID de vuelo no encontrado.");
+                }
+            } while (vueloSeleccionado == null && !respuesta.equals(cancelar));
+            if (respuesta.equals(cancelar)) vueloSeleccionado = null;
+            return vueloSeleccionado;
+        } catch (InputMismatchException _exc){
+            System.out.println("Formato de entrada incorrecto.");
+            teclado.nextLine();
+            return null;
+        }
     };
     //Ha de escribir la lista de vuelos en la ruta y nombre del fichero pasado como parámetro.
     //Si existe el fichero, se sobreescribe, si no existe se crea.

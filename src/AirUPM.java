@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -93,13 +94,17 @@ public class AirUPM {
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
     // ejecución del enunciado
     public ListaVuelos buscarVuelo(Scanner teclado){
-
-        Aeropuerto origen = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
-        Aeropuerto destino = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
-        Fecha salida = Utilidades.leerFecha(teclado, "Fecha de Salida:");
-        ListaVuelos lista = this.listaVuelos.buscarVuelos(origen.getCodigo(),destino.getCodigo(), salida);
-
-        return lista;
+        try {
+            Aeropuerto origen = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+            Aeropuerto destino = this.listaAeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+            Fecha salida = Utilidades.leerFecha(teclado, "Fecha de Salida:");
+            ListaVuelos lista = this.listaVuelos.buscarVuelos(origen.getCodigo(),destino.getCodigo(), salida);
+            return lista;
+        } catch (InputMismatchException _exc){
+            teclado.nextLine();
+            System.out.println("Formato de entrada incorrecto.");
+            return null;
+        }
     };
     // Funcionalidad comprarBillete especificada en el enunciado del proyecto, que compra un billete para un vuelo especificado,
     // pidiendo por teclado los datos necesarios al usuario en el orden y con los textos indicados en los ejemplos de ejecución del
@@ -215,25 +220,27 @@ public class AirUPM {
                             break;
                         case 3:
                             ListaVuelos lista = programa.buscarVuelo(teclado);
-                            if (lista.getOcupacion() != 0){
-                                lista.listarVuelos();
-                                Vuelo vueloSelecionado = programa.listaVuelos.seleccionarVuelo(teclado, "Ingrese ID de vuelo para comprar billete o escriba CANCELAR: ", "CANCELAR");
-                                if (vueloSelecionado != null){
-                                    if (vueloSelecionado.numAsientosLibres() > 0){
-                                        programa.comprarBillete(teclado, rand, vueloSelecionado);
-                                    } else {
-                                        System.out.printf("El vuelo %s está lleno, no se pueden comprar más billetes\n", vueloSelecionado.getID());
+                            if (lista != null) {
+                                if (lista.getOcupacion() != 0) {
+                                    lista.listarVuelos();
+                                    Vuelo vueloSelecionado = programa.listaVuelos.seleccionarVuelo(teclado, "Ingrese ID de vuelo para comprar billete o escriba CANCELAR: ", "CANCELAR");
+                                    if (vueloSelecionado != null) {
+                                        if (vueloSelecionado.numAsientosLibres() > 0) {
+                                            programa.comprarBillete(teclado, rand, vueloSelecionado);
+                                        } else {
+                                            System.out.printf("El vuelo %s está lleno, no se pueden comprar más billetes\n", vueloSelecionado.getID());
+                                        }
                                     }
+                                } else {
+                                    System.out.println("No se ha encontrado ningún vuelo.");
                                 }
-                            } else {
-                                System.out.println("No se ha encontrado ningún vuelo.");
                             }
                             break;
                         case 4:
                             // Pregunatar sobre .csv
                             if (programa.listaPasajeros.getOcupacion() != 0){
                                 Pasajero pasajeroSeleccionado = programa.listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI de pasajero:");
-                                if (pasajeroSeleccionado.numBilletesComprado() > 0){
+                                if (pasajeroSeleccionado != null && pasajeroSeleccionado.numBilletesComprado() > 0){
                                     pasajeroSeleccionado.listarBilletes();
                                     Billete billeteSeleccionado = pasajeroSeleccionado.seleccionarBillete(teclado, "Ingrese localizador del billete:");
                                     char respuesta;

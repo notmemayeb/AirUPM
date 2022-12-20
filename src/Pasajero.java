@@ -1,5 +1,6 @@
 import jdk.jshell.spi.SPIResolutionException;
 
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -92,50 +93,57 @@ public class Pasajero {
         char  letraDNI;
         long numeroDNI;
 
-        do {
-            System.out.print("Ingrese nombre:");
-            nombre = teclado.next();
-            teclado.nextLine();
-        } while (!Utilidades.isAlphaOChar(nombre, ' '));
-
-        do {
-            System.out.print("Ingrese apellidos:");
-            apellidos = teclado.next();
-            teclado.nextLine();
-        } while (!Utilidades.isAlphaOChar(apellidos, ' '));
-
-        do {
+        try {
             do {
-                System.out.print("Ingrese número de DNI:");
-                numeroDNI = teclado.nextLong();
+                System.out.print("Ingrese nombre:");
+                nombre = teclado.next();
                 teclado.nextLine();
-            } while (Long.toString(numeroDNI).length() > 8);
+            } while (!Utilidades.isAlphaOChar(nombre, ' '));
 
             do {
-                System.out.print("Ingrese letra de DNI:");
-                line = teclado.next();
-                letraDNI = line.charAt(0);
+                System.out.print("Ingrese apellidos:");
+                apellidos = teclado.next();
                 teclado.nextLine();
-            } while (line.length() > 1 || !Character.isLetter(letraDNI));
+            } while (!Utilidades.isAlphaOChar(apellidos, ' '));
 
-            dni = String.format("%08d%c", numeroDNI, letraDNI);
-            if (!Pasajero.correctoDNI(numeroDNI, letraDNI)) System.out.println("DNI incorrecto.");
-            if (pasajeros.buscarPasajeroDNI(dni) != null) System.out.println("DNI ya existe.");
+            do {
+                do {
+                    System.out.print("Ingrese número de DNI:");
+                    numeroDNI = teclado.nextLong();
+                    teclado.nextLine();
+                } while (Long.toString(numeroDNI).length() > 8);
 
-        } while (!Pasajero.correctoDNI(numeroDNI, letraDNI) || pasajeros.buscarPasajeroDNI(dni) != null);
+                do {
+                    System.out.print("Ingrese letra de DNI:");
+                    line = teclado.next();
+                    letraDNI = line.charAt(0);
+                    teclado.nextLine();
+                } while (line.length() > 1 || !Character.isLetter(letraDNI));
 
-        do {
-            System.out.print("Ingrese email:");
-            email = teclado.next();
+                dni = String.format("%08d%c", numeroDNI, letraDNI);
+                if (!Pasajero.correctoDNI(numeroDNI, letraDNI)) System.out.println("DNI incorrecto.");
+                if (pasajeros.buscarPasajeroDNI(dni) != null) System.out.println("DNI ya existe.");
+
+            } while (!Pasajero.correctoDNI(numeroDNI, letraDNI) || pasajeros.buscarPasajeroDNI(dni) != null);
+
+            do {
+                System.out.print("Ingrese email:");
+                email = teclado.next();
+                teclado.nextLine();
+                if (!Pasajero.correctoEmail(email)) System.out.println("Email incorrecto.");
+                if (pasajeros.buscarPasajeroEmail(email) != null) System.out.println("Email ya existe.");
+            } while (!Pasajero.correctoEmail(email) || pasajeros.buscarPasajeroEmail(email) != null);
+
+            return new Pasajero(nombre, apellidos, numeroDNI, letraDNI, email, maxBilletes);
+        } catch (InputMismatchException _exc){
+            System.out.println("Formato de entrada incorrecto.");
             teclado.nextLine();
-            if (!Pasajero.correctoEmail(email)) System.out.println("Email incorrecto.");
-            if (pasajeros.buscarPasajeroEmail(email) != null) System.out.println("Email ya existe.");
-        } while (!Pasajero.correctoEmail(email) || pasajeros.buscarPasajeroEmail(email) != null);
-
-        return new Pasajero(nombre, apellidos, numeroDNI, letraDNI, email, maxBilletes);
+            return null;
+        }
     };
     // Correcto: 00123456 S, incorrectos: 123456789 A, 12345678 0, 12345678 A
     public static boolean correctoDNI(long numero, char letra){
+        if (numero == -1) return false;
         char[] letraPosicion = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
         int length = String.valueOf(numero).length();
 

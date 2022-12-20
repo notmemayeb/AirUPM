@@ -100,14 +100,14 @@ Billete {
                             Tipo de billete: %s
                             Asiento: %s
                             Precio: %.2f€""",
+                    this.localizador,
                     vuelo.getID(),
-                    vuelo.getOrigen().getCodigo(),
                     vuelo.getOrigen().getNombre(),
                     vuelo.getOrigen().getCodigo(),
-                    vuelo.getOrigen().getTerminales(),
+                    vuelo.getTerminalOrigen(),
                     vuelo.getDestino().getNombre(),
                     vuelo.getDestino().getCodigo(),
-                    vuelo.getDestino().getTerminales(),
+                    vuelo.getTerminalDestino(),
                     vuelo.getSalida(),
                     vuelo.getLlegada(),
                     pasajero.getNombre(),
