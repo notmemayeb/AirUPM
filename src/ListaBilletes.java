@@ -102,28 +102,41 @@ public class ListaBilletes {
     public boolean aniadirBilletesCsv(String fichero){
         PrintWriter salida = null;
         Scanner sc = null;
+        boolean resultado = false;
         try {
             salida = new PrintWriter(fichero);
             sc = new Scanner(new FileReader(fichero));
+            String linea = "";
             while (sc.hasNextLine()) {sc.nextLine();}
-            for (int i = 0; i < getOcupacion()-1; i++) {
-                salida.printf("%s;%s;%s;%s;%d;%d;%f\n",
-                        lista[i].getLocalizador(),
-                        lista[i].getVuelo(),
-                        lista[i].getPasajero().toString(),
-                        lista[i].getTipo().toString(),
-                        lista[i].getFila(),
-                        lista[i].getColumna(),
-                        lista[i].getPrecio());
+            for (int i = 0; i < getOcupacion(); i++) {
+//                salida.printf("%s;%s;%s;%s;%d;%d;%f\n",
+//                        lista[i].getLocalizador(),
+//                        lista[i].getVuelo().getID(),
+//                        lista[i].getPasajero().getDNI(),
+//                        lista[i].getTipo().toString(),
+//                        lista[i].getFila(),
+//                        lista[i].getColumna(),
+//                        lista[i].getPrecio());
+                linea = lista[i].getLocalizador() + ";" + lista[i].getVuelo().getID() + ";" + lista[i].getPasajero().getDNI() + ";" + lista[i].getTipo().toString() + ";" + lista[i].getFila() + ";" + lista[i].getColumna() + ";" + lista[i].getPrecio();
+                salida.println(linea);
             }
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+            resultado = true;
+        } catch (FileNotFoundException _exc){
+            System.out.println("Fichero Billetes no encontrado.");
+
+        } catch (Exception _exc){
+            System.out.println("Error de escritura de fichero Billetes.");
+
         } finally {
-            if (salida != null) {
-                salida.close();
+            if (salida != null){
+                try {
+                    salida.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Billetes.");
+                }
             }
-        }return true;
+        }
+        return resultado;
     };
 
     // Métodos estáticos

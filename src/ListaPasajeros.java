@@ -100,25 +100,41 @@ public class ListaPasajeros {
     // Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo
     public boolean escribirPasajerosCsv(String fichero){
         PrintWriter salida = null;
+        boolean resultado = false;
+        String linea = "";
         try {
             salida = new PrintWriter(fichero);
-            for (int i = 1;i<getOcupacion()-1;i++) {
-            salida.printf("%s;%s;%d;%c;%s\n",
-                    listaPasajeros[i].getNombre(),
-                    listaPasajeros[i].getApellidos(),
-                    listaPasajeros[i].getNumeroDNI(),
-                    listaPasajeros[i].getLetraDNI(),
-                    listaPasajeros[i].getEmail());
+            for (int i = 1;i<getOcupacion();i++) {
+//            salida.printf("%s;%s;%d;%c;%s\n",
+//                    listaPasajeros[i].getNombre(),
+//                    listaPasajeros[i].getApellidos(),
+//                    listaPasajeros[i].getNumeroDNI(),
+//                    listaPasajeros[i].getLetraDNI(),
+//                    listaPasajeros[i].getEmail());
+                linea = listaPasajeros[i].getNombre() + ";" +
+                        listaPasajeros[i].getApellidos() + ";" +
+                        listaPasajeros[i].getNumeroDNI() + ";" +
+                        listaPasajeros[i].getLetraDNI() + ";" +
+                        listaPasajeros[i].getEmail();
+                salida.println(linea);
             }
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+            resultado = true;
+        } catch (FileNotFoundException _exc){
+            System.out.println("Fichero Pasajeros no encontrado.");
+
+        } catch (Exception _exc){
+            System.out.println("Error de escritura de fichero Pasajeros.");
+
         } finally {
-            if (salida != null) {
-                salida.close();
+            if (salida != null){
+                try {
+                    salida.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Pasajeros.");
+                }
             }
         }
-        return true;
+        return resultado;
     };
 
     //Métodos estáticos

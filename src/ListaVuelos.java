@@ -115,6 +115,7 @@ public class ListaVuelos {
     //Si existe el fichero, se sobreescribe, si no existe se crea.
     public boolean escribirVuelosCsv(String fichero){
         PrintWriter salida = null;
+        boolean resultado = false;
         try {
             salida = new PrintWriter(fichero);
             for (int i = 0; i < getOcupacion()-1; i++) {
@@ -129,15 +130,23 @@ public class ListaVuelos {
                         listaVuelos[i].getLlegada().toString(),
                         listaVuelos[i].getPrecio());
             }
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+            resultado = true;
+        } catch (FileNotFoundException _exc){
+            System.out.println("Fichero Vuelos no encontrado.");
+
+        } catch (Exception _exc){
+            System.out.println("Error de escritura de fichero Vuelos.");
+
         } finally {
-            if (salida != null) {
-                salida.close();
+            if (salida != null){
+                try {
+                    salida.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Vuelos.");
+                }
             }
         }
-        return true;
+        return resultado;
     };
 
     //Métodos estáticos

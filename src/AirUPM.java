@@ -280,6 +280,8 @@ public class AirUPM {
                             break;
                     }
                 } while (opcion != 0);
+                boolean resultado = programa.guardarDatos("ae.csv", "av.csv", "v.csv", "p.csv", "b.csv");
+                if (resultado) System.out.println("Datos guardados con éxito.");
             }
 
         } else {

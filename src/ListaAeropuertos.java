@@ -76,26 +76,32 @@ public class ListaAeropuertos {
     // Genera un fichero CSV con la lista de aeropuertos, sobreescribiendolo
     public boolean escribirAeropuertosCsv(String nombre){
         PrintWriter salida = null;
+        boolean resultado = false;
         try {
             salida = new PrintWriter(nombre);
-            for (int i = 0; i < getOcupacion()-1; i++) {
-                salida.printf("%s;%s;%f;%f;%d",listaAeropuertos[i].getNombre(),
-                        listaAeropuertos[i].getCodigo(),
-                        listaAeropuertos[i].getLatitud(),
-                        listaAeropuertos[i].getLongitud(),
-                        listaAeropuertos[i].getTerminales());
+            String linea = "";
+            for (int i = 0; i < getOcupacion(); i++) {
 
-                salida.println();
+                linea = String.valueOf(listaAeropuertos[i].getNombre()) + ";" + String.valueOf(listaAeropuertos[i].getCodigo()) + ";" + String.valueOf(listaAeropuertos[i].getLatitud()) + ";" + String.valueOf(listaAeropuertos[i].getLongitud()) + ";" + String.valueOf(listaAeropuertos[i].getTerminales());
+
+                salida.println(linea);
             }
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+            resultado = true;
+        } catch (FileNotFoundException _exc){
+            System.out.println("Fichero Aeropuertos no encontrado.");
+        } catch (Exception _exc){
+            System.out.println("Error de escritura de fichero Aeropuertos.");
+
         } finally {
-            if (salida != null) {
-                salida.close();
+            if (salida != null){
+                try {
+                    salida.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Aeropuertos.");
+                }
             }
         }
-        return true;
+        return resultado;
     };
 
     //Métodos estáticos

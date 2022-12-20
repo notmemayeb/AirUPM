@@ -83,27 +83,39 @@ public class ListaAviones {
     // Genera un fichero CSV con la lista de aviones, sobreescribiendolo
     public boolean escribirAvionesCsv(String nombre){
         PrintWriter salida = null;
+        boolean resultado = false;
+        String linea = "";
         try {
             salida = new PrintWriter(nombre);
-            for (int i = 0; i < getOcupacion()-1; i++) {
-                salida.printf("%s;%s;%s;%d;%d;%f",listaAviones[i].getMarca(),
-                        listaAviones[i].getModelo(),
-                        listaAviones[i].getMatricula(),
-                        listaAviones[i].getColumnas(),
-                        listaAviones[i].getFilas(),
-                        listaAviones[i].getAlcance());
+            for (int i = 0; i < getOcupacion(); i++) {
+//                salida.printf("%s;%s;%s;%d;%d;%f",listaAviones[i].getMarca(),
+//                        listaAviones[i].getModelo(),
+//                        listaAviones[i].getMatricula(),
+//                        listaAviones[i].getColumnas(),
+//                        listaAviones[i].getFilas(),
+//                        listaAviones[i].getAlcance());
 
-                salida.println();
+                linea = listaAviones[i].getMarca() + ";" + listaAviones[i].getModelo() + ";" + listaAviones[i].getMatricula() + ";" + listaAviones[i].getColumnas() + ";" + listaAviones[i].getFilas() + ";" + listaAviones[i].getAlcance();
+
+                salida.println(linea);
             }
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
+            resultado = true;
+        } catch (FileNotFoundException _exc){
+            System.out.println("Fichero Aviones no encontrado.");
+
+        } catch (Exception _exc){
+            System.out.println("Error de escritura de fichero Aviones.");
+
         } finally {
-            if (salida != null) {
-                salida.close();
+            if (salida != null){
+                try {
+                    salida.close();
+                } catch (Exception _exc){
+                    System.out.println("Error de cierre de fichero Aviones.");
+                }
             }
         }
-        return true;
+        return resultado;
     };
 
     //Métodos estáticos
