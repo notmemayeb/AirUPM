@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * ListaAeropuertos es una clase que contiene una la
+ * lista de aeropuertos y los metodos necesarios para menejar
+ * estos
  *
  * @author  Isaac Lopez
  * @author  Fedor Kunin
@@ -18,7 +20,7 @@ public class ListaAeropuertos {
     /**
      * Constructor of the class
      *
-     * @param capacidad
+     * @param capacidad el numero de aeropuertos maximos en la lista
      */
 
     private int capacidad;
@@ -45,6 +47,13 @@ public class ListaAeropuertos {
     public Aeropuerto getAeropuerto(int i){
         return listaAeropuertos[i];
     };
+
+    /**
+     * Inserta un aeropuerto a la lista comprobando antes
+     * que esta no esta llena
+     * @param aeropuerto que aeropuerto introducir
+     * @return boolean indicando si se ha podido introducir o no
+     */
     public boolean insertarAeropuerto(Aeropuerto aeropuerto){
         if (!this.estaLlena()){
             this.listaAeropuertos[this.getOcupacion()] = aeropuerto;
@@ -52,6 +61,12 @@ public class ListaAeropuertos {
         }
         return false;
     };
+
+    /**
+     * Busca un aeropuerto en la lista usando su codigo
+     * @param codigo del aeropuerto
+     * @return aeropuerto tipo Aeropuerto
+     */
     public Aeropuerto buscarAeropuerto(String codigo){
         Aeropuerto aeropuertoBuscado = null;
         for (Aeropuerto aeropuerto: listaAeropuertos
@@ -60,9 +75,15 @@ public class ListaAeropuertos {
         }
         return aeropuertoBuscado;
     };
-    // Permite seleccionar un aeropuerto existente a partir de su código, usando el mensaje pasado como argumento para la solicitud
-    // y siguiendo el orden y los textos mostrados en el enunciado
-    // La función solicita repetidamente el código hasta que se introduzca uno correcto
+
+    /**
+     * Permite seleccionar un aeropuerto existente a partir de su código, usando el mensaje pasado como argumento para la solicitud
+     * y siguiendo el orden y los textos mostrados en el enunciado
+     * La función solicita repetidamente el código hasta que se introduzca uno correcto
+     * @param teclado Scanner
+     * @param mensaje usado para solicitar la informacion
+     * @return aeropuerto tipo Aeropuerto
+     */
     public Aeropuerto seleccionarAeropuerto(Scanner teclado, String mensaje){
         String codigoOrigen;
         do {
@@ -73,7 +94,12 @@ public class ListaAeropuertos {
         } while (this.buscarAeropuerto(codigoOrigen) == null);
         return buscarAeropuerto(codigoOrigen);
     };
-    // Genera un fichero CSV con la lista de aeropuertos, sobreescribiendolo
+
+    /**
+     * Genera un fichero CSV con la lista de aeropuertos, sobreescribiendolo
+     * @param nombre del fichero donde escribir la informacion
+     * @return boolean indicando si se ha podido escribir o no
+     */
     public boolean escribirAeropuertosCsv(String nombre){
         PrintWriter salida = null;
         boolean resultado = false;
@@ -105,8 +131,14 @@ public class ListaAeropuertos {
     };
 
     //Métodos estáticos
-    //Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como   
-    //capacidad máxima de la lista
+
+    /**
+     * Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como
+     * capacidad máxima de la lista
+     * @param fichero donde se va a escribir la informacion
+     * @param capacidad de aeropuertos maximos en la lista
+     * @return boolean indicando si se ha podido leer o no
+     */
     public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad){
         Scanner entrada = null;
         ListaAeropuertos lista = new ListaAeropuertos(capacidad);

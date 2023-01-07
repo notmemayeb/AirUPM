@@ -3,7 +3,9 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * ListaAviones es una clase que contiene una la
+ * lista de aviones y los metodos necesarios para menejar
+ * estos
  *
  * @author  Isaac Lopez
  * @author  Fedor Kunin
@@ -14,8 +16,8 @@ public class ListaAviones {
     /**
      * Constructor of the class
      *
-     * @param capacidad
-     * @param listaAviones
+     * @param capacidad el numero de aviones maximo en la lista
+     * @param listaAviones lista de aviones
      */
 
     private int capacidad;
@@ -42,6 +44,13 @@ public class ListaAviones {
     public Avion getAvion(int posicion){
         return listaAviones[posicion];
     };
+
+    /**
+     * Introduce un avion en la lista comprobando que no este
+     * llena antes
+     * @param avion avion a introducir en la lista
+     * @return boolean indicando si se ha podido introducir o no
+     */
     public boolean insertarAvion(Avion avion){
         if (!this.estaLlena()){
             this.listaAviones[this.getOcupacion()] = avion;
@@ -49,6 +58,12 @@ public class ListaAviones {
         }
         return false;
     };
+
+    /**
+     * Busca un avion en la lista usando su matricula
+     * @param matricula del avion a buscar en la lista
+     * @return avion de tipo Avion
+     */
     public Avion buscarAvion(String matricula){
         Avion avionBuscado = null;
         for (Avion avion: listaAviones
@@ -61,9 +76,16 @@ public class ListaAviones {
         }
         return avionBuscado;
     };
-    // Permite seleccionar un avión existente a partir de su matrícula, y comprueba si dispone de un alcance mayor o igual que el pasado como argumento,
-    // usando el mensaje pasado como argumento para la solicitud y siguiendo el orden y los textos mostrados en el enunciado
-    // La función solicita repetidamente la matrícula del avión hasta que se introduzca uno con alcance suficiente
+
+    /**
+     * Permite seleccionar un avión existente a partir de su matrícula, y comprueba si dispone de un alcance mayor o igual que el pasado como argumento,
+     * usando el mensaje pasado como argumento para la solicitud y siguiendo el orden y los textos mostrados en el enunciado
+     * La función solicita repetidamente la matrícula del avión hasta que se introduzca uno con alcance suficiente
+     * @param teclado Scanner
+     * @param mensaje usado para pedir la informacion
+     * @param alcance del viaje
+     * @return el avion tipo Avion que cumple las caracteristicas necesarias
+     */
     public Avion seleccionarAvion(Scanner teclado, String mensaje, double alcance){
         String matricula;
         do {
@@ -80,7 +102,12 @@ public class ListaAviones {
 
         return this.buscarAvion(matricula);
     };
-    // Genera un fichero CSV con la lista de aviones, sobreescribiendolo
+
+    /**
+     * Genera un fichero CSV con la lista de aviones, sobreescribiendolo
+     * @param nombre del fichero donde se quiere escribir
+     * @return boolean indicando si se ha podido escribir o no
+     */
     public boolean escribirAvionesCsv(String nombre){
         PrintWriter salida = null;
         boolean resultado = false;
@@ -119,8 +146,14 @@ public class ListaAviones {
     };
 
     //Métodos estáticos
-    // Genera una lista de aviones a partir del fichero CSV, usando el argumento como   
-    // capacidad máxima de la lista
+
+    /**
+     * Genera una lista de aviones a partir del fichero CSV, usando el argumento como
+     * capacidad máxima de la lista
+     * @param fichero del cual se quiere leer la informacion
+     * @param capacidad numero de aviones maximos que se pueden leer
+     * @return boolean indicando si se ha podido leer o no
+     */
     public static ListaAviones leerAvionesCsv(String fichero, int capacidad){
         Scanner entrada = null;
         ListaAviones lista = new ListaAviones(capacidad);

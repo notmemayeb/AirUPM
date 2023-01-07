@@ -7,7 +7,9 @@ import java.util.Scanner;
 import java.util.Vector;
 
 /**
- * Description of the class
+ * ListaVuelos es una clase que contiene una la
+ * lista de vuelos y los metodos necesarios para menejar
+ * estos
  *
  * @author  Isaac Lopez
  * @author  Fedor Kunin
@@ -17,8 +19,8 @@ public class ListaVuelos {
     /**
      * Constructor of the class
      *
-     * @param capacidad
-     * @param listaVuelos
+     * @param capacidad el numero de vuelos maximos en la lista
+     * @param listaVuelos lista de los vuelos
      */
 
     private int capacidad;
@@ -45,15 +47,26 @@ public class ListaVuelos {
     public Vuelo getVuelo(int i){
         return listaVuelos[i];
     };
-    //Devuelve true si puede insertar el vuelo
+
+    /**
+     * Inserta un vuelo en la lista comprobando
+     * antes que esta no este llena
+     * @param vuelo que se desea insertar
+     * @return boolean indicando si se ha podido insertar o no
+     */
     public boolean insertarVuelo (Vuelo vuelo){
         if (!this.estaLlena()) {
             listaVuelos[getOcupacion()] = vuelo;
         }
         return true;
     };
-    //Devuelve el objeto vuelo que tenga el identificador igual al parámetro id
-    //Si no lo encuentra, devolverá null
+
+    /**
+     * Devuelve el objeto vuelo que tenga el identificador igual al parámetro id
+     * Si no lo encuentra, devolverá null
+     * @param id del vuelo a buscar
+     * @return vuelo de tipo Vuelo
+     */
     public Vuelo buscarVuelo (String id){
         Vuelo vueloBuscado = null;
         for (int i = 0;i<=getOcupacion()-1;i++) {
@@ -65,7 +78,14 @@ public class ListaVuelos {
         }
         return vueloBuscado;
     };
-    //Devuelve un nuevo objeto ListaVuelos conteniendo los vuelos que vayan de un aeropuerto a otro en una determinada fecha
+
+    /**
+     * Devuelve un nuevo objeto ListaVuelos conteniendo los vuelos que vayan de un aeropuerto a otro en una determinada fecha
+     * @param codigoOrigen codigo del aeropuerto de origen
+     * @param codigoDestino codigo del aeropuerto del destino
+     * @param fecha fecha de despege del vuelo
+     * @return devuelve los vuelos en una lista
+     */
     public ListaVuelos buscarVuelos(String codigoOrigen, String codigoDestino, Fecha fecha){
         ListaVuelos lista = new ListaVuelos(listaVuelos.length);
         int n = 0;
@@ -79,7 +99,10 @@ public class ListaVuelos {
         }
         return lista;
     };
-    //Muestra por pantalla los vuelos siguiendo el formato de los ejemplos del enunciado
+
+    /**
+     * Muestra por pantalla los vuelos siguiendo el formato de los ejemplos del enunciado
+     */
     public void listarVuelos(){
         for (Vuelo vuelo: listaVuelos
              ) {
@@ -88,9 +111,16 @@ public class ListaVuelos {
             }
         }
     };
-    //Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud
-    //y siguiendo el orden y los textos mostrados en el enunciado, y usando la cadena cancelar para salir devolviendo null
-    //La función solicita repetidamente hasta que se introduzca un ID correcto
+
+    /**
+     * Permite seleccionar un vuelo existente a partir de su ID, usando el mensaje pasado como argumento para la solicitud
+     * y siguiendo el orden y los textos mostrados en el enunciado, y usando la cadena cancelar para salir devolviendo null
+     * La función solicita repetidamente hasta que se introduzca un ID correcto
+     * @param teclado Scanner
+     * @param mensaje usado para pedir la informacion
+     * @param cancelar string usado para detener el proceso
+     * @return vuelo seleccionado de tipo Vuelo
+     */
     public Vuelo seleccionarVuelo(Scanner teclado, String mensaje, String cancelar){
         Vuelo vueloSeleccionado = null;
         String respuesta;
@@ -111,8 +141,13 @@ public class ListaVuelos {
             return null;
         }
     };
-    //Ha de escribir la lista de vuelos en la ruta y nombre del fichero pasado como parámetro.
-    //Si existe el fichero, se sobreescribe, si no existe se crea.
+
+    /**
+     * Ha de escribir la lista de vuelos en la ruta y nombre del fichero pasado como parámetro.
+     * Si existe el fichero, se sobreescribe, si no existe se crea.
+     * @param fichero donde se quiere escribir
+     * @return boolean indicando si se ha podido escribir o no
+     */
     public boolean escribirVuelosCsv(String fichero){
         PrintWriter salida = null;
         boolean resultado = false;
@@ -150,8 +185,16 @@ public class ListaVuelos {
     };
 
     //Métodos estáticos
-    //Genera una lista de vuelos a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
-    //de la lista
+
+    /**
+     * Genera una lista de vuelos a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
+     * de la lista
+     * @param fichero de donde se quiere leer
+     * @param capacidad maxima de vuelos a leer
+     * @param aeropuertos conocidos por el programa
+     * @param aviones conocidos por el programa
+     * @return boolean indicando si se ha podido leer o no
+     */
     public static ListaVuelos leerVuelosCsv(String fichero, int capacidad, ListaAeropuertos aeropuertos, ListaAviones aviones){
         Scanner entrada = null;
         ListaVuelos lista = new ListaVuelos(capacidad);

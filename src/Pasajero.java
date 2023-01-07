@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * Pasajero es una clase que contiene los datos
+ * necearios para identificar un pasajero y
+ * sus billetes
  *
  * @author  Isaac Lopez
  * @author  Fedor Kunin
@@ -16,12 +18,12 @@ public class Pasajero {
     /**
      * Constructor of the class
      *
-     * @param nombre
-     * @param apellidos
-     * @param numeroDNI
-     * @param letraDNI
-     * @param email
-     * @param maxBilletes
+     * @param nombre del pasajero
+     * @param apellidos del pasajero
+     * @param numeroDNI del pasajero
+     * @param letraDNI del pasajero
+     * @param email del pasajero
+     * @param maxBilletes numero de billetes maximos que puede tener un pasajero a la vez
      */
 
     private String nombre, apellidos, email;
@@ -47,7 +49,11 @@ public class Pasajero {
     // Ejemplo: 00123456S
     public String getDNI(){ return String.format("%08d%c", numeroDNI, letraDNI);};
     public String getEmail(){ return email; };
-    // Texto que debe generar: Víctor Rodríguez Fernández, 00123456S, victor.rfernandez@upm.es
+
+    /**
+     * Genera un string con formato igual al de ejemplo, "Víctor Rodríguez Fernández, 00123456S, victor.rfernandez@upm.es"
+     * @return String con formato
+     */
     public String toString(){
         return String.format("%s %s, %s, %s",
                 this.getNombre(),
@@ -71,22 +77,40 @@ public class Pasajero {
     public Billete buscarBillete(String localizador){
         return billetes.buscarBillete(localizador);
     };
-    // Elimina el billete de la lista de billetes del pasajero
+
+    /**
+     * Elimina el billete de la lista de billetes del pasajero
+     * @param localizador del billete a eliminar
+     * @return boolean indicando si se ha podido eliminar o no
+     */
     public boolean cancelarBillete(String localizador){
         return billetes.eliminarBillete(localizador);
     };
     public void listarBilletes(){
         billetes.listarBilletes();
     };
-    // Encapsula la funcionalidad seleccionarBillete de ListaBilletes
+
+    /**
+     * Encapsula la funcionalidad seleccionarBillete de ListaBilletes
+     * @param teclado Scanner
+     * @param mensaje usado para pedir la informacion
+     * @return billete seleccionado de tipo Billete
+     */
     public Billete seleccionarBillete(Scanner teclado, String mensaje){
         return billetes.seleccionarBillete(teclado, mensaje);
     };
+
     //Métodos estáticos
-    // 
-    // Crea un nuevo pasajero no repetido, pidiendo por teclado los datos necesarios al usuario en el orden 
-    // y con los textos indicados en los ejemplos de ejecución del enunciado
-    // La función solicita repetidamente los parametros hasta que sean correctos
+
+    /**
+     * Crea un nuevo pasajero no repetido, pidiendo por teclado los datos necesarios al usuario en el orden
+     * y con los textos indicados en los ejemplos de ejecución del enunciado
+     * La función solicita repetidamente los parametros hasta que sean correctos
+     * @param teclado Scanner
+     * @param pasajeros comocidos por el programa
+     * @param maxBilletes billetes maximos por pasajero
+     * @return pasajero dado de alta de tipo Pasajero
+     */
     public static Pasajero altaPasajero(Scanner teclado, ListaPasajeros pasajeros, int maxBilletes){
         Pasajero pasajero = null;
         String nombre, apellidos, email, line, dni;
@@ -141,7 +165,13 @@ public class Pasajero {
             return null;
         }
     };
-    // Correcto: 00123456 S, incorrectos: 123456789 A, 12345678 0, 12345678 A
+
+    /**
+     * Verifica el formato de los DNis (Correcto: 00123456 S, incorrectos: 123456789 A, 12345678 0, 12345678 A)
+     * @param numero del DNI del pasajero
+     * @param letra del DNI del pasajero
+     * @return boolean indicando si es correcto o no
+     */
     public static boolean correctoDNI(long numero, char letra){
         if (numero == -1) return false;
         char[] letraPosicion = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
@@ -149,7 +179,12 @@ public class Pasajero {
 
         return letraPosicion[(int) numero % 23] == letra && length < 9;
     };
-    // Correcto: cristian.ramirez@upm.es, incorrecto: cristian.ramirez@gmail.com, cristian-23@upm.es, cristian.@upm.es
+
+    /**
+     * Correcto: cristian.ramirez@upm.es, incorrecto: cristian.ramirez@gmail.com, cristian-23@upm.es, cristian.@upm.es
+     * @param email del pasajero
+     * @return boolean indicando si es correcto o no
+     */
     public static boolean correctoEmail(String email){
 
         if (email.contains("@")){

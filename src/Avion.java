@@ -1,5 +1,7 @@
 /**
- * Description of the class
+ * Avion es una clase que enclausura toda la
+ * informacion necesaria para la identificacion
+ * y distinccion de un avion
  *
  * @author  Fedor Kunin
  * @author  Isaac Lopez
@@ -10,12 +12,12 @@ public class Avion {
     /**
      * Constructor of the class
      *
-     * @param marca
-     * @param modelo
-     * @param matricula
-     * @param columnas
-     * @param filas
-     * @param alcance
+     * @param marca la marca del avion
+     * @param modelo el modelo del avion
+     * @param matricula la matricula del avion
+     * @param columnas numero de columnas en el avion
+     * @param filas numero de filas del avion
+     * @param alcance alcance en Km del avion
      */
 
     private String marca, modelo, matricula;
@@ -36,8 +38,12 @@ public class Avion {
     public int getColumnas(){ return columnas; };
     public int getFilas(){ return filas; };
     public double getAlcance(){ return alcance; };
-    // Crea un String con los datos de un avión con el siguiente formato:
-    // Boeing 737(EC-LKE): 180 asientos, hasta 5700.0 km
+
+    /**
+     * Crea un String con los datos de un avión con el siguiente formato:
+     * Boeing 737(EC-LKE): 180 asientos, hasta 5700.0 km
+     * @return string con formato
+     */
     public String toString(){
         return String.format("%s %s(%s): %d asientos, hasta %.1fKm",
                 this.marca,
@@ -48,8 +54,12 @@ public class Avion {
 
         );
     };
-    // Crea un String con los datos de un avión con el siguiente formato:
-    // Boeing 737(EC-LKE)
+
+    /**
+     * Crea un String con los datos de un avión con el siguiente formato:
+     * Boeing 737(EC-LKE)
+     * @return  string con formato
+     */
     public String toStringSimple(){
         return String.format("%s %s(%s)",
                 this.marca,

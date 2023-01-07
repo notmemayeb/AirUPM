@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * ListaBilletes es una clase que contiene una la
+ * lista de billetes y los metodos necesarios para menejar
+ * estos
  *
  * @author  Isaac Lopez
  * @author  Fedor Kunin
@@ -15,7 +17,7 @@ public class ListaBilletes {
     /**
      * Constructor of the class
      *
-     * @param capacidad
+     * @param capacidad el numero de billetes maximos en la lista
      */
 
     private int capacidad;
@@ -42,6 +44,13 @@ public class ListaBilletes {
     public Billete getBillete(int i){
         return lista[i];
     };
+
+    /**
+     * Introduce un billete en la lista comprobando que no este
+     * llena antes
+     * @param billete que se quiere introducir en la lista
+     * @return boolean indicando si se ha podido introducir o no
+     */
     public boolean insertarBillete (Billete billete){
         if (!this.estaLlena()){
             lista[this.getOcupacion()] = billete;
@@ -49,6 +58,12 @@ public class ListaBilletes {
         }
         return false;
     };
+
+    /**
+     * Busca un billete en la lista usando su localizador
+     * @param localizador del billete a buscar
+     * @return billete tipo Billete
+     */
     public Billete buscarBillete (String localizador){
         Billete billeteBuscado = null;
         for (Billete billete: lista) {
@@ -58,6 +73,15 @@ public class ListaBilletes {
         }
         return billeteBuscado;
     };
+
+    /**
+     * Busca un billete en la lisyta usando su id de vuelo
+     * y su numero de buatca asociado
+     * @param idVuelo vuelo al que pertenece el billete
+     * @param fila de la butaca
+     * @param columna de la butaca
+     * @return billete tipo Billete
+     */
     public Billete buscarBillete(String idVuelo, int fila, int columna){
         Billete billeteBuscado = null;
         for (Billete billete: lista) {
@@ -67,6 +91,12 @@ public class ListaBilletes {
         }
         return billeteBuscado;
     };
+
+    /**
+     * Elimina un billete de la lista usando su localizador
+     * @param localizador del billete a eliminar
+     * @return boolean indicando si se ha podido eliminar o no
+     */
     public boolean eliminarBillete (String localizador){
         boolean resultado = false;
         for (int i = 0; i < capacidad; i++){
@@ -80,15 +110,24 @@ public class ListaBilletes {
         }
         return resultado;
     };
-    // Muestra por pantalla los billetes de la lista
+
+    /**
+     * Muestra por pantalla los billetes de la lista
+     */
     public void listarBilletes(){
         for (int i = 0; i <= getOcupacion(); i++) {
             if (lista[i] != null) System.out.println(lista[i].toString());
         }
     };
-    // Permite seleccionar un billete existente a partir de su localizador, usando el mensaje pasado como argumento para la solicitud
-    // y siguiendo el orden y los textos mostrados en el enunciado
-    // La función solicita repetidamente hasta que se introduzca un localizador correcto
+
+    /**
+     * Permite seleccionar un billete existente a partir de su localizador, usando el mensaje pasado como argumento para la solicitud
+     * y siguiendo el orden y los textos mostrados en el enunciado
+     * La función solicita repetidamente hasta que se introduzca un localizador correcto
+     * @param teclado Scanner
+     * @param mensaje usado para pedir la informacion
+     * @return billete seleccionado
+     */
     public Billete seleccionarBillete(Scanner teclado, String mensaje){
         String localizador;
         do {
@@ -98,7 +137,12 @@ public class ListaBilletes {
         }while(buscarBillete(localizador) == null);
         return buscarBillete(localizador);
     };
-    // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
+
+    /**
+     * Añade los billetes al final de un fichero CSV, sin sobreescribirlo
+     * @param fichero donde se desea scribir
+     * @return boolean indicando si se ha podido escribir o no
+     */
     public boolean aniadirBilletesCsv(String fichero){
         PrintWriter salida = null;
         Scanner sc = null;
@@ -140,8 +184,13 @@ public class ListaBilletes {
     };
 
     // Métodos estáticos
-    
-    // Lee los billetes del fichero CSV y los añade a las listas de sus respectivos Vuelos y Pasajeros
+
+    /**
+     * Lee los billetes del fichero CSV y los añade a las listas de sus respectivos Vuelos y Pasajeros
+     * @param ficheroBilletes donde leer
+     * @param vuelos presentes en el programa
+     * @param pasajeros presentes en el programa
+     */
     public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros){
         Scanner entrada = null;
         int lineas = 0;

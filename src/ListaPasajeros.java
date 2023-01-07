@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * ListaPasajeros es una clase que contiene una la
+ * lista de pasajeros y los metodos necesarios para menejar
+ * estos
  *
  * @author  Isaac Lopez
  * @author  Fedor Kunin
@@ -16,8 +18,8 @@ public class ListaPasajeros {
     /**
      * Constructor of the class
      *
-     * @param capacidad
-     * @param listaPasajeros
+     * @param capacidad el numero de pasajeros maximo en la lista
+     * @param listaPasajeros lista de los pasajeros
      */
 
     private int capacidad;
@@ -44,6 +46,13 @@ public class ListaPasajeros {
     public Pasajero getPasajero(int i){
         return listaPasajeros[i];
     };
+
+    /**
+     * Inserta un pasajero en la lista comprobando antes que esta
+     * no este llena
+     * @param pasajero que se quiere introducir
+     * @return boolean indicando si se ha podido insertar o no
+     */
     public boolean insertarPasajero(Pasajero pasajero){
         if (!this.estaLlena()){
             this.listaPasajeros[this.getOcupacion()] = pasajero;
@@ -51,6 +60,12 @@ public class ListaPasajeros {
         }
         return false;
     };
+
+    /**
+     * Busca un pasajero en la lsita usando su DNI
+     * @param dni del pasajero a buscar
+     * @return pasajero de tipo Pasajero
+     */
     public Pasajero buscarPasajeroDNI(String dni){
         Pasajero pasajeroBusacado = null;
 
@@ -66,6 +81,12 @@ public class ListaPasajeros {
 
         return pasajeroBusacado;
     };
+
+    /**
+     * Busca un pasajero en la lsita usando su email
+     * @param email del pasajero a buscar
+     * @return pasajero de tipo Pasajero
+     */
     public Pasajero buscarPasajeroEmail(String email){
         Pasajero pasajeroBusacado = null;
         for (Pasajero pasajero: listaPasajeros
@@ -78,9 +99,15 @@ public class ListaPasajeros {
         }
         return pasajeroBusacado;
     };
-    // Permite seleccionar un pasajero existente a partir de su DNI, usando el mensaje pasado como argumento para la solicitud
-    // y siguiendo el orden y los textos mostrados en el enunciado
-    // La función solicita repetidamente hasta que se introduzca un DNI correcto
+
+    /**
+     * Permite seleccionar un pasajero existente a partir de su DNI, usando el mensaje pasado como argumento para la solicitud
+     * y siguiendo el orden y los textos mostrados en el enunciado
+     * La función solicita repetidamente hasta que se introduzca un DNI correcto
+     * @param teclado Scanner
+     * @param mensaje usado para pedir la informacion
+     * @return pasajero seleccionado tipo Pasajero
+     */
     public Pasajero seleccionarPasajero(Scanner teclado, String mensaje){
         String stringDNI;
         long numDNI;
@@ -97,7 +124,12 @@ public class ListaPasajeros {
         pasajeroSeleccionar = this.buscarPasajeroDNI(String.format("%08d%c",numDNI,stringDNI.charAt(stringDNI.length()-1)).toUpperCase());
         return pasajeroSeleccionar;
     };
-    // Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo
+
+    /**
+     * Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo
+     * @param fichero donde se desea escribir
+     * @return boolean indicando si se ha podido escribir o no
+     */
     public boolean escribirPasajerosCsv(String fichero){
         PrintWriter salida = null;
         boolean resultado = false;
@@ -138,8 +170,15 @@ public class ListaPasajeros {
     };
 
     //Métodos estáticos
-    // Genera una lista de pasajeros a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
-    // de la lista y el número de billetes máximo por pasajero
+
+    /**
+     * Genera una lista de pasajeros a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
+     * de la lista y el número de billetes máximo por pasajero
+     * @param fichero de donde se desea leer
+     * @param capacidad maxima de pasajero a leer
+     * @param maxBilletesPasajero numero de billetes maximo por pasajero
+     * @return boolean indicando si se ha podido leer o no
+     */
     public static ListaPasajeros leerPasajerosCsv(String fichero, int capacidad, int maxBilletesPasajero){
         Scanner entrada = null;
         ListaPasajeros lista = new ListaPasajeros(capacidad);

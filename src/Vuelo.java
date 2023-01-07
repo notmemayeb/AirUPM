@@ -4,7 +4,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * Vuelo es una clase que contiene todos los
+ * datos de un vuelo
  *
  * @author  Isaac Lopez
  * @author  Fedor Kunin
@@ -17,15 +18,15 @@ public class Vuelo {
     /**
      * Constructor of the class
      *
-     * @param id
-     * @param avion
-     * @param origen
-     * @param terminalOrigen
-     * @param salida
-     * @param destino
-     * @param terminalDestino
-     * @param llegada
-     * @param precio
+     * @param id del vuelo
+     * @param avion que realiza el vuelo
+     * @param origen del vuelo
+     * @param terminalOrigen terminal del aeropuerto de origen
+     * @param salida hora de salida del vuelo
+     * @param destino del vuelo
+     * @param terminalDestino terminal del aeropuerto de destino
+     * @param llegada hora de llegada del vuelo
+     * @param precio del billete sin aplicar el tipo de este
      */
 
     private String id;
@@ -80,27 +81,52 @@ public class Vuelo {
     public Billete buscarBillete(String localizador){
         return billetes.buscarBillete(localizador);
     };
-    //Devuelve el obejeto billete que corresponde con una fila o columna,
-    //Devolverá null si está libre o se excede en el límite de fila y columna
+
+    /**
+     * Devuelve el obejeto billete que corresponde con una fila o columna,
+     * Devolverá null si está libre o se excede en el límite de fila y columna
+     * @param fila dode esta el asiento del billete
+     * @param columna dode esta el asiento del billete
+     * @return billete de tipo billete
+     */
     public Billete buscarBillete(int fila, int columna){
         return billetes.buscarBillete(id, fila, columna);
     };
-    //Si está desocupado el asiento que indica el billete, lo pone ocupado y devuelve true, si no devuelve false
+
+    /**
+     * Si está desocupado el asiento que indica el billete, lo pone ocupado y devuelve true, si no devuelve false
+     * @param billete con el asiento a ocupar
+     * @return boolean indicando si se ha podido ocupar o no
+     */
     public boolean ocuparAsiento(Billete billete){
         this.asientos[billete.getFila()-1][billete.getColumna()-1] = true;
         return this.billetes.insertarBillete(billete);
     };
-    //A traves del loalizador de billete, se desocupará el asiento
+
+    /**
+     * A traves del loalizador de billete, se desocupará el asiento
+     * @param localizador del billete con el asiento a eliminar
+     * @return boolean indicando si se ha podido descupar  o no
+     */
     public boolean desocuparAsiento(String localizador){
         return  billetes.eliminarBillete(localizador);
     };
-    // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
+
+    /**
+     * Añade los billetes al final de un fichero CSV, sin sobreescribirlo
+     * @param fichero donde se quiere escribir
+     * @return boolean indicando si se ha podido escribir o no
+     */
     public boolean aniadirBilletesCsv(String fichero){
         billetes.aniadirBilletesCsv(fichero);
         return true;
     };
-    // Devuelve una cadena con información completa del vuelo
-    //Ejemplo: Vuelo PM0066 de Josep Tarradellas Barcelona-El Prat(BCN) T2 (01/01/2023 08:15:00) a Gran Canaria(LPA) T1 (01/01/2023 11:00:05) en Boeing 747(EC-LKD) por 182,52€, asientos libres: 409
+
+    /**
+     * Devuelve una cadena con información completa del vuelo
+     * Ejemplo: Vuelo PM0066 de Josep Tarradellas Barcelona-El Prat(BCN) T2 (01/01/2023 08:15:00) a Gran Canaria(LPA) T1 (01/01/2023 11:00:05) en Boeing 747(EC-LKD) por 182,52€, asientos libres: 409
+     * @return String con formato
+     */
     public String toString(){
         return String.format("Vuelo %s de %s(%s) T%d (%s) a %s(%s) T%d (%s) en %s %s(%s) por %.2f, asinetos libres: %d",
                 this.getID(),
@@ -119,8 +145,12 @@ public class Vuelo {
                 this.numAsientosLibres()
                 );
     };
-    // Devuelve una cadena con información abreviada del vuelo
-    //Ejemplo: Vuelo PM0066 de Josep Tarradellas Barcelona-El Prat(BCN) T2 (01/01/2023 08:15:00) a Gran Canaria(LPA) T1 (01/01/2023 11:00:05)
+
+    /**
+     * Devuelve una cadena con información abreviada del vuelo
+     * Ejemplo: Vuelo PM0066 de Josep Tarradellas Barcelona-El Prat(BCN) T2 (01/01/2023 08:15:00) a Gran Canaria(LPA) T1 (01/01/2023 11:00:05)
+     * @return String con formato
+     */
     public String toStringSimple(){
         return String.format("Vuelo %s de %s(%s) T%d (%s) a %s(%s) T%d (%s)",
                 this.getID(),
@@ -134,22 +164,33 @@ public class Vuelo {
                 this.getLlegada().toString()
         );
     };
-    //Devuelve true si el código origen, destino y fecha son los mismos que el vuelo
+
+    /**
+     * Devuelve true si el código origen, destino y fecha son los mismos que el vuelo
+     * @param codigoOrigen del vuelo
+     * @param codigoDestino del vuelo
+     * @param fecha de salida del vuelo
+     * @return devuelve true si coinciden
+     */
     public boolean coincide(String codigoOrigen, String codigoDestino, Fecha fecha){
         return (this.origen.getCodigo().equals(codigoOrigen) && this.destino.getCodigo().equals(codigoDestino) && this.salida.coincide(fecha));
     };
-    // Muestra la matriz  de asientos del vuelo, ejemplo:
-    //   A  B  C  D  E  F
-    // 1( )(X)( )( )( )( )
-    // 2{X}{X}{ }{ }{ }{ }
-    // 3{ }{ }{ }{X}{X}{X}
-    // 4{ }{ }{ }{ }{ }{ }
-    // 5{ }{ }{X}{ }{ }{ }
-    // 6[ ][ ][ ][ ][ ][ ]
-    // 7[X][X][X][ ][ ][ ]
-    // 8[ ][ ][ ][ ][ ][ ]
-    // 9[ ][X][ ][ ][ ][X]
-    //10[ ][ ][ ][ ][ ][ ]
+
+    /**
+     *  Muestra la matriz  de asientos del vuelo, ejemplo:
+     *        A  B  C  D  E  F
+     *      1( )(X)( )( )( )( )
+     *      2{X}{X}{ }{ }{ }{ }
+     *      3{ }{ }{ }{X}{X}{X}
+     *      4{ }{ }{ }{ }{ }{ }
+     *      5{ }{ }{X}{ }{ }{ }
+     *      6[ ][ ][ ][ ][ ][ ]
+     *      7[X][X][X][ ][ ][ ]
+     *      8[ ][ ][ ][ ][ ][ ]
+     *      9[ ][X][ ][ ][ ][X]
+     *     10[ ][ ][ ][ ][ ][ ]
+     */
+
     public void imprimirMatrizAsientos(){
         String spacer1, spacer2;
         String isres = " ";
@@ -189,7 +230,12 @@ public class Vuelo {
         }
         System.out.println("Tipo de asiento: '[ ]' = TURISTA, '{ }' = PREFERENTE, '( )' = PRIMERA");
     };
-    //Devuelve true si ha podido escribir en un fichero la lista de pasajeros del vuelo, siguiendo las indicaciones del enunciado
+
+    /**
+     * Devuelve true si ha podido escribir en un fichero la lista de pasajeros del vuelo, siguiendo las indicaciones del enunciado
+     * @param fichero donde se desea escribir la lista
+     * @return boolean indicando si se ha podido escribir o no
+     */
     public boolean generarListaPasajeros(String fichero){
         PrintWriter salida = null;
         try {
@@ -243,9 +289,13 @@ public class Vuelo {
 
     //Métodos estáticos
 
-    //Genera un ID de vuelo. Este consistirá en una cadena de 6 caracteres, de los cuales los dos 
-    //primeros serán PM y los 4 siguientes serán números aleatorios. Ejemplo: PM0123
-    //NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.
+    /**
+     * Genera un ID de vuelo. Este consistirá en una cadena de 6 caracteres, de los cuales los dos
+     * primeros serán PM y los 4 siguientes serán números aleatorios. Ejemplo: PM0123
+     * NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.
+     * @param rand Random
+     * @return String de la ID generada
+     */
     public static String generarID(Random rand){
         String id = "PM";
         int numero;
@@ -255,9 +305,18 @@ public class Vuelo {
         }
         return id;
     };
-    //Crea y devuelve un objeto Vuelo de los datos que selecciona el usuario de aeropuertos y aviones y la restricción de que
-    //no puede estar repetido el identificador, siguiendo las indicaciones del enunciado
-    //La función solicita repetidamente los parametros hasta que sean correctos
+
+    /**
+     * Crea y devuelve un objeto Vuelo de los datos que selecciona el usuario de aeropuertos y aviones y la restricción de que
+     * no puede estar repetido el identificador, siguiendo las indicaciones del enunciado
+     * La función solicita repetidamente los parametros hasta que sean correctos
+     * @param teclado Scanner
+     * @param rand Random
+     * @param aeropuertos conocidos por el programa
+     * @param aviones conocidos por el programa
+     * @param vuelos conocidos por el programa
+     * @return vuelo dado de alta de tipo Vuelo
+     */
     public static Vuelo altaVuelo(Scanner teclado, Random rand, ListaAeropuertos aeropuertos, ListaAviones aviones, ListaVuelos vuelos) {
 
         Aeropuerto origen, destino;

@@ -4,7 +4,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * Billete es una clase la cual contiene los datos
+ * de la compra de un tipo pasajero
  *
  * @author  Fedor Kunin
  * @author  Isaac Lopez
@@ -20,13 +21,13 @@ Billete {
     /**
      * Constructor of the class
      *
-     * @param localizador
-     * @param vuelo
-     * @param pasajero
-     * @param tipo
-     * @param fila
-     * @param columna
-     * @param precio
+     * @param localizador da identidad al billete (PM1234ABCD)
+     * @param vuelo asociado al billete
+     * @param pasajero poseedor del billete
+     * @param tipo clase de tarifa (turista, preferente, primera)
+     * @param fila donde esta el asiento
+     * @param columna donde esta el asiento
+     * @param precio del billete, según el tipo
      */
 
     private final char[] LETRA =  {'A', 'B', 'C', 'D', 'E', 'F'};
@@ -54,14 +55,28 @@ Billete {
     public TIPO getTipo(){ return tipo; };
     public int getFila(){ return fila; };
     public int getColumna(){ return columma; };
-    // Ejemplos: "1A" para el asiento con fila 1 y columna 1, "3D" para el asiento con fila 3 y columna 4
+
+    /**
+     * Devuelve un string con formato, ejemplo: "1A" para el asiento con fila 1 y columna 1, "3D" para el asiento con fila 3 y columna 4
+     * @return string con formato
+     */
     public String getAsiento(){ return String.format("%d%c", fila, LETRA[columma-1]);};
+
+    /**
+     * Devuelve el precio del billete según el tipo de este
+     * @return int del precio
+     */
     public double getPrecio(){
         if (tipo == TIPO.PRIMERA) return precio*1.5;;
         if (tipo == TIPO.PREFERENTE) return precio*1.25;
         return precio;
     };
-    // Texto que debe generar: Billete PM1111AAAA para Vuelo PM1111 de MAD T4 (24/12/2022 12:35:00) a BCN T1 (24/12/2022 14:05:30) en asiento 6C (TURISTA) por 100.00€
+
+    /**
+     * Devuelve un string con el siguiente formato:
+     * Billete PM1111AAAA para Vuelo PM1111 de MAD T4 (24/12/2022 12:35:00) a BCN T1 (24/12/2022 14:05:30) en asiento 6C (TURISTA) por 100.00€
+     * @return String con formato
+     */
     public String toString(){
         return String.format("Billete %s para Vuelo %s de %s T%d (%s) a %s T%d (%s) en asiento %s (%s) por %.2f€",
                 this.localizador,
@@ -77,11 +92,20 @@ Billete {
                 this.getPrecio()
         );
     };
-    // Cancela este billete, eliminandolo de la lista de billetes del vuelo y del pasajero correspondiente
+
+    /**
+     * Cancela este billete, eliminandolo de la lista de billetes del vuelo y del pasajero correspondiente
+     * @return boolean indicando si se ha podido cancelar el billete o no
+     */
     public boolean cancelar(){
         return this.getPasajero().cancelarBillete(localizador) && this.getVuelo().desocuparAsiento(localizador);
     };
-    // Imprime la informacion de este billete en un fichero siguiendo el formato de los ejemplos de ejecución del enunciado
+
+    /**
+     * Imprime la informacion de este billete en un fichero siguiendo el formato de los ejemplos de ejecución del enunciado
+     * @param fichero dirección o nombre del fichero donde escribir
+     * @return boolean indicando si se ha podido generar o no
+     */
     public boolean generarFactura(String fichero){
         PrintWriter salida = null;
         try {
@@ -134,9 +158,14 @@ Billete {
 
     // Métodos estáticos
 
-    // Genera un localizador de billete. Este consistirá en una cadena de 10 caracteres, de los cuales los seis 
-    // primeros será el ID del vuelo asociado y los 4 siguientes serán letras mayúsculas aleatorias. Ejemplo: PM0123ABCD
-    // NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.  
+    /**
+     * Genera un localizador de billete. Este consistirá en una cadena de 10 caracteres, de los cuales los seis
+     * primeros será el ID del vuelo asociado y los 4 siguientes serán letras mayúsculas aleatorias. Ejemplo: PM0123ABCD
+     * NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.
+     * @param rand random
+     * @param idVuelo identificador del vuelo
+     * @return string del localizador
+     */
     public static String generarLocalizador(Random rand, String idVuelo){
         String letrasAleatorias = "";
         for (int i = 0; i < 4; i++){
@@ -144,9 +173,17 @@ Billete {
         }
         return idVuelo + letrasAleatorias;
     };
-    // Crea un nuevo billete para un vuelo y pasajero específico, pidiendo por teclado los datos necesarios al usuario en el orden y 
-    // con los textos indicados en los ejemplos de ejecución del enunciado
-    // La función solicita repetidamente los parametros hasta que sean correctos
+
+    /**
+     * Crea un nuevo billete para un vuelo y pasajero específico, pidiendo por teclado los datos necesarios al usuario en el orden y
+     * con los textos indicados en los ejemplos de ejecución del enunciado
+     * La función solicita repetidamente los parametros hasta que sean correctos
+     * @param teclado Scanner
+     * @param rand Random
+     * @param vuelo vuelo
+     * @param pasajero pasajero
+     * @return billete tipo Billete dado de alta
+     */
     public static Billete altaBillete(Scanner teclado, Random rand, Vuelo vuelo, Pasajero pasajero){
         Billete billete;
         int fila, columna;
