@@ -115,14 +115,7 @@ public class ListaAviones {
         try {
             salida = new PrintWriter(nombre);
             for (int i = 0; i < getOcupacion(); i++) {
-//                salida.printf("%s;%s;%s;%d;%d;%f",listaAviones[i].getMarca(),
-//                        listaAviones[i].getModelo(),
-//                        listaAviones[i].getMatricula(),
-//                        listaAviones[i].getColumnas(),
-//                        listaAviones[i].getFilas(),
-//                        listaAviones[i].getAlcance());
-
-                linea = listaAviones[i].getMarca() + ";" + listaAviones[i].getModelo() + ";" + listaAviones[i].getMatricula() + ";" + listaAviones[i].getColumnas() + ";" + listaAviones[i].getFilas() + ";" + listaAviones[i].getAlcance();
+                linea = listaAviones[i].getMarca() + ";" + listaAviones[i].getModelo() + ";" + listaAviones[i].getMatricula() + ";" + listaAviones[i].getFilas() + ";" + listaAviones[i].getColumnas() + ";" + listaAviones[i].getAlcance();
 
                 salida.println(linea);
             }

@@ -153,7 +153,7 @@ public class ListaVuelos {
         boolean resultado = false;
         try {
             salida = new PrintWriter(fichero);
-            for (int i = 0; i < getOcupacion()-1; i++) {
+            for (int i = 0; i < getOcupacion(); i++) {
                 salida.printf("%s;%s;%s;%d;%s;%s;%d;%s;%f\n",
                         listaVuelos[i].getID(),
                         listaVuelos[i].getAvion().getMatricula(),
